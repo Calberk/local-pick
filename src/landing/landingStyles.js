@@ -37,9 +37,10 @@ const styles = StyleSheet.create ({
         width: '100%',
     },
     buttonView:{
+        width: '80%',
         flex: 3,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     signInButton: {

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
-import styles from './styles'
-import fireSpot from '../assets/hotSpot.png';  
+import styles from './landingStyles'
+import hotSpot from "../../assets/hotSpot.png";  
 
 
 class Landing extends Component {
@@ -18,7 +18,7 @@ class Landing extends Component {
                     <Image 
                         style={styles.image}
                         resizeMode={'contain'}
-                        source={fireSpot}
+                        source={hotSpot}
                         />
                 </View>
                 <View style={styles.subTitleView}>
@@ -26,7 +26,7 @@ class Landing extends Component {
                 </View>   
                 <View style = {styles.buttonView}>
                     <TouchableOpacity style={styles.signInButton}>
-                        <Text style = {styles.signInText}>Sign In</Text>
+                            <Text style = {styles.signInText}>Sign In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.registerButton}>
                         <Text style = {styles.registerText}>Register</Text>
