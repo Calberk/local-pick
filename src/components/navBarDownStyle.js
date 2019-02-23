@@ -9,15 +9,23 @@ const navBarDownStyle = StyleSheet.create({
         backgroundColor: 'black',
         flexDirection: 'row',
         alignItems: 'flex-end',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        textAlign: 'center'
     },
     navBarText: {
         color: '#fff',
         fontSize: 18,
         flexDirection: 'row',
+        // justifyContent: 'flex-end',
+        marginBottom: 8,
+        marginRight: 10,
+    },
+    headerIcon: {
+        flexDirection: 'row',
+        paddingLeft: 10,
+        alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 8
-    }
+    },
 });
 
 export default navBarDownStyle;
