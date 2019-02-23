@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {View, Text, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native';
-import registerStyle from './registerStyle';
+import React, {Component} from 'react';
+import {View, Text, TouchableOpacity, TextInput } from 'react-native';
 import NavBarDown from '../components/navBarDown';
+import registerStyle from '../register/registerStyle';
 
-class Registration extends Component {
+class Login extends Component {
 
     leftPress = () =>{
         const {goBack} = this.props.navigation;
@@ -12,24 +12,13 @@ class Registration extends Component {
 
     render(){
         return (
-            <View style={registerStyle.mainContainer}>
+            <View>
+                <View style={registerStyle.mainContainer}>
                 <NavBarDown 
-                    title='Register' 
+                    title='Login' 
                     leftPress={this.leftPress}
                 />
-                <View style={registerStyle.topContainer}>
-                    <View style={registerStyle.nameSection}>
-                        <TextInput 
-                            style={registerStyle.smallTextInput}
-                            placeholder='First Name'
-                            underlineColorAndroid='transparent'
-                        />
-                        <TextInput 
-                            style={registerStyle.smallTextInput}
-                            placeholder='Last Name'
-                            underlineColorAndroid='transparent'
-                        />
-                    </View>
+                <View style={registerStyle.loginContainer}>
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
@@ -48,8 +37,9 @@ class Registration extends Component {
                     </TouchableOpacity>
                 </View>
             </View>
-        );
+            </View>
+        )
     }
 }
 
-export default Registration
+export default Login

@@ -20,6 +20,11 @@ const registerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
     },
+    loginContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },  
     nameSection: {
         height: height * 0.08,
         width,
