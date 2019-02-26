@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text } from 'react-native';
+import styleFavorites from './styleFavorites';
 
 class FavoriteScreen extends Component {
     static navigationOptions = {
@@ -8,8 +9,8 @@ class FavoriteScreen extends Component {
 
     render() {
         return (
-            <View style={styleHome.container}>
-                <Text style={styleHome.textBox}>Favorites</Text>
+            <View style={styleFavorites.container}>
+                <Text style={styleFavorites.textBox}>Favorites</Text>
             </View>
         )
     }
