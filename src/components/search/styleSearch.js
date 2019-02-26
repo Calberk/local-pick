@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const {height, width} = Dimensions.get('window');
 
-const styleHome = StyleSheet.create({
+const styleSearch = StyleSheet.create({
     mainContainer: {
         width,
         height,
@@ -14,4 +14,4 @@ const styleHome = StyleSheet.create({
     },
 });
 
-export default styleHome
+export default styleSearch

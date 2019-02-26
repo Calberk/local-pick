@@ -2,6 +2,7 @@ import {createStackNavigator, createAppContainer, createBottomTabNavigator, crea
 import Landing from '../landing/landing'
 import Registration from '../register/registration';
 import Login from '../login/login';
+import HomeScreen from '../home/home';
 
 const LoginScreens = createStackNavigator({
     Landing: {
@@ -27,10 +28,13 @@ const LoginScreens = createStackNavigator({
 });
 
 const TabNavigator = createBottomTabNavigator ({
-    Home: HomeScreen,
+    Home: {
+        screen: HomeScreen,
+        tabBarIcon: 
+    },
     Favorite: FavoriteScreen,
     Search: SearchScreen,
-    Profile: AccountScreen
+    Profile: ProfileScreen
 });
 
 
