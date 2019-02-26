@@ -1,9 +1,9 @@
-import {createStackNavigator, createAppContainer} from 'react-navigation'
+import {createStackNavigator, createAppContainer, createBottomTabNavigator, createSwitchNavigator} from 'react-navigation'
 import Landing from '../landing/landing'
 import Registration from '../register/registration';
 import Login from '../login/login';
 
-const HomeScreens = createStackNavigator({
+const LoginScreens = createStackNavigator({
     Landing: {
         screen: Landing,
         navigationOptions: {
@@ -26,4 +26,17 @@ const HomeScreens = createStackNavigator({
     mode: 'modal',
 });
 
-export default createAppContainer(HomeScreens)
+const TabNavigator = createBottomTabNavigator ({
+    Home: HomeScreen,
+    Favorite: FavoriteScreen,
+    Search: SearchScreen,
+    Profile: AccountScreen
+});
+
+
+export default createAppContainer(createSwitchNavigator(
+    {
+        Auth: LoginScreens,
+        App: TabNavigator
+    }
+));
