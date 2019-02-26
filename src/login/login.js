@@ -32,7 +32,10 @@ class Login extends Component {
                     />
                 </View>
                 <View style={registerStyle.bottomContainer}>
-                    <TouchableOpacity style={registerStyle.button}>
+                    <TouchableOpacity 
+                        style={registerStyle.button}
+                        onPress={()=>this.props.navigation.navigate('App')}
+                    >
                         <Text style={registerStyle.buttonText}>Confirm</Text>
                     </TouchableOpacity>
                 </View>

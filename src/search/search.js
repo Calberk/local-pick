@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text } from 'react-native';
+import styleSearch from './styleSearch';
 
 class SearchScreen extends Component {
     static navigationOptions = {
@@ -8,8 +9,8 @@ class SearchScreen extends Component {
 
     render() {
         return (
-            <View style={styleHome.container}>
-                <Text style={styleHome.textBox}>Search</Text>
+            <View style={styleSearch.container}>
+                <Text style={styleSearch.textBox}>Search</Text>
             </View>
         )
     }

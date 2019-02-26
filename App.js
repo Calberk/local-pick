@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginScreens from './src/screens/loginScreens'
+import Screens from './src/screens/screens'
 
 
 export default class App extends React.Component {
@@ -12,7 +12,7 @@ export default class App extends React.Component {
       // <Landing/>
       // <Registration/>
       // <Login/>
-      <LoginScreens/>
+      <Screens/>
     );
   }
 }
