@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, Text, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native';
 import registerStyle from './registerStyle';
-import NavBarDown from '../components/navBarDown';
+import HeaderBar from '../components/headerBar';
 
 class Registration extends Component {
 
@@ -13,7 +13,7 @@ class Registration extends Component {
     render(){
         return (
             <View style={registerStyle.mainContainer}>
-                <NavBarDown 
+                <HeaderBar 
                     title='Register' 
                     leftPress={this.leftPress}
                 />

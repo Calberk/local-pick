@@ -2,7 +2,7 @@ import {StyleSheet, Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 const TOPBAR_HEIGHT = height * 0.08;
-const navBarDownStyle = StyleSheet.create({
+const headerBarStyle = StyleSheet.create({
     topBar: {
         width,
         height: TOPBAR_HEIGHT,
@@ -28,4 +28,4 @@ const navBarDownStyle = StyleSheet.create({
     },
 });
 
-export default navBarDownStyle;
+export default headerBarStyle;

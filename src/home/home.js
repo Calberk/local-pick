@@ -1,12 +1,9 @@
 import React, {Component} from 'react';
 import {View, Text } from 'react-native';
 import styleHome from './styleHome';
-import NavBarDown from '../components/navBarDown'
+import NavBarDown from '../components/headerBar'
 
 class HomeScreen extends Component {
-    static navigationOptions = {
-        title: 'Home',
-    };
 
     render() {
         return (

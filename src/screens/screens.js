@@ -89,7 +89,21 @@ const TabNavigator = createBottomTabNavigator ({
             )
         },
     },
-});
+},{
+    navigationOptions: {
+        headerTitle: 'asdf',
+        headerStyle: {
+            backgroundColor: "blue"
+        },
+        headerTitleStyle: {
+            fontWeight: "bold",
+            color: "green",
+            fontSize: 24,
+        },
+        headerTintColor: "#fff"
+    }  
+}  
+);
 
 
 export default createAppContainer(createSwitchNavigator(
