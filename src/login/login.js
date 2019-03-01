@@ -5,12 +5,37 @@ import registerStyle from '../register/registerStyle';
 
 class Login extends Component {
 
+        state = {
+            email: '',
+            password: '',
+        }
+    
+    
+
     leftPress = () =>{
         const {goBack} = this.props.navigation;
         goBack();
     }
 
+    emailChange = (email) => {
+        this.setState ({
+            email
+        })
+    }
+
+    passwordChange = (password) => {
+        this.setState ({
+            password
+        })
+    }
+
+    handleSubmit = () => {
+        alert('hello ' + this.state.email +' password ' + this.state.password)
+    }
+
     render(){
+
+        const {email, password} = this.state
         return (
             <View>
                 <View style={registerStyle.mainContainer}>
@@ -22,13 +47,17 @@ class Login extends Component {
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
-                        underlineColorAndroid='transparent'    
+                        underlineColorAndroid='transparent'
+                        value={email}
+                        onChangeText = {this.emailChange}    
                     />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Password'
                         secureTextEntry
-                        underlineColorAndroid='transparent'    
+                        underlineColorAndroid='transparent'
+                        value={password}  
+                        onChangeText = {this.passwordChange} 
                     />
                 </View>
                 <View style={registerStyle.bottomContainer}>
@@ -36,8 +65,15 @@ class Login extends Component {
                         style={registerStyle.button}
                         onPress={()=>this.props.navigation.navigate('App')}
                     >
-                        <Text style={registerStyle.buttonText}>Confirm</Text>
+                        <Text style={registerStyle.buttonText}>Log In</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity 
+                        style={registerStyle.button}
+                        onPress={this.handleSubmit}
+                    >
+                        <Text style={registerStyle.buttonText}>Submit</Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
             </View>
