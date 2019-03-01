@@ -41,7 +41,8 @@ class Login extends Component {
                 <View style={registerStyle.mainContainer}>
                 <HeaderBar 
                     title='Login' 
-                    leftPress={this.leftPress}
+                    hasLeftIcon
+                    onPressLeft={this.leftPress}
                 />
                 <View style={registerStyle.loginContainer}>
                     <TextInput 

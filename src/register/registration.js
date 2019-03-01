@@ -53,7 +53,8 @@ class Registration extends Component {
             <View style={registerStyle.mainContainer}>
                 <HeaderBar 
                     title='Register' 
-                    leftPress={this.leftPress}
+                    hasLeftIcon
+                    onPressLeft={this.leftPress}
                 />
                 <View style={registerStyle.topContainer}>
                     <View style={registerStyle.nameSection}>
