@@ -43,10 +43,10 @@ const TabNavigator = createBottomTabNavigator ({
             tabBarLabel: "Home",
             tabBarOptions: {
                 activeTintColor: '#cc0000',
-                inactiveTintColor: 'gray',
+                inactiveTintColor: '#C8C8C8',
             },
             tabBarIcon: ({tintColor})=>(
-                <Ionicons name='md-home' size={26} color={tintColor}/>
+                <Ionicons name='md-home' size={28} color={tintColor}/>
             )
         }
     },
@@ -56,10 +56,10 @@ const TabNavigator = createBottomTabNavigator ({
             tabBarLabel: "Favorites",
             tabBarOptions: {
                 activeTintColor: '#cc0000',
-                inactiveTintColor: 'gray',
+                inactiveTintColor: '#C8C8C8',
             },
             tabBarIcon: ({tintColor})=>(
-                <Ionicons name='md-heart' size={26} color={tintColor}/>
+                <Ionicons name='md-heart' size={28} color={tintColor}/>
             )
         },
     },
@@ -82,28 +82,14 @@ const TabNavigator = createBottomTabNavigator ({
             tabBarLabel: "Profile",
             tabBarOptions: {
                 activeTintColor: '#cc0000',
-                inactiveTintColor: 'gray',
+                inactiveTintColor: '#C8C8C8',
             },
             tabBarIcon: ({tintColor})=>(
-                <Entypo name='dots-three-horizontal' size={26} color={tintColor}/>
+                <Ionicons name='md-contact' size={30} color={tintColor}/>
             )
         },
     },
-},{
-    navigationOptions: {
-        headerTitle: 'asdf',
-        headerStyle: {
-            backgroundColor: "blue"
-        },
-        headerTitleStyle: {
-            fontWeight: "bold",
-            color: "green",
-            fontSize: 24,
-        },
-        headerTintColor: "#fff"
-    }  
-}  
-);
+});
 
 
 export default createAppContainer(createSwitchNavigator(

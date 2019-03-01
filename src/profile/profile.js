@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { ImagePicker } from 'expo';
 import {View, Text, Button, Image } from 'react-native';
 import styleProfile from './styleProfile';
+import HeaderBar from '../components/headerBar'
 
 class ProfileScreen extends Component {
 
@@ -23,17 +24,21 @@ class ProfileScreen extends Component {
         let { image } = this.state;
     
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Button
-                    title="Pick an image from camera roll"
-                    onPress={this._pickImage}
-                />
-            {image &&
-                <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
-                <Button
-                    title="Log out to landing"
-                    onPress={()=>this.props.navigation.navigate('Auth')}
-                />
+            <View>
+                <HeaderBar title="Profile"/>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Button
+                        title="Pick an image from camera roll"
+                        onPress={this._pickImage}
+                    />
+                    {image &&
+                    <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
+                    <Button
+                        title="Log out to landing"
+                        onPress={()=>this.props.navigation.navigate('Auth')}
+                    />
+                </View>
+                
             </View>
         );
     }
