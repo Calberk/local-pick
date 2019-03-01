@@ -63,19 +63,19 @@ const TabNavigator = createBottomTabNavigator ({
             )
         },
     },
-    Search: {
-        screen: SearchScreen,
-        navigationOptions: {
-            tabBarLabel: "Search",
-            tabBarOptions: {
-                activeTintColor: '#cc0000',
-                inactiveTintColor: 'gray',
-            },
-            tabBarIcon: ({tintColor})=>(
-                <Ionicons name='md-search' size={26} color={tintColor}/>
-            )
-        },
-    },
+    // Search: {
+    //     screen: SearchScreen,
+    //     navigationOptions: {
+    //         tabBarLabel: "Search",
+    //         tabBarOptions: {
+    //             activeTintColor: '#cc0000',
+    //             inactiveTintColor: 'gray',
+    //         },
+    //         tabBarIcon: ({tintColor})=>(
+    //             <Ionicons name='md-search' size={26} color={tintColor}/>
+    //         )
+    //     },
+    // },
     Profile: {
         screen: ProfileScreen,
         navigationOptions: {
@@ -89,7 +89,21 @@ const TabNavigator = createBottomTabNavigator ({
             )
         },
     },
-});
+},{
+    navigationOptions: {
+        headerTitle: 'asdf',
+        headerStyle: {
+            backgroundColor: "blue"
+        },
+        headerTitleStyle: {
+            fontWeight: "bold",
+            color: "green",
+            fontSize: 24,
+        },
+        headerTintColor: "#fff"
+    }  
+}  
+);
 
 
 export default createAppContainer(createSwitchNavigator(

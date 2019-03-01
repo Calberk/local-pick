@@ -8,9 +8,19 @@ const styleFavorites = StyleSheet.create({
         height,
         backgroundColor: 'black'
     },
+    textContainer: {
+        width,
+        height,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#000'
+    },
     textBox: {
+        alignItems: 'center',
+        justifyContent: 'center',
         color: 'white',
-        fontSize: 35
+        fontSize: 35,
+        backgroundColor: 'orange'
     },
 });
 
