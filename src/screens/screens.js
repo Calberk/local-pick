@@ -5,32 +5,30 @@ import Registration from '../register/registration';
 import Login from '../login/login';
 
 import FavoriteScreen from '../favorites/favorites';
-import SearchScreen from '../search/search';
 import HomeScreen from '../home/home';
 import ProfileScreen from '../profile/profile';
 
 import {Ionicons} from '@expo/vector-icons';
-import {Entypo} from '@expo/vector-icons';
 
 
 const Screens = createStackNavigator({
     Landing: {
         screen: Landing,
         navigationOptions: {
-            header: null,
-        },
+            header: null
+        }
     },
     Login: {
         screen: Login,
         navigationOptions: {
             header: null
-        },
+        }
     },
     Registration: {
         screen: Registration,
         navigationOptions: {
-            header: null,
-        },
+            header: null
+        }
     },
 }, {
     mode: 'modal',
