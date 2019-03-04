@@ -40,7 +40,7 @@ class Login extends Component {
     
     async fbLogin() {
         const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsyn(
-        '291639681529667',
+        '',
         {permissions: ['public_profile']}
         );
     
