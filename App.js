@@ -1,8 +1,10 @@
 import React from 'react';
-import Screens from './src/screens/screens'
+import Screens from './src/screens/screens';
+
 
 
 export default class App extends React.Component {
+
   render() {
     return (
       // <View style={styles.container}>

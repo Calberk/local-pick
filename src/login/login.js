@@ -2,15 +2,71 @@ import React, {Component} from 'react';
 import {View, Text, TouchableOpacity, TextInput } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import registerStyle from '../register/registerStyle';
+import {f, database, auth} from '../../config/config';
 
 class Login extends Component {
-
-        state = {
+    constructor (props){
+        super(props);
+        this.state = {
             email: '',
             password: '',
+            loggedin = false
         }
+        f.auth().onAuthStateChanged(function(user){
+            if(user){
+                this.setState({
+                    loggedin: true
+                })
+                console.log('user logged in')
+            }else {
+                //logged out
+                console.log('user logged out')
+            }
+            })
+    }
+
+    loginUser = async(email, pass) => {
+        if(email != '' && pass != ''){
+            try{
+                let user = await auth.signInWithAndPassword(email, pass)
+                console.log(user);
+            } catch(error){
+                console.log(error)
+            }
+        }else{
+            alert('Missing email or password')
+        }
+    }
     
+    async fbLogin() {
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsyn(
+        '291639681529667',
+        {permissions: ['public_profile']}
+        );
     
+        if(type === 'success'){
+        const credentials = f.auth().FacebookAuthProvider.credentials(token);
+        f.auth().signInWithCredential(credentials).catch((error)=>{
+            console.log('Error', error);
+        })
+        }
+    }
+    
+    registerUser = (email, password) => {
+        auth.createUserWithEmailAndPassword(email, password)
+        .then((userObj) => console.log(email, password, userObj))
+        .catch((error) => console.log('error', error));
+    }; 
+    
+    signUserOut = () => {
+        auth.signOut()
+        .then(()=> {
+            console.log('logged out');
+        }).catch((error)=> {
+            console.log('error', error);
+        });
+    }
+
 
     leftPress = () =>{
         const {goBack} = this.props.navigation;
@@ -70,7 +126,7 @@ class Login extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity 
                         style={registerStyle.button}
-                        onPress={this.handleSubmit}
+                        onPress={()=> this.fbLogin()}
                     >
                         <Text style={registerStyle.buttonText}>Submit</Text>
                     </TouchableOpacity>
