@@ -4,31 +4,34 @@ import HeaderBar from '../components/headerBar';
 import registerStyle from '../register/registerStyle';
 import {f, database, auth} from '../../config/config';
 
+
 class Login extends Component {
     constructor (props){
         super(props);
         this.state = {
             email: '',
             password: '',
-            loggedin = false
+            // loggedin: false,
+
+
         }
         f.auth().onAuthStateChanged(function(user){
             if(user){
-                this.setState({
-                    loggedin: true
-                })
-                console.log('user logged in')
+                // this.setState({
+                //     loggedin: true
+                // })
+                console.log('user logged in', user)
             }else {
                 //logged out
                 console.log('user logged out')
             }
-            })
+        })
     }
 
-    loginUser = async(email, pass) => {
+    loginUser = async(email, password) => {
         if(email != '' && pass != ''){
             try{
-                let user = await auth.signInWithAndPassword(email, pass)
+                let user = await auth.signInWithAndPassword(email, password)
                 console.log(user);
             } catch(error){
                 console.log(error)
@@ -38,17 +41,19 @@ class Login extends Component {
         }
     }
     
-    async fbLogin() {
-        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsyn(
-        '',
-        {permissions: ['public_profile']}
+    async fbLogin () {
+        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(
+        '291639681529667',
+        {permissions: ['email','public_profile']}
         );
     
         if(type === 'success'){
-        const credentials = f.auth().FacebookAuthProvider.credentials(token);
-        f.auth().signInWithCredential(credentials).catch((error)=>{
-            console.log('Error', error);
+        const credentials = f.auth.FacebookAuthProvider.credential(token);
+        f.auth().signInAndRetrieveDataWithCredential(credentials).catch((error)=> {
+            console.log('error', error)
         })
+        }else{
+            console.log('Error logging in')
         }
     }
     
@@ -120,7 +125,7 @@ class Login extends Component {
                 <View style={registerStyle.bottomContainer}>
                     <TouchableOpacity 
                         style={registerStyle.button}
-                        onPress={()=>this.props.navigation.navigate('App')}
+                        onPress={()=> this.props.navigation.navigate('App')}
                     >
                         <Text style={registerStyle.buttonText}>Log In</Text>
                     </TouchableOpacity>
@@ -128,7 +133,7 @@ class Login extends Component {
                         style={registerStyle.button}
                         onPress={()=> this.fbLogin()}
                     >
-                        <Text style={registerStyle.buttonText}>Submit</Text>
+                        <Text style={registerStyle.buttonText}>FB Login</Text>
                     </TouchableOpacity>
 
                 </View>
