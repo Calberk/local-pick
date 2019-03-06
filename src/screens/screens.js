@@ -31,6 +31,7 @@ const Screens = createStackNavigator({
         }
     },
 }, {
+    initialRouteName: 'Landing',
     mode: 'modal',
 });
 
@@ -61,19 +62,6 @@ const TabNavigator = createBottomTabNavigator ({
             )
         },
     },
-    // Search: {
-    //     screen: SearchScreen,
-    //     navigationOptions: {
-    //         tabBarLabel: "Search",
-    //         tabBarOptions: {
-    //             activeTintColor: '#cc0000',
-    //             inactiveTintColor: 'gray',
-    //         },
-    //         tabBarIcon: ({tintColor})=>(
-    //             <Ionicons name='md-search' size={26} color={tintColor}/>
-    //         )
-    //     },
-    // },
     Profile: {
         screen: ProfileScreen,
         navigationOptions: {

@@ -20,13 +20,27 @@ class ProfileScreen extends Component {
     //     )
     // }
 
+
+    _pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: false,
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+            this.setState({ image: result.uri });
+        }
+    };
+
+
     render() {
         let { image } = this.state;
     
         return (
             <View>
                 <HeaderBar title="Profile"/>
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
                     <Button
                         title="Pick an image from camera roll"
                         onPress={this._pickImage}
@@ -42,18 +56,6 @@ class ProfileScreen extends Component {
             </View>
         );
     }
-    
-    _pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: false,
-        });
-    
-        console.log(result);
-    
-        if (!result.cancelled) {
-            this.setState({ image: result.uri });
-        }
-    };
 
 }
 
