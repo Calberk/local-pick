@@ -6,11 +6,15 @@ import {Icon} from 'react-native-elements';
 import {f, auth, database, storage} from '../../config/config'
 
 class HomeScreen extends Component {
-    state = {
-        photo_feed: [],
-        refreshing: false,
-        loading: true
+    constructor(props){
+        super(props)
+        this.state = {
+            photo_feed: [],
+            refreshing: false,
+            loading: true
+        }
     }
+    
     
     componentDidMount = () => {
         this.loadFeed();
@@ -22,25 +26,27 @@ class HomeScreen extends Component {
             photo_feed: []
         });
 
-        database.ref('hotspots').orderByChild('posted').once('value').then(function(snapshot){
+        const that = this
+        database.ref('photos').orderByChild('posted').once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
-                var photo_feed= this.state.photo_feed;  
+                var photo_feed= that.state.photo_feed;  
 
-                for(var hSpot in data){
-                    var hotSpotObj = data[hSpot];
-                    database.ref('users').orderByChild('hotSpotObj.author').once('value').then(function(snapshot){
+                for(var photo in data){
+                    var photoObj = data[photo];
+                    console.log(data[photo])
+                    database.ref('users').child(photoObj.author).once('value').then(function(snapshot){
                         const exists = (snapshot.val() !==null);
                         if(exists) data = snapshot.val();    
-                            photo_feed.push({
-                                id: hSpot,
-                                url: hotSpotObj.url, 
-                                title: hotSpotObj.title,
-                                posted: hotSpotObj.posted,
-                                author: data.username
+                        that.state.photo_feed.push({
+                                id: photo,
+                                url: photoObj.url, 
+                                caption: photoObj.caption,
+                                posted: photoObj.posted,
+                                author: photoObj.author
                             });
-
-                            this.setState({
+                            console.log(photo_feed)
+                            that.setState({
                                 refreshing: false,
                                 loading: false
                             });
@@ -50,13 +56,9 @@ class HomeScreen extends Component {
     }
 
     loadNew =() => {
-        this.setState({
-            refreshing: true
-        });
-        this.setState({
-            photo_feed: [5,6,7,8,9],
-            refreshing: false
-        });
+
+        //Load all new hotspots
+        this.loadFeed()
     }
 
     render() {
@@ -69,32 +71,39 @@ class HomeScreen extends Component {
                     rightIcon='md-add'
                     
                 />
+
+                {this.state.loading === true ? (
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text>Loading...</Text>
+                    </View>
+                ): (
                 <FlatList
-                    refreshing = {this.state.refreshing}
-                    onRefresh = {this.loadNew}
-                    data = {this.state.photo_feed}
-                    keyExtractor = {(item, index)=> index.toString()}
-                    style={{flex:1, backgroundColor: '#eee'}}
-                    renderItem={({item, index}) => (
-                        <View key={index} style={styleHome.cardContainer}>
-                            <View style={styleHome.cardHeader}>
-                                <Text>Time Ago</Text>
-                                <Text>@WhereAbouts</Text>
-                            </View>
-                            <View>
-                                <Image
-                                    source={{uri: 'https://source.unsplash.com/random/500x' +Math.floor((Math.random() * 800)+ 500)}}
-                                    style={styleHome.cardImage}
-                                />
-                            </View>
-                            <View>
-                                <Text >Caption goes here...</Text>
-                                <Text>View Comments</Text>
-                            </View>
-                            
+                refreshing = {this.state.refreshing}
+                onRefresh = {this.loadNew}
+                data = {this.state.photo_feed}
+                keyExtractor = {(item, index)=> index.toString()}
+                style={{flex:1, backgroundColor: '#eee'}}
+                renderItem={({item, index}) => (
+                    <View key={index} style={styleHome.cardContainer}>
+                        <View style={styleHome.cardHeader}>
+                            <Text>{item.posted}</Text>
+                            <Text>{item.author}</Text>
                         </View>
-                    )}
-                />
+                        <View>
+                            <Image
+                                source={{uri: item.url}}
+                                style={styleHome.cardImage}
+                            />
+                        </View>
+                        <View>
+                            <Text >{item.caption}</Text>
+                            <Text>View Comments</Text>
+                        </View>      
+                    </View>
+                )}
+                />  
+                )}
+                
                 
                 
             </View>
