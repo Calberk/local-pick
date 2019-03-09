@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Text, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native';
 import registerStyle from './registerStyle';
 import HeaderBar from '../components/headerBar';
+import {f, database, auth} from '../../config/config';
 
 class Registration extends Component {
 
@@ -41,9 +42,12 @@ class Registration extends Component {
         })
     }
 
-    handleSubmit = () => {
-        alert('hello ' +this.state.firstName + " " + this.state.lastName + this.state.email +' password ' + this.state.password)
-    }
+    registerUser = (email, password) => {
+        auth.createUserWithEmailAndPassword(email, password)
+        .then(()=>this.props.navigation.navigate('Home'))
+        .then((userObj) => console.log(email, password, userObj))
+        .catch((error) => console.log('error', error));
+    }; 
     
 
     render(){
@@ -57,7 +61,7 @@ class Registration extends Component {
                     onPressLeft={this.leftPress}
                 />
                 <View style={registerStyle.topContainer}>
-                    <View style={registerStyle.nameSection}>
+                    {/* <View style={registerStyle.nameSection}>
                         <TextInput 
                             style={registerStyle.smallTextInput}
                             placeholder='First Name'
@@ -72,7 +76,7 @@ class Registration extends Component {
                             value={lastName}
                             onChangeText = {this.lastNameChange}    
                         />
-                    </View>
+                    </View> */}
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
@@ -99,9 +103,9 @@ class Registration extends Component {
 
                     <TouchableOpacity 
                         style={registerStyle.button}
-                        onPress={this.handleSubmit}
+                        onPress={()=>this.registerUser(this.state.email, this.state.password)}
                     >
-                        <Text style={registerStyle.buttonText}>Submit</Text>
+                        <Text style={registerStyle.buttonText}>Register</Text>
                     </TouchableOpacity>
                 </View>
             </View>

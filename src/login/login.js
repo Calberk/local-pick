@@ -33,9 +33,11 @@ class Login extends Component {
     
 
     loginUser = async(email, password) => {
-        if(email != '' && pass != ''){
+        console.log(email,password)
+        if(email != '' && password != ''){
             try{
-                let user = await auth.signInWithAndPassword(email, password)
+                let user = await auth.signInWithEmailAndPassword(email, password)
+                .then(()=>this.props.navigation.navigate('Home'))
                 console.log(user);
             } catch(error){
                 console.log(error)
@@ -45,27 +47,6 @@ class Login extends Component {
         }
     }
     
-    async fbLogin () {
-        const {type, token} = await Expo.Facebook.logInWithReadPermissionsAsync(
-        '291639681529667',
-        {permissions: ['email','public_profile']}
-        );
-    
-        if(type === 'success'){
-        const credentials = f.auth.FacebookAuthProvider.credential(token);
-        f.auth().signInAndRetrieveDataWithCredential(credentials).catch((error)=> {
-            console.log('error', error)
-        })
-        }else{
-            console.log('Error logging in')
-        }
-    }
-    
-    registerUser = (email, password) => {
-        auth.createUserWithEmailAndPassword(email, password)
-        .then((userObj) => console.log(email, password, userObj))
-        .catch((error) => console.log('error', error));
-    }; 
     
     signUserOut = () => {
         auth.signOut()
@@ -92,10 +73,6 @@ class Login extends Component {
         this.setState ({
             password
         })
-    }
-
-    handleSubmit = () => {
-        alert('hello ' + this.state.email +' password ' + this.state.password)
     }
 
     render(){
@@ -142,16 +119,16 @@ class Login extends Component {
                             <View style={registerStyle.bottomContainer}>
                                 <TouchableOpacity 
                                     style={registerStyle.button}
-                                    onPress={()=> this.props.navigation.navigate('App')}
+                                    onPress={()=>this.loginUser(this.state.email, this.state.password)}
                                 >
                                     <Text style={registerStyle.buttonText}>Log In</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity 
+                                {/* <TouchableOpacity 
                                     style={registerStyle.button}
                                     onPress={()=> this.fbLogin()}
                                 >
                                     <Text style={registerStyle.buttonText}>FB Login</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                             </View>
                         )}
