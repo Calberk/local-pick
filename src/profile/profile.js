@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { ImagePicker } from 'expo';
 import {View, Text, Button, Image } from 'react-native';
 import styleProfile from './styleProfile';
-import HeaderBar from '../components/headerBar'
+import HeaderBar from '../components/headerBar';
+import {f, database, auth} from '../../config/config';
 
 class ProfileScreen extends Component {
 
@@ -33,6 +34,13 @@ class ProfileScreen extends Component {
         }
     };
 
+    signUserOut = () => {
+        auth.signOut()
+        .then(()=>this.props.navigation.navigate('Auth'))
+        .catch((error)=> {
+            console.log('error', error);
+        });
+    }
 
     render() {
         let { image } = this.state;
@@ -49,7 +57,7 @@ class ProfileScreen extends Component {
                     <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
                     <Button
                         title="Log out to landing"
-                        onPress={()=>this.props.navigation.navigate('Auth')}
+                        onPress={()=>this.signUserOut()}
                     />
                 </View>
                 

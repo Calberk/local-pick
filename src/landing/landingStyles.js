@@ -3,14 +3,19 @@ import {StyleSheet, Dimensions} from 'react-native'
 const {width, height } = Dimensions.get('window');
 const styles = StyleSheet.create ({
     mainContainerView: {
-        width,
-        height,
-        backgroundColor: 'white',
+        flex:1,
+        flexDirection: 'column',
+        // backgroundColor: 'orange',
         justifyContent: 'center',
         alignItems: 'center',
     },
+    logoView: {
+        flex: 2,
+        // backgroundColor: 'blue',
+        marginTop: 50,
+        // maxHeight: 100,
+    },
     titleView: {
-        flex:2,
         marginTop: 20,
         justifyContent: 'center',
         alignItems: 'center'
@@ -20,7 +25,6 @@ const styles = StyleSheet.create ({
         fontSize: 35
     },
     subTitleView: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -37,36 +41,54 @@ const styles = StyleSheet.create ({
         width: '100%',
     },
     buttonView:{
-        width: '80%',
-        flex: 3,
-        flexDirection: 'row',
+        flex: 2,
+        width,
+        flexDirection: 'column',
         justifyContent: 'space-around',
         alignItems: 'center'
     },
-    signInButton: {
-        backgroundColor: 'grey',
-        width: '40%',
-        height: '20%',
-        marginRight: 8,
-        borderRadius: 4,
-        justifyContent: 'center',
-        alignItems: 'center'
+    fbButton:{
+        backgroundColor: '#3b5998',
+        width: '80%',
+        height: '25%',
+        borderRadius: 30,
+        // marginTop: 10,
+        marginBottom: 5,
+        alignItems: 'center',
+        justifyContent:'center'
     },
-    registerButton: {
-        backgroundColor: 'green',
-        width: '40%',
-        height: '20%',
-        borderRadius: 4,
-        justifyContent: 'center',
-        alignItems: 'center'
+    signInButton: {
+        backgroundColor: "#cc0000",
+        width: '80%',
+        height: '25%',
+        borderRadius: 30,
+        // marginTop: 10,
+        marginBottom: 5,
+        alignItems: 'center',
+        justifyContent:'center'
+    },
+    fbText: {
+        color: '#fff',
+        fontSize: 18,
+        fontFamily: 'Roboto'
     },
     signInText: {
-        color: 'white',
+        color: '#fff',
         fontSize: 18
     },
     registerText: {
-        color: 'white',
-        fontSize: 18 
+        color: '#cc0000',
+        fontSize: 18,
+        fontWeight: 'bold' 
+    },
+    form: {
+        flex: 1
+    },
+    signUpContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
     }
 })
 

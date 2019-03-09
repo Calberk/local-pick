@@ -3,6 +3,7 @@ import {createStackNavigator, createAppContainer, createBottomTabNavigator, crea
 import Landing from '../landing/landing'
 import Registration from '../register/registration';
 import Login from '../login/login';
+import LoginForm from '../login/loginForm';
 
 import FavoriteScreen from '../favorites/favorites';
 import HomeScreen from '../home/home';
