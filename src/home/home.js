@@ -13,12 +13,22 @@ class HomeScreen extends Component {
             refreshing: false,
             loading: true
         }
+
+        var that = this;
+        f.auth().onAuthStateChanged(function(user){
+            if(user){
+                that.setState({
+                    loggedin: true
+                })
+                that.loadFeed();
+            }else {
+                that.setState({
+                    loggedin: false
+                });
+            }
+        });
     }
     
-    
-    componentDidMount = () => {
-        this.loadFeed();
-    }
 
     loadFeed =() => {
         this.setState({

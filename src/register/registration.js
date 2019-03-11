@@ -52,12 +52,15 @@ class Registration extends Component {
     createUserObj =(userObj, email)=> {
         var name = this.state.name;
         var username = this.state.username
+        var location = this.state.location
         console.log('userobj'+userObj, email, userObj.uid)
+    
         var uObj ={
             name: name,
             username: username,
             avatar: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909__340.png',
-            email: email
+            email: email,
+            location: location
         };
         database.ref('users').child(userObj.uid).set(uObj);
     }
