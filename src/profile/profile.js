@@ -6,20 +6,29 @@ import HeaderBar from '../components/headerBar';
 import {f, database, auth} from '../../config/config';
 
 class ProfileScreen extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            image: null,
+            loggedin: false
+        };
+    }
+    
 
-    state = {
-        image: null,
-      };
-
-    // render() {
-    //     return (
-    //         <View style={styleProfile.mainContainer}>
-    //             <View style={styleProfile.textContainer}>
-    //                 <Text style={styleProfile.textBox}>Profile</Text>
-    //             </View>
-    //         </View>
-    //     )
-    // }
+    componentDidMount = () => {
+        var that = this;
+        f.auth().onAuthStateChanged(function(user){
+            if(user){
+                that.setState({
+                    loggedin: true
+                })
+            }else {
+                that.setState({
+                    loggedin: false
+                });
+            }
+        });
+    }
 
 
     _pickImage = async () => {
@@ -27,7 +36,7 @@ class ProfileScreen extends Component {
             allowsEditing: false,
         });
     
-        console.log(result);
+        // console.log(result);
     
         if (!result.cancelled) {
             this.setState({ image: result.uri });
@@ -47,21 +56,30 @@ class ProfileScreen extends Component {
     
         return (
             <View>
-                <HeaderBar title="Profile"/>
-                <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
-                    <Button
-                        title="Pick an image from camera roll"
-                        onPress={this._pickImage}
-                    />
-                    {image &&
-                    <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
-                    <Button
-                        title="Log out to landing"
-                        onPress={()=>this.signUserOut()}
-                    />
-                </View>
-                
-            </View>
+                {this.state.loggedin === true ? (
+                    <View>
+                        <HeaderBar title="Profile"/>
+                        <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <Button
+                                title="Pick an image from camera roll"
+                                onPress={this._pickImage}
+                            />
+                            {image &&
+                            <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
+                            <Button
+                                title="Log out to landing"
+                                onPress={()=>this.signUserOut()}
+                            />
+                        </View>
+                    </View>
+                ):(
+                    <View>
+                        <Text>You are not logged in</Text>
+                        <Text>Please login to view your profile</Text>
+                    </View>
+                    
+                )}     
+            </View>   
         );
     }
 

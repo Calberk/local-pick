@@ -26,37 +26,72 @@ class HomeScreen extends Component {
             photo_feed: []
         });
 
-        const that = this
-        database.ref('photos').orderByChild('posted').once('value').then(function(snapshot){
-            const exists = (snapshot.val() !== null);
-            if(exists) data = snapshot.val();
-                var photo_feed= that.state.photo_feed;  
+    pluralCheck = (s) => {
+        if(s === 1 ) {
+            return ' ago';
+        }else{
+            return 's ago';
+        }
+    }
 
-                for(var photo in data){
-                    var photoObj = data[photo];
-                    console.log(data[photo])
-                    database.ref('users').child(photoObj.author).once('value').then(function(snapshot){
-                        const exists = (snapshot.val() !==null);
-                        if(exists) data = snapshot.val();    
-                        that.state.photo_feed.push({
-                                id: photo,
-                                url: photoObj.url, 
-                                caption: photoObj.caption,
-                                posted: photoObj.posted,
-                                author: photoObj.author
-                            });
-                            console.log(photo_feed)
-                            that.setState({
-                                refreshing: false,
-                                loading: false
-                            });
-                    }).catch(error=> console.log('error', error));
-                }    
-        }).catch(error=> console.log('error', error));
+    timeConversion = (timestamp) => {
+        var a = new Date(timestamp * 1000);
+        var seconds = Math.floor((new Date()- a ) / 1000);
+
+        var interval = Math.floor(seconds / 31536000);
+        if(interval > 1 ){
+            return interval + ' year' + this.pluralCheck(interval);
+        }
+        var interval = Math.floor(seconds / 2592000);
+        if(interval > 1 ){
+            return interval + ' month' + this.pluralCheck(interval);
+        }
+        var interval = Math.floor(seconds / 86400);
+        if(interval > 1 ){
+            return interval + ' day' + this.pluralCheck(interval);
+        }
+        var interval = Math.floor(seconds / 3600);
+        if(interval > 1 ){
+            return interval + ' hour' + this.pluralCheck(interval);
+        }
+        var interval = Math.floor(seconds / 60);
+        if(interval > 1 ){
+            return interval + ' minute' + this.pluralCheck(interval);
+        }
+        return Math.floor(seconds) + ' second' + this.pluralCheck(seconds);
+
+    }
+
+    var that = this
+    database.ref('photos').orderByChild('posted').once('value').then(function(snapshot){
+        const exists = (snapshot.val() !== null);
+        if(exists) data = snapshot.val();
+            var photo_feed= that.state.photo_feed;  
+
+            for(var photo in data){
+                var photoObj = data[photo];
+                console.log(data[photo])
+                database.ref('users').child(photoObj.author).child('username').once('value').then(function(snapshot){
+                    const exists = (snapshot.val() !==null);
+                    if(exists) data = snapshot.val();    
+                    photo_feed.push({
+                            id: photo,
+                            url: photoObj.url, 
+                            caption: photoObj.caption,
+                            posted: photoObj.posted,
+                            author: data
+                        });
+                        console.log(photo_feed)
+                        that.setState({
+                            refreshing: false,
+                            loading: false
+                        });
+                }).catch(error=> console.log('error', error));
+            }    
+    }).catch(error=> console.log('error', error));
     }
 
     loadNew =() => {
-
         //Load all new hotspots
         this.loadFeed()
     }
@@ -69,7 +104,6 @@ class HomeScreen extends Component {
                     hasRightIcon
                     type='ionicon'
                     rightIcon='md-add'
-                    
                 />
 
                 {this.state.loading === true ? (

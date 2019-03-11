@@ -5,28 +5,35 @@ import HeaderBar from '../components/headerBar';
 import {f, database, auth} from '../../config/config';
 
 class Registration extends Component {
-
     state = {
-        firstName: '',
-        lastName: '',
+        name: '',
+        username:'',
+        location:'',
         email: '',
         password: '',
     }
+    
 
     leftPress = () =>{
         const {goBack} = this.props.navigation;
         goBack();
     }
 
-    firstNameChange = (firstName) => {
+    nameChange = (name) => {
         this.setState ({
-            firstName
+            name
         })
     }
 
-    lastNameChange = (lastName) => {
+    userNameChange = (username) => {
         this.setState ({
-            lastName
+            username
+        })
+    }
+
+    locationChange = (location) => {
+        this.setState ({
+            location
         })
     }
 
@@ -42,17 +49,39 @@ class Registration extends Component {
         })
     }
 
-    registerUser = (email, password) => {
-        auth.createUserWithEmailAndPassword(email, password)
-        .then(()=>this.props.navigation.navigate('Home'))
-        .then((userObj) => console.log(email, password, userObj))
-        .catch((error) => console.log('error', error));
-    }; 
+    createUserObj =(userObj, email)=> {
+        var name = this.state.name;
+        var username = this.state.username
+        console.log('userobj'+userObj, email, userObj.uid)
+        var uObj ={
+            name: name,
+            username: username,
+            avatar: 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909__340.png',
+            email: email
+        };
+        database.ref('users').child(userObj.uid).set(uObj);
+    }
+
+    registerUser = async(email, password) => {
+        var email = this.state.email;
+        var password = this.state.password;
+        if(email !=='' && password !==''){
+            try{
+                let user = await auth.createUserWithEmailAndPassword(email, password)
+                .then((userObj) => this.createUserObj(userObj.user, email))
+                .then(()=>this.props.navigation.navigate('Home'))
+                .catch((error)=> alert(error))
+        }catch(error){
+            console.log(error)
+        }
+
+        }; 
+    }
     
 
     render(){
 
-        const {firstName, lastName, email, password} = this.state;
+        const {name, username, email, password, location} = this.state;
         return (
             <View style={registerStyle.mainContainer}>
                 <HeaderBar 
@@ -61,22 +90,27 @@ class Registration extends Component {
                     onPressLeft={this.leftPress}
                 />
                 <View style={registerStyle.topContainer}>
-                    {/* <View style={registerStyle.nameSection}>
                         <TextInput 
-                            style={registerStyle.smallTextInput}
-                            placeholder='First Name'
+                            style={registerStyle.largeTextInput}
+                            placeholder='Name'
                             underlineColorAndroid='transparent'
-                            value={firstName}
-                            onChangeText = {this.firstNameChange}    
+                            value={name}
+                            onChangeText = {this.nameChange}    
                         />
                         <TextInput 
-                            style={registerStyle.smallTextInput}
-                            placeholder='Last Name'
+                            style={registerStyle.largeTextInput}
+                            placeholder='Username'
                             underlineColorAndroid='transparent'
-                            value={lastName}
-                            onChangeText = {this.lastNameChange}    
+                            value={username}
+                            onChangeText = {this.userNameChange}    
                         />
-                    </View> */}
+                    <TextInput 
+                        style={registerStyle.largeTextInput}
+                        placeholder='Location'
+                        underlineColorAndroid='transparent'  
+                        value={location}
+                        onChangeText = {this.locationChange}      
+                    />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
@@ -94,16 +128,16 @@ class Registration extends Component {
                     />
                 </View>
                 <View style={registerStyle.bottomContainer}>
-                    <TouchableOpacity 
+                    {/* <TouchableOpacity 
                         style={registerStyle.button}
                         onPress={()=>this.props.navigation.navigate('App')}
                     >
                         <Text style={registerStyle.buttonText}>Confirm</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <TouchableOpacity 
                         style={registerStyle.button}
-                        onPress={()=>this.registerUser(this.state.email, this.state.password)}
+                        onPress={()=>this.registerUser()}
                     >
                         <Text style={registerStyle.buttonText}>Register</Text>
                     </TouchableOpacity>
