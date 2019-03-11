@@ -20,12 +20,12 @@ class Login extends Component {
                 that.setState({
                     loggedin: true
                 })
-                console.log('user logged in', user)
+                // console.log('user logged in', user)
             }else {
                 that.setState({
                     loggedin: false
                 });
-                console.log('user logged out')
+                // console.log('user logged out')
             }
         })
     }
@@ -33,7 +33,7 @@ class Login extends Component {
     
 
     loginUser = async(email, password) => {
-        console.log(email,password)
+        // console.log(email,password)
         if(email != '' && password != ''){
             try{
                 let user = await auth.signInWithEmailAndPassword(email, password)

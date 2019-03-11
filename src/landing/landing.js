@@ -11,8 +11,10 @@ class Landing extends Component {
     this.state = {
         loggedin: false,
     };
+    }
 
-    const that = this;
+    componentDidMount = () =>{
+        const that = this;
         f.auth().onAuthStateChanged(function(user){
             if(user){
                 that.setState({
@@ -23,7 +25,6 @@ class Landing extends Component {
                 that.setState({
                     loggedin: false
                 });
-                console.log('user logged out')
             }
         })
     }
