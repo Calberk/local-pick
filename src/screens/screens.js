@@ -8,6 +8,7 @@ import LoginForm from '../login/loginForm';
 import FavoriteScreen from '../favorites/favorites';
 import HomeScreen from '../home/home';
 import ProfileScreen from '../profile/profile';
+import authCheckScreen from '../components/authCheck'
 
 import {Ionicons} from '@expo/vector-icons';
 
@@ -81,7 +82,11 @@ const TabNavigator = createBottomTabNavigator ({
 
 export default createAppContainer(createSwitchNavigator(
     {
+        authCheck: authCheckScreen,
         Auth: Screens,
         App: TabNavigator
+    },
+    {
+        initialRouteName: 'authCheck',
     }
 ));

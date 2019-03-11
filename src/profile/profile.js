@@ -10,7 +10,12 @@ class ProfileScreen extends Component {
         super(props);
         this.state = {
             image: null,
-            loggedin: false
+            loggedin: false,
+            username: '',
+            name: '',
+            avatar: '',
+            userId: '',
+            location: '',
         };
     }
     
@@ -19,15 +24,29 @@ class ProfileScreen extends Component {
         var that = this;
         f.auth().onAuthStateChanged(function(user){
             if(user){
-                that.setState({
-                    loggedin: true
-                })
+                that.getUserData(user.uid)
             }else {
                 that.setState({
                     loggedin: false
                 });
             }
         });
+    }
+
+    getUserData = (userId) => {
+        var that = this;
+        database.ref('users').child(userId).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.value();
+            that.setState({
+                username: data.username,
+                name: data.name,
+                avatar: data.avatar,
+                loggedin: true,
+                userId: userId,
+                location: data.location
+            })
+        })
     }
 
 

@@ -14,13 +14,7 @@ class FavoriteScreen extends Component {
             search: '',
             loggedin: false
         };
-    }
 
-    updateSearch = search => {
-        this.setState({search})
-    }
-
-    componentDidMount = () => {
         var that = this;
         f.auth().onAuthStateChanged(function(user){
             if(user){
@@ -34,6 +28,11 @@ class FavoriteScreen extends Component {
             }
         });
     }
+
+    updateSearch = search => {
+        this.setState({search})
+    }
+
 
     render() {
 
