@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, StatusBar, Image, TouchableOpacity } from 'react-native';
+import {View, Text, StatusBar, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import styles from './landingStyles'
-import hotSpot from "../../assets/hotSpot.png";  
+import hotSpot from "../../assets/fireMap.png";  
 import LoginForm from '../login/loginForm';
 import {f, database, auth} from '../../config/config';
+import background from '../../assets/backdrop.jpg';
 
 class Landing extends Component {
     constructor (props){
@@ -63,6 +64,11 @@ class Landing extends Component {
                 <StatusBar
                     barStyle = "light-content"
                 />
+                <ImageBackground
+                    resizeMode={'cover'}
+                    style={{flex:1}}
+                    source={background}
+                >
                 <View style={styles.logoView}>
                     <View style={styles.titleView}>
                         <Text style={styles.titleText}>Hot Spots</Text>
@@ -97,17 +103,18 @@ class Landing extends Component {
                             <Text style = {styles.signInText}>Sign in with email</Text>
                     </TouchableOpacity>
                     <View style={styles.signUpContainer}>
-                        <Text>Don't have an account? </Text>
+                        <Text style={{color: '#fff'}}>Don't have an account? </Text>
                         <TouchableOpacity 
                             style={styles.registerButton}
                             onPress={()=>this.props.navigation.navigate('Registration', {})}
                             >
-                            <Text style = {styles.registerText}>Create Account</Text>
+                            <Text style = {styles.registerText}>Sign Up</Text>
                         </TouchableOpacity>
                     </View>
                     
                     
                 </View>
+                </ImageBackground>
             </View>
         );
     }

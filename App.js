@@ -1,9 +1,16 @@
 import React from 'react';
 import Screens from './src/screens/screens';
+import {Font} from 'expo';
 
 
 
 export default class App extends React.Component {
+
+  async componentDidMount(){
+    await Font.loadAsync({
+      'antonellie': require('./assets/fonts/antonellie.ttf')
+    })
+  }
 
   render() {
     return (

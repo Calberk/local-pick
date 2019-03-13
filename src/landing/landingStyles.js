@@ -21,8 +21,9 @@ const styles = StyleSheet.create ({
         alignItems: 'center'
     },
     titleText: {
-        color: 'black',
-        fontSize: 35
+        fontFamily: 'antonellie',
+        color: '#cc0000',
+        fontSize: 60,
     },
     subTitleView: {
         justifyContent: 'center',
@@ -30,15 +31,17 @@ const styles = StyleSheet.create ({
     },
     subTitleText: {
         color: 'black',
-        fontSize: 24
+        fontSize: 24,
     },
     imageView: {
         width,
         height: width * (9/12),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     image: {
-        height: '100%',
-        width: '100%',
+        height: '60%',
+        width: '60%',
     },
     buttonView:{
         flex: 2,
@@ -77,7 +80,7 @@ const styles = StyleSheet.create ({
         fontSize: 18
     },
     registerText: {
-        color: '#cc0000',
+        color: '#fff',
         fontSize: 18,
         fontWeight: 'bold' 
     },
