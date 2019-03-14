@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { Permissions, ImagePicker } from 'expo';
-import {View, Text, Button, Image, TouchableOpacity, Modal, TextInput} from 'react-native';
+import {View, Text, Button, Image, TouchableOpacity, TextInput} from 'react-native';
 import styles from './styleProfile';
 import HeaderBar from '../components/headerBar';
 import {FontAwesome} from '@expo/vector-icons';
@@ -14,6 +14,7 @@ class ProfileScreen extends Component {
         this.state = {
             image: null,
             loggedin: false,
+            isVisible: false,
             username: '',
             name: '',
             avatar: '',
@@ -23,11 +24,12 @@ class ProfileScreen extends Component {
             imageId: this.uniqueId(),
             uploading: false,
             imageSelected: false,
-            uri: ''
+            uri: '',
+            currentImg: ''
         };
     }
     
-
+    // on load check for user auth and fetch user data
     componentDidMount = () => {
         var that = this;
         f.auth().onAuthStateChanged(function(user){
@@ -41,15 +43,13 @@ class ProfileScreen extends Component {
         });
     }
 
-    componentWillUnmount = () => {
-        this.setState({ isVisible: false})
-    }
-
+    // get all user details that are stored in firebase
     getUserData = (userId) => {
         var that = this;
         database.ref('users').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
+            console.log('data', data)
             that.setState({
                 username: data.username,
                 name: data.name,
@@ -58,34 +58,17 @@ class ProfileScreen extends Component {
                 userId: userId,
                 location: data.location,
                 email: data.email,
-                isVisible: false
+                currentImg: data.currentImg
             })
-            console.log('data',data.avatar)
+            
         })
+        
     }
 
-    nameChange = (name) => {
-        this.setState ({
-            name
-        })
-    }
-
-    userNameChange = (username) => {
-        this.setState ({
-            username
-        })
-    }
-
-    locationChange = (location) => {
-        this.setState ({
-            location
-        })
-    }
-
-    emailChange = (email) => {
-        this.setState ({
-            email
-        })
+    changeText = (type, value) => {
+    
+        this.setState({[type]: value})
+        console.log(this.state.type)
     }
 
     updateProfile = () => {
@@ -106,6 +89,7 @@ class ProfileScreen extends Component {
         Alert.alert('Profile has been updated')
     }
 
+    // create a unique ID for each avatar photo being saved to storage
     s4 = () => {
         return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
@@ -117,6 +101,7 @@ class ProfileScreen extends Component {
         this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4();
     }
 
+    // permissions for camera use
     _checkPermisions = async () => {
         const {status} = await Permissions.askAsync(Permissions.CAMERA);
         this.setState({camera: status});
@@ -125,24 +110,22 @@ class ProfileScreen extends Component {
         this.setState({cameraRoll: statusRoll});
     }
 
+    // function to pick image from phone storage
     _pickImage = async () => {
         this._checkPermisions();
         var avatar = this.state.avatar
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: 'Images',
             allowsEditing: false,
-            quality: 1
+            quality: 0.5
         });
 
-        console.log(result)
-    
-        // console.log(result);
-    
         if (!result.cancelled) {
             this.setState({ 
                 imageSelected: true,
                 imageId: this.uniqueId(),
                 uri: result.uri 
+                
         });
         this.uploadImage(this.state.uri);
         } else{
@@ -153,19 +136,12 @@ class ProfileScreen extends Component {
         }
     };
 
-    uploadPublish = () => {
-        if (this.state.uploading == false) {
-            this.uploadImage(this.state.uri);
-        } else {
-        console.log("Ignore button tap as already uploading");
-        }
-    };
-
+    // take chosen image and format to blob to be processed in server
     uploadImage = async (uri) => {
         //
         var that = this;
         var userid = f.auth().currentUser.uid;
-        var imageId = this.state.imageId;
+        var imageId = that.state.imageId;
         var re = /(?:\.([^.]+))?$/;
         var ext = re.exec(uri)[1];
 
@@ -181,16 +157,20 @@ class ProfileScreen extends Component {
         oReq.onload = () => {
             const blob = oReq.response;
             //Call function to complete upload with the new blob to handle the uploadTask.
-            this.completeUploadBlob(blob, FilePath); 
+            database.ref("users/" + userid + "/currentImg/").set(FilePath)
+            this.completeUploadBlob(blob, FilePath);
         };
         oReq.send();
     }
 
+    //once file is formatted it is sent to firebase storage and a url is saved to firebase database
     completeUploadBlob = (blob, FilePath) => {
-
+        console.log('blob', blob)
         var that = this;
         var userid = f.auth().currentUser.uid;
-        var imageId = this.state.imageId;
+        var currentAvatar = that.state.currentImg
+        console.log('filepath ', FilePath)
+        // var imageId = this.state.imageId;
 
         var uploadTask = storage.ref('user/'+userid+'/img').child(FilePath).put(blob);
 
@@ -206,31 +186,41 @@ class ProfileScreen extends Component {
         //complete
         that.setState({progress:100});
         uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL){
-            console.log(downloadURL);
-            that.processUpload(downloadURL);
+            that.processUpload(downloadURL)
+            if(currentAvatar){
+                storage.ref('user/'+userid+'/img/').child(currentAvatar).delete().then(function(){
+                    that.processUpload(downloadURL)
+                    console.log('delete success')
+                }).catch(function(error){
+                    console.log(error)
+                })
+            }else{
+                that.processUpload(downloadURL)
+            };
         });
-    
-        });
+        }) 
     }
 
+    // the downloadURL is sent to firebase database and state is reset
     processUpload = imageUrl => {
         //Process here...
+        var userId = f.auth().currentUser.uid;
     
         //Set needed info
-        var imageId = this.state.imageId;
-        var userId = f.auth().currentUser.uid;
+        // var imageId = this.state.imageId;
+
         // var caption = this.state.caption;
         // var dateTime = Date.now();
         // var timestamp = Math.floor(dateTime / 1000);
         //Build photo object
         //author, caption, posted, url
     
-        var photoObj = {
-            author: userId,
+        // var photoObj = {
+        //     author: userId,
             // caption: caption,
             // posted: timestamp,
-            url: imageUrl
-        };
+        //     url: imageUrl
+        // };
     
         //Update database
     
@@ -238,15 +228,15 @@ class ProfileScreen extends Component {
         // database.ref("/photos/" + imageId).set(photoObj);
     
         //Set user photos object
-        database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
+        // database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
         database.ref("users/" + userId + "/avatar/").set(imageUrl)
-        alert("Image Uploaded!!");
+        alert("Profile picture has been updated");
     
         this.setState({
         uploading: false,
         imageSelected: false,
-        caption: "",
-        uri: ""
+        uri: "",
+        avatar: imageUrl
         });
     };
 
@@ -327,21 +317,21 @@ class ProfileScreen extends Component {
                                             placeholder='Name'
                                             underlineColorAndroid='transparent'
                                             value={this.props.name}
-                                            onChangeText = {this.nameChange}    
+                                            onChangeText = {value => this.changeText('name', value)}    
                                         />
                                         <TextInput 
                                             style={styles.largeTextInput}
                                             placeholder='Username'
                                             underlineColorAndroid='transparent'
                                             value={this.props.username}
-                                            onChangeText = {this.userNameChange}    
+                                            onChangeText = {value => this.changeText('username', value)}    
                                         />
                                         <TextInput 
                                             style={styles.largeTextInput}
                                             placeholder='Location'
                                             underlineColorAndroid='transparent'  
                                             value={this.props.location}
-                                            onChangeText = {this.locationChange}      
+                                            onChangeText = {value => this.changeText('location', value)}      
                                         />
                                     </View>
                                     <View style={styles.buttonContainer}>

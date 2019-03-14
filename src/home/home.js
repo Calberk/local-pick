@@ -80,7 +80,6 @@ class HomeScreen extends Component {
 
             for(var photo in data){
                 var photoObj = data[photo];
-                console.log(data[photo])
                 database.ref('users').child(photoObj.author).child('username').once('value').then(function(snapshot){
                     const exists = (snapshot.val() !==null);
                     if(exists) data = snapshot.val();    
@@ -91,7 +90,6 @@ class HomeScreen extends Component {
                             posted: photoObj.posted,
                             author: data
                         });
-                        console.log(photo_feed)
                         that.setState({
                             refreshing: false,
                             loading: false
