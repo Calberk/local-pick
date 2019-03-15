@@ -3,7 +3,7 @@ import {createStackNavigator, createAppContainer, createBottomTabNavigator, crea
 import Landing from '../landing/landing'
 import Registration from '../register/registration';
 import Login from '../login/login';
-import LoginForm from '../login/loginForm';
+import Search from '../search/search';
 
 import FavoriteScreen from '../favorites/favorites';
 import HomeScreen from '../home/home';
@@ -52,7 +52,7 @@ const TabNavigator = createBottomTabNavigator ({
         }
     },
     Favorite: {
-        screen: FavoriteScreen,
+        screen: Search,
         navigationOptions: {
             tabBarLabel: "Favorites",
             tabBarOptions: {
