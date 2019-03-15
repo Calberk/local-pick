@@ -38,8 +38,9 @@ const headerBarStyle = StyleSheet.create({
         borderBottomColor: "#E8E8E8"
     },
     navTitle: {
-        fontSize: 20,
+        fontSize: 28,
         color: '#fff',
+        fontFamily: 'antonellie',
     },
     leftIcon: {
         paddingLeft: 16,

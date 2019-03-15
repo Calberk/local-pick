@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { Permissions, ImagePicker } from 'expo';
-import {View, Text, Button, Image, TouchableOpacity, TextInput} from 'react-native';
+import {View, Text, Button, Image, TouchableOpacity, TextInput, ToastAndroid} from 'react-native';
 import styles from './styleProfile';
 import HeaderBar from '../components/headerBar';
-import {FontAwesome} from '@expo/vector-icons';
+import {FontAwesome, MaterialCommunityIcons, Entypo} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
 
 import {f, database, auth, storage} from '../../config/config';
@@ -63,30 +63,6 @@ class ProfileScreen extends Component {
             
         })
         
-    }
-
-    changeText = (type, value) => {
-    
-        this.setState({[type]: value})
-        console.log(this.state.type)
-    }
-
-    updateProfile = () => {
-        var name = this.state.name;
-        var username = this.state.username;
-        var location = this.state.location;
-
-        if(name !== ''){
-            database.ref('users').child(this.state.userId).child('name').set(name);
-        }
-        if(username !== ''){
-            database.ref('users').child(this.state.userId).child('username').set(username);
-        }
-        if(location !== ''){
-            database.ref('users').child(this.state.userId).child('location').set(location);
-        }
-        this.setState({isVisible: false})
-        Alert.alert('Profile has been updated')
     }
 
     // create a unique ID for each avatar photo being saved to storage
@@ -189,6 +165,11 @@ class ProfileScreen extends Component {
             that.processUpload(downloadURL)
             if(currentAvatar){
                 storage.ref('user/'+userid+'/img/').child(currentAvatar).delete().then(function(){
+                    ToastAndroid.showWithGravity(
+                        'Profile Image Updated',
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER
+                    );
                     that.processUpload(downloadURL)
                     console.log('delete success')
                 }).catch(function(error){
@@ -203,34 +184,9 @@ class ProfileScreen extends Component {
 
     // the downloadURL is sent to firebase database and state is reset
     processUpload = imageUrl => {
-        //Process here...
         var userId = f.auth().currentUser.uid;
-    
-        //Set needed info
-        // var imageId = this.state.imageId;
-
-        // var caption = this.state.caption;
-        // var dateTime = Date.now();
-        // var timestamp = Math.floor(dateTime / 1000);
-        //Build photo object
-        //author, caption, posted, url
-    
-        // var photoObj = {
-        //     author: userId,
-            // caption: caption,
-            // posted: timestamp,
-        //     url: imageUrl
-        // };
-    
-        //Update database
-    
-        //Add to main feed
-        // database.ref("/photos/" + imageId).set(photoObj);
-    
-        //Set user photos object
-        // database.ref("/users/" + userId + "/photos/" + imageId).set(photoObj);
         database.ref("users/" + userId + "/avatar/").set(imageUrl)
-        alert("Profile picture has been updated");
+
     
         this.setState({
         uploading: false,
@@ -239,6 +195,34 @@ class ProfileScreen extends Component {
         avatar: imageUrl
         });
     };
+
+    changeText = (type, value) => {
+    
+        this.setState({[type]: value})
+        console.log(this.state.type)
+    }
+
+    updateProfile = () => {
+        var name = this.state.name;
+        var username = this.state.username;
+        var location = this.state.location;
+
+        if(name !== ''){
+            database.ref('users').child(this.state.userId).child('name').set(name);
+        }
+        if(username !== ''){
+            database.ref('users').child(this.state.userId).child('username').set(username);
+        }
+        if(location !== ''){
+            database.ref('users').child(this.state.userId).child('location').set(location);
+        }
+        this.setState({isVisible: false})
+        ToastAndroid.showWithGravity(
+            'Profile Updated',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    }
 
     signUserOut = () => {
         auth.signOut()
@@ -253,17 +237,27 @@ class ProfileScreen extends Component {
     
         return (
             <View>
-                <HeaderBar title="My Profile"/>
+                <HeaderBar title={this.state.username}/>
                 {this.state.loggedin === true ? (
                     <View>
                         <View style={styles.profileInfo}>
                             <View style={styles.avatarContainer}>
                                 <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
-                            </View>
-                            
+                            <TouchableOpacity
+                            style={styles.avatarUpdateBtn}
+                            onPress={()=>this._pickImage()}
+                            >
+                                <MaterialCommunityIcons name='pencil' size={25} color='#cc0000'/>
+                            </TouchableOpacity>
+                        </View>                            
+                        <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+                        </View>
                             <View style={styles.userInfo}>
-                                <Text>{this.state.name}</Text>
-                                <Text>{this.state.location}</Text>
+                                <Text style={styles.nameText}>{this.state.name}</Text>
+                                <View style={styles.locationContainer}>
+                                    <Entypo name='location-pin' size={36} color='#cc0000' />
+                                    <Text style={styles.locationText}>{this.state.location}</Text>
+                                </View>
                             </View>
                         </View>
                         <View style={styles.buttonSection}>
@@ -282,14 +276,12 @@ class ProfileScreen extends Component {
                         </View>
                         
 
-                        <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
+                        {/* <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
                             <Button
                                 title="Pick an image from camera roll"
                                 onPress={()=>this._pickImage()}
                             />
-                            {image &&
-                            <Image source={{ uri: image }} style={{ width: 100, height: 100, borderRadius: 50 }} />}
-                        </View>
+                        </View> */}
                         <Overlay
                             isVisible={this.state.isVisible}
                             width='auto'

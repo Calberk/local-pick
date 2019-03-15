@@ -25,32 +25,64 @@ const styleProfile = StyleSheet.create({
     profileInfo: {
         justifyContent: 'center',
         alignItems: 'center',
-        // flexDirection: 'colu',
         paddingVertical: 10,
-        backgroundColor: 'white'
+
     },
     avatarContainer: {
         width: 180,
         height: 180,
         borderRadius: 90,
-        borderColor: 'rgba(0, 0, 0, 0.2)',
-        borderWidth: 16,
+        borderColor: 'grey',
+        // backgroundColor: 'rgba(204,0,0, 0.6)',
+        // borderWidth: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     avatar: {
         // marginLeft: 10,
-        width: 140, 
-        height: 140,
-        borderRadius: 70,
-        borderColor: '#fff',
-        borderWidth: 5
+        width: 180, 
+        height: 180,
+        borderRadius: 90,
+        borderColor: 'rgba(204,0,0, 0.8)',
+        borderWidth: 5,
+        elevation: 10,
+    },
+    avatarUpdateBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderColor: '#cc0000',
+        height: 45,
+        width: 45,
+        borderRadius: 25,
+        position: 'absolute',
+        elevation: 15,
+        bottom: 0,
+        right: 0
     },
     userInfo: {
         // marginRight: 10,
         marginTop: 20,
         fontSize: 16,
         fontWeight: 'bold'
+    },
+    nameText:{
+        fontSize: 32,
+        fontFamily: 'Roboto',
+
+        textAlign: 'center'
+    },
+    locationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    locationText:{
+        fontSize: 26,
+        fontFamily: 'Roboto',
+        fontStyle: 'italic',
+        color: 'rgba(108, 122, 137, 1)'
     },
     buttonSection:{
         paddingBottom: 20,
@@ -129,7 +161,8 @@ const styleProfile = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold'
-    }
+    },
+
 
 
 });
