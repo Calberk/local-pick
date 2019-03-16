@@ -45,7 +45,7 @@ const styleProfile = StyleSheet.create({
         borderRadius: 90,
         borderColor: 'rgba(204,0,0, 0.8)',
         borderWidth: 5,
-        elevation: 10,
+        // elevation: 10,
     },
     avatarUpdateBtn: {
         justifyContent: 'center',
@@ -105,13 +105,14 @@ const styleProfile = StyleSheet.create({
         borderWidth: 1.5
     },
     modalContainer: {
-        flex: 1,
+        // flex: 1,
+        // height:'100%',
+        // justifyContent: 'space-evenly'
     },
     modalHeader: {
-        width: '95%',
+        // width: '95%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        backgroundColor: 'transparent',
     },
     headerText: {
         fontSize: 20,
@@ -119,12 +120,12 @@ const styleProfile = StyleSheet.create({
         color: '#cc0000',
     },
     modalMain: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex:1,
+        justifyContent: 'space-around',
+        alignItems: 'flex-end',
+        flex: 4
+        // flex:1,
         // marginTop: height *0.05,
         // marginBottom: height * 0.05,
-        backgroundColor: '#fff',
     },
     modalContent: {
         width: 'auto',
@@ -145,11 +146,13 @@ const styleProfile = StyleSheet.create({
     buttonContainer: {
         width: '100%',
         // justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 20
+        justifyContent: 'center'
+        // marginTop: 20
     },
     button: {
-        height: height * 0.08,
+        height: height * 0.06,
         width: '80%',
         marginTop: 8,
         backgroundColor: '#cc0000',

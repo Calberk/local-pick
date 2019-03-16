@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {View, Text, StatusBar, Image, TouchableOpacity, TextInput } from 'react-native';
+import {View, Text, StatusBar, Image, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import registerStyle from './registerStyle';
 import HeaderBar from '../components/headerBar';
 import {f, database, auth} from '../../config/config';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 class Registration extends Component {
     state = {
@@ -92,21 +93,25 @@ class Registration extends Component {
                     hasLeftIcon
                     onPressLeft={this.leftPress}
                 />
+                <KeyboardAvoidingView
+                    style={registerStyle.topContainer}
+                    behavior="padding"
+                >
                 <View style={registerStyle.topContainer}>
-                        <TextInput 
-                            style={registerStyle.largeTextInput}
-                            placeholder='Name'
-                            underlineColorAndroid='transparent'
-                            value={name}
-                            onChangeText = {this.nameChange}    
-                        />
-                        <TextInput 
-                            style={registerStyle.largeTextInput}
-                            placeholder='Username'
-                            underlineColorAndroid='transparent'
-                            value={username}
-                            onChangeText = {this.userNameChange}    
-                        />
+                    <TextInput 
+                        style={registerStyle.largeTextInput}
+                        placeholder='Name'
+                        underlineColorAndroid='transparent'
+                        value={name}
+                        onChangeText = {this.nameChange}    
+                    />
+                    <TextInput 
+                        style={registerStyle.largeTextInput}
+                        placeholder='Username'
+                        underlineColorAndroid='transparent'
+                        value={username}
+                        onChangeText = {this.userNameChange}    
+                    />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Location'
@@ -130,14 +135,8 @@ class Registration extends Component {
                         onChangeText = {this.passwordChange}      
                     />
                 </View>
+                </KeyboardAvoidingView>
                 <View style={registerStyle.bottomContainer}>
-                    {/* <TouchableOpacity 
-                        style={registerStyle.button}
-                        onPress={()=>this.props.navigation.navigate('App')}
-                    >
-                        <Text style={registerStyle.buttonText}>Confirm</Text>
-                    </TouchableOpacity> */}
-
                     <TouchableOpacity 
                         style={registerStyle.button}
                         onPress={()=>this.registerUser()}

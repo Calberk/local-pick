@@ -9,9 +9,9 @@ import background from '../../assets/backdrop.jpg';
 class Landing extends Component {
     constructor (props){
         super(props);
-    this.state = {
-        loggedin: false,
-    };
+        this.state = {
+            loggedin: false,
+        };
     }
 
     componentDidMount = () =>{

@@ -17,7 +17,7 @@ import {Icon} from 'react-native-elements';
 //     </View>
 // );
 
-const HeaderBar = ({title, rightIcon, hasLeftIcon, hasRightIcon, onPressLeft, onPressRight, type})=> 
+const HeaderBar = ({title, rightIcon, hasLeftIcon, hasRightIcon, onPressLeft, onPressRight, type, size})=> 
     (
         <View style={headerBarStyle.navBarContainer}>
             {hasLeftIcon ?
@@ -30,7 +30,7 @@ const HeaderBar = ({title, rightIcon, hasLeftIcon, hasRightIcon, onPressLeft, on
             <Text style={headerBarStyle.navTitle}> {title} </Text>
             {hasRightIcon ?
                 <TouchableOpacity onPress={onPressRight}>
-                    <Icon style={headerBarStyle.rightIcon} type={type} name={rightIcon} size={25} color="#fff"/>
+                    <Icon style={headerBarStyle.rightIcon} type={type} name={rightIcon} size={size} color="#fff"/>
                 </TouchableOpacity>    
             :
             <Icon style={headerBarStyle.rightIcon} size={25} />

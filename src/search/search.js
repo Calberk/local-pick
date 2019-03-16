@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 
 import MapView from 'react-native-maps';
 import Api from '../../config/search';
 import _ from 'lodash';
+import HeaderBar from '../components/headerBar'
 
 class hotSpotSearch extends Component {
    
@@ -86,6 +87,18 @@ class hotSpotSearch extends Component {
 
         return (
             <View style={styles.container}>
+            <HeaderBar 
+                    title='Hot Spots'
+                />
+
+                <TextInput 
+                    placeholder="Search.." 
+                    value={this.state.destination} 
+                    onChangeText={location => this.onChangeLocationDebounced(location)}
+                    style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
+                />
+
+                { predictions }
                 <MapView
                     style={styles.map} 
                     region={{
@@ -96,14 +109,6 @@ class hotSpotSearch extends Component {
                     }}
                     showsUserLocation={true}
                 />
-                <TextInput 
-                    placeholder="Search.." 
-                    value={this.state.destination} 
-                    onChangeText={location => this.onChangeLocationDebounced(location)}
-                    style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
-                />
-
-                { predictions }
 
             </View>
         );
@@ -114,7 +119,8 @@ class hotSpotSearch extends Component {
 const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
-       ...StyleSheet.absoluteFillObject
+        flex: 1
+    //    ...StyleSheet.absoluteFillObject
     },
     locationInput: {
         height: 40,
@@ -142,7 +148,7 @@ const styles = StyleSheet.create({
         zIndex: 5,
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        flex: 4
     },
     suggestions: {
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
