@@ -8,7 +8,11 @@ export default class App extends React.Component {
 
   async componentDidMount(){
     await Font.loadAsync({
-      'antonellie': require('./assets/fonts/antonellie.ttf')
+      'antonellie': require('./assets/fonts/antonellie.ttf'),
+      'openSans' : require('./assets/fonts/openSansRegular.ttf'),
+      'openSansB' : require('./assets/fonts/openSansBold.ttf'),
+      'openSansI' : require('./assets/fonts/openSansItalic.ttf'),
+      'openSansBI' : require('./assets/fonts/openSansBoldItalic.ttf'),
     })
   }
 

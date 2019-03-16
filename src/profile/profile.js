@@ -3,7 +3,7 @@ import { Permissions, ImagePicker } from 'expo';
 import {View, Text, Button, Image, TouchableOpacity, TextInput, ToastAndroid} from 'react-native';
 import styles from './styleProfile';
 import HeaderBar from '../components/headerBar';
-import {FontAwesome, MaterialCommunityIcons, Entypo} from '@expo/vector-icons';
+import {FontAwesome, MaterialCommunityIcons, Entypo, Ionicons} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
 
 import {f, database, auth, storage} from '../../config/config';
@@ -176,6 +176,11 @@ class ProfileScreen extends Component {
                     console.log(error)
                 })
             }else{
+                ToastAndroid.showWithGravity(
+                    'Image Added',
+                    ToastAndroid.SHORT,
+                    ToastAndroid.CENTER
+                );
                 that.processUpload(downloadURL)
             };
         });
@@ -247,7 +252,7 @@ class ProfileScreen extends Component {
                             style={styles.avatarUpdateBtn}
                             onPress={()=>this._pickImage()}
                             >
-                                <MaterialCommunityIcons name='pencil' size={25} color='#cc0000'/>
+                                <Ionicons name='md-add' size={25} color='#cc0000'/>
                             </TouchableOpacity>
                         </View>                            
                         <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -296,7 +301,7 @@ class ProfileScreen extends Component {
                                         style={{marginLeft: 'auto'}}
                                         onPress={()=> this.setState({isVisible: false})}
                                     >
-                                    <FontAwesome name="close" size={35} color="#cc0000"/>
+                                    <FontAwesome name="close" size={28} color="#cc0000"/>
                                     </TouchableOpacity>  
                                 </View>
                                 <View style={styles.modalMain}>
