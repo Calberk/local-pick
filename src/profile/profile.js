@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { Permissions, ImagePicker } from 'expo';
-import {View, Text, Button, Image, TouchableOpacity, TextInput, ToastAndroid} from 'react-native';
+import {View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ToastAndroid} from 'react-native';
 import styles from './styleProfile';
 import HeaderBar from '../components/headerBar';
 import {FontAwesome, MaterialCommunityIcons, Entypo, Ionicons} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
+import ProfileList from '../userList/profileList';
 
 import {f, database, auth, storage} from '../../config/config';
 
@@ -49,7 +50,6 @@ class ProfileScreen extends Component {
         database.ref('users').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
-            console.log('data', data)
             that.setState({
                 username: data.username,
                 name: data.name,
@@ -141,11 +141,9 @@ class ProfileScreen extends Component {
 
     //once file is formatted it is sent to firebase storage and a url is saved to firebase database
     completeUploadBlob = (blob, FilePath) => {
-        console.log('blob', blob)
         var that = this;
         var userid = f.auth().currentUser.uid;
         var currentAvatar = that.state.currentImg
-        console.log('filepath ', FilePath)
         // var imageId = this.state.imageId;
 
         var uploadTask = storage.ref('user/'+userid+'/img').child(FilePath).put(blob);
@@ -171,7 +169,6 @@ class ProfileScreen extends Component {
                         ToastAndroid.CENTER
                     );
                     that.processUpload(downloadURL)
-                    console.log('delete success')
                 }).catch(function(error){
                     console.log(error)
                 })
@@ -202,9 +199,7 @@ class ProfileScreen extends Component {
     };
 
     changeText = (type, value) => {
-    
         this.setState({[type]: value})
-        console.log(this.state.type)
     }
 
     updateProfile = () => {
@@ -241,57 +236,60 @@ class ProfileScreen extends Component {
         let { image } = this.state;
     
         return (
-            <View>
+            <View style={{flex: 1}}>
                 <HeaderBar title={this.state.username}/>
                 {this.state.loggedin === true ? (
-                    <View>
-                        <View style={styles.profileInfo}>
-                            <View style={styles.avatarContainer}>
-                                <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
-                            <TouchableOpacity
-                            style={styles.avatarUpdateBtn}
-                            onPress={()=>this._pickImage()}
-                            >
-                                <Ionicons name='md-add' size={25} color='#cc0000'/>
-                            </TouchableOpacity>
-                        </View>                            
-                        <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
-                        </View>
-                            <View style={styles.userInfo}>
-                                <Text style={styles.nameText}>{this.state.name}</Text>
-                                <View style={styles.locationContainer}>
-                                    <Entypo name='location-pin' size={36} color='#cc0000' />
-                                    <Text style={styles.locationText}>{this.state.location}</Text>
+                    <View style={{flex: 2}}>
+                        <ImageBackground
+                            resizeMode={'cover'}
+                            style={height= '100%'}
+                            source={{uri:this.state.avatar}}
+                        >
+                            <View style={styles.profileInfo}>
+                                <View style={styles.avatarContainer}>
+                                    <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
+                                    <TouchableOpacity
+                                    style={styles.avatarUpdateBtn}
+                                    onPress={()=>this._pickImage()}
+                                    >
+                                        <Ionicons name='ios-camera' size={30} color='#cc0000'/>
+                                    </TouchableOpacity>
+                                </View>  
+                                <TouchableOpacity 
+                                    style={styles.logoutButton}
+                                    onPress={()=>this.signUserOut()}
+                                >
+                                    <Text style={{textAlign:'center', color: '#fff'}}>Logout</Text>
+                                </TouchableOpacity>                          
+                                <View style={styles.profileSection}>
+                                    <View style={styles.userInfo}>
+                                        <Text style={styles.nameText}>{this.state.name}</Text>
+                                        <View style={styles.locationContainer}>
+                                            <Entypo name='location-pin' size={36} color='#cc0000' />
+                                            <Text style={styles.locationText}>{this.state.location}</Text>
+                                        </View>
+                                        <Text style={styles.emailText}>{this.state.email}</Text>
+                                    </View>
+                                    <View style={styles.editPencil}>
+                                        <TouchableOpacity 
+                                            style={styles.editButton}
+                                            onPress={()=>this.setState({isVisible: true})}
+                                        >
+                                            <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>
+                                            <Text style={{fontStyle: 'italic', color: '#fff'}}>Edit</Text>
+                                            {/* <Text style={{textAlign:'center', color: 'grey'}}>Edit Profile</Text> */}
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                        <View style={styles.buttonSection}>
-                            <TouchableOpacity 
-                                style={styles.editButton}
-                                onPress={()=>this.setState({isVisible: true})}
-                            >
-                                <Text style={{textAlign:'center', color: 'grey'}}>Edit Profile</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity 
-                                style={styles.logoutButton}
-                                onPress={()=>this.signUserOut()}
-                            >
-                                <Text style={{textAlign:'center', color: '#cc0000'}}>Log Out</Text>
-                            </TouchableOpacity>
-                        </View>
-                        
+                        </ImageBackground>
+                        <ProfileList isUser={true} userId={this.state.userId} navigation={this.props.navigation}/>
 
-                        {/* <View style={{flexDirection:'column', alignItems: 'center', justifyContent: 'center'}}>
-                            <Button
-                                title="Pick an image from camera roll"
-                                onPress={()=>this._pickImage()}
-                            />
-                        </View> */}
                         <Overlay
                             isVisible={this.state.isVisible}
                             width='auto'
                             animationType= 'slide'
-                            overlayStyle={{borderRadius:20}}
+                            overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
                             onBackdropPress={()=> this.setState({isVisible: false})}
                         >
                             <View style={styles.modalContainer}>

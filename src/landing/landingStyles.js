@@ -52,28 +52,40 @@ const styles = StyleSheet.create ({
     },
     fbButton:{
         backgroundColor: '#3b5998',
+        borderColor: 'rgba(255, 255, 255, 0.5)',
+        borderWidth: 1,
         width: '80%',
-        height: '25%',
+        height: '23%',
         borderRadius: 30,
         // marginTop: 10,
         marginBottom: 5,
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        elevation: 5,
+        marginBottom: 20
     },
     signInButton: {
         backgroundColor: "#cc0000",
+        borderColor: 'rgba(255, 255, 255, 0.5)',
+        borderWidth: 1,
         width: '80%',
-        height: '25%',
+        height: '23%',
         borderRadius: 30,
         // marginTop: 10,
         marginBottom: 5,
         alignItems: 'center',
-        justifyContent:'center'
+        justifyContent:'center',
+        elevation: 5
     },
     fbText: {
         color: '#fff',
         fontSize: 18,
         fontFamily: 'Roboto'
+    },
+    fbIcon: {
+        position: 'absolute',
+        left: 0,
+        marginLeft: 20
     },
     signInText: {
         color: '#fff',

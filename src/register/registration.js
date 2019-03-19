@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import {View, Text, StatusBar, Image, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import {View, Text, ImageBackground, Image, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import registerStyle from './registerStyle';
 import HeaderBar from '../components/headerBar';
 import {f, database, auth} from '../../config/config';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import background from '../../assets/backdrop.jpg';
 
 class Registration extends Component {
     state = {
@@ -20,35 +20,40 @@ class Registration extends Component {
         goBack();
     }
 
-    nameChange = (name) => {
-        this.setState ({
-            name
-        })
+    changeText = (type, value) => {
+    
+        this.setState({[type]: value})
     }
 
-    userNameChange = (username) => {
-        this.setState ({
-            username
-        })
-    }
+    // nameChange = (name) => {
+    //     this.setState ({
+    //         name
+    //     })
+    // }
 
-    locationChange = (location) => {
-        this.setState ({
-            location
-        })
-    }
+    // userNameChange = (username) => {
+    //     this.setState ({
+    //         username
+    //     })
+    // }
 
-    emailChange = (email) => {
-        this.setState ({
-            email
-        })
-    }
+    // locationChange = (location) => {
+    //     this.setState ({
+    //         location
+    //     })
+    // }
 
-    passwordChange = (password) => {
-        this.setState ({
-            password
-        })
-    }
+    // emailChange = (email) => {
+    //     this.setState ({
+    //         email
+    //     })
+    // }
+
+    // passwordChange = (password) => {
+    //     this.setState ({
+    //         password
+    //     })
+    // }
 
     createUserObj =(userObj, email)=> {
         var name = this.state.name;
@@ -89,54 +94,59 @@ class Registration extends Component {
         return (
             <View style={registerStyle.mainContainer}>
                 <HeaderBar 
-                    title='Register' 
+                    title='Registration' 
                     hasLeftIcon
                     onPressLeft={this.leftPress}
                 />
+                <ImageBackground
+                    resizeMode={'cover'}
+                    style={{flex:1}}
+                    source={background}
+                >
                 <KeyboardAvoidingView
-                    style={registerStyle.topContainer}
+                    style={registerStyle.topRegisterContainer}
                     behavior="padding"
                 >
-                <View style={registerStyle.topContainer}>
+                <View style={registerStyle.topRegisterContainer}>
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Name'
                         underlineColorAndroid='transparent'
-                        value={name}
-                        onChangeText = {this.nameChange}    
+                        value={this.props.name}
+                        onChangeText = {value => this.changeText('name', value)}    
                     />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Username'
                         underlineColorAndroid='transparent'
-                        value={username}
-                        onChangeText = {this.userNameChange}    
+                        value={this.props.username}
+                        onChangeText = {value => this.changeText('username', value)}    
                     />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Location'
                         underlineColorAndroid='transparent'  
-                        value={location}
-                        onChangeText = {this.locationChange}      
+                        value={this.props.location}
+                        onChangeText = {value => this.changeText('location', value)}     
                     />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
                         underlineColorAndroid='transparent'  
-                        value={email}
-                        onChangeText = {this.emailChange}      
+                        value={this.props.email}
+                        onChangeText = {value => this.changeText('email', value)}       
                     />
                     <TextInput 
                         style={registerStyle.largeTextInput}
                         placeholder='Password'
                         secureTextEntry
                         underlineColorAndroid='transparent'  
-                        value={password}
-                        onChangeText = {this.passwordChange}      
+                        value={this.props.password}
+                        onChangeText = {value => this.changeText('password', value)}       
                     />
                 </View>
                 </KeyboardAvoidingView>
-                <View style={registerStyle.bottomContainer}>
+                <View style={registerStyle.bottomRegisterContainer}>
                     <TouchableOpacity 
                         style={registerStyle.button}
                         onPress={()=>this.registerUser()}
@@ -144,6 +154,7 @@ class Registration extends Component {
                         <Text style={registerStyle.buttonText}>Register</Text>
                     </TouchableOpacity>
                 </View>
+                </ImageBackground>
             </View>
         );
     }
