@@ -5,7 +5,6 @@ import Registration from '../register/registration';
 import Login from '../login/login';
 import Search from '../search/search';
 
-import FavoriteScreen from '../favorites/favorites';
 import HomeScreen from '../home/home';
 import ProfileScreen from '../profile/profile';
 import authCheckScreen from '../components/authCheck'

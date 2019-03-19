@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, TextInput } from 'react-native';
+import {View, Text, TouchableOpacity, TextInput, ImageBackground } from 'react-native';
 import HeaderBar from '../components/headerBar';
 import registerStyle from '../register/registerStyle';
 import {f, database, auth} from '../../config/config';
+import background from '../../assets/backdrop.jpg';
 
 
 class Login extends Component {
@@ -86,6 +87,11 @@ class Login extends Component {
                     hasLeftIcon
                     onPressLeft={this.leftPress}
                 />
+                <ImageBackground
+                    resizeMode={'cover'}
+                    style={{flex:1}}
+                    source={background}
+                >
                 
                     {this.state.loggedin === true ? (
                         <View style={registerStyle.loginContainer}>
@@ -99,16 +105,16 @@ class Login extends Component {
                         </View>
                     ) : (
                         <View style={registerStyle.loginContainer}>
-                            <View style={registerStyle.loginContainer}>
+                            <View style={registerStyle.topContainer}>
                                 <TextInput 
-                                    style={registerStyle.largeTextInput}
+                                    style={registerStyle.loginInput}
                                     placeholder='Email Address'
                                     underlineColorAndroid='transparent'
                                     value={email}
                                     onChangeText = {this.emailChange}    
                                 />
                                 <TextInput 
-                                    style={registerStyle.largeTextInput}
+                                    style={registerStyle.loginInput}
                                     placeholder='Password'
                                     secureTextEntry
                                     underlineColorAndroid='transparent'
@@ -130,8 +136,9 @@ class Login extends Component {
                                     <Text style={registerStyle.buttonText}>FB Login</Text>
                                 </TouchableOpacity> */}
                             </View>
-                            </View>
+                        </View>
                         )}
+                </ImageBackground>
             </View>
         )
     }

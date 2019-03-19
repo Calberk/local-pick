@@ -17,6 +17,11 @@ const registerStyle = StyleSheet.create({
     //     backgroundColor: 'red'
     // },
     topContainer: {
+        flex: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    topRegisterContainer: {
         flex: 3,
         alignItems: 'center',
         justifyContent: 'space-around',
@@ -24,34 +29,36 @@ const registerStyle = StyleSheet.create({
     loginContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
     },  
-    // nameSection: {
-    //     height: height * 0.08,
-    //     width,
-    //     flexDirection: 'row',
-    //     justifyContent: 'center',
-    //     marginTop: 10
-    // },
-    // smallTextInput: {
-    //     height: height * 0.08,
-    //     width: width * 0.85/2,
-    //     borderColor: 'rgb(185,185,185)',
-    //     borderWidth: 1,
-    //     borderRadius: 1,
-    //     padding: 8,
-    //     fontSize: 18
-    // },
+    loginInput: {
+        height: height * 0.08,
+        width: width * 0.85,
+        borderColor: 'rgba(108, 122, 137, 0.8)',
+        backgroundColor: '#fff',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 8,
+        fontSize: 18,
+        elevation: 5,
+        marginBottom: 30
+    },
     largeTextInput: {
         height: height * 0.08,
         width: width * 0.85,
-        borderColor: 'rgb(185,185,185)',
+        borderColor: 'rgba(108, 122, 137, 0.8)',
+        backgroundColor: '#fff',
         borderWidth: 1,
-        borderRadius: 1,
+        borderRadius: 5,
         padding: 8,
-        fontSize: 18
+        fontSize: 18,
+        elevation: 5
     },
     bottomContainer: {
+        flex: 3,
+        alignItems: 'center',
+    },
+    bottomRegisterContainer: {
         flex: 1,
         alignItems: 'center',
     },
@@ -61,8 +68,11 @@ const registerStyle = StyleSheet.create({
         marginTop: 8,
         backgroundColor: '#cc0000',
         borderRadius: 30,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.5)',
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 5
     },
     buttonText: {
         color: '#fff',

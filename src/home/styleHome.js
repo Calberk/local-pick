@@ -47,7 +47,8 @@ const styleHome = StyleSheet.create({
     cardImage: {
         width,
         height: 275,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
+        backgroundColor: 'orange'
     },
     caption: {
         padding: 5,
@@ -101,9 +102,7 @@ const styleHome = StyleSheet.create({
     largeTextInput: {
         height: height * 0.08,
         width: width * 0.85,
-        borderColor: 'rgb(185,185,185)',
         borderWidth: 1,
-        borderRadius: 1,
         marginTop: 10,
         marginBottom: 10,
         fontSize: 18,
@@ -117,6 +116,7 @@ const styleHome = StyleSheet.create({
         padding: 5,
         backgroundColor: 'white',
         zIndex: 5,
+        elevation: 5,
 
     },
     buttonContainer: {
@@ -169,6 +169,7 @@ const styleHome = StyleSheet.create({
         padding: 5,
         backgroundColor: 'white',
         zIndex: 5,
+        elevation: 5
     },
     locationInputWithPredictions: {
         height: height * 0.08,
@@ -183,8 +184,10 @@ const styleHome = StyleSheet.create({
         padding: 5,
         backgroundColor: 'white',
         zIndex: 5,
+        elevation: 5
     },
     suggestions: {
+        width: width * 0.85,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         padding: 5,
         fontSize: 16,
@@ -193,8 +196,10 @@ const styleHome = StyleSheet.create({
         marginRight: 5,
         borderRadius: 0,
         borderColor: 'darkgrey',
+        elevation: 5,
     },
     suggestionsRoundedBottom: {
+        width: width * 0.85,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         padding: 5,
         fontSize: 16,
@@ -204,6 +209,7 @@ const styleHome = StyleSheet.create({
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5,
         borderColor: 'darkgrey',
+        elevation: 5
     },
 });
 

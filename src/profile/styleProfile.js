@@ -23,10 +23,12 @@ const styleProfile = StyleSheet.create({
         backgroundColor: 'orange'
     },
     profileInfo: {
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 10,
-
+        borderBottomWidth: 3,
+        borderColor: '#fff'
     },
     avatarContainer: {
         width: 180,
@@ -37,15 +39,16 @@ const styleProfile = StyleSheet.create({
         // borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        elevation: 5,
     },
     avatar: {
         // marginLeft: 10,
         width: 180, 
         height: 180,
         borderRadius: 90,
-        borderColor: 'rgba(204,0,0, 0.8)',
-        borderWidth: 5,
-        // elevation: 10,
+        // borderColor: 'rgba(204,0,0, 0.8)',
+        borderColor: '#fff',
+        borderWidth: 3,
     },
     avatarUpdateBtn: {
         justifyContent: 'center',
@@ -61,6 +64,12 @@ const styleProfile = StyleSheet.create({
         bottom: 0,
         right: 0
     },
+    profileSection: {
+        width,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
     userInfo: {
         // marginRight: 10,
         marginTop: 20,
@@ -69,8 +78,14 @@ const styleProfile = StyleSheet.create({
     },
     nameText:{
         fontSize: 32,
-        fontFamily: 'Roboto',
-
+        fontFamily: 'openSans',
+        color: '#fff',
+        textAlign: 'center'
+    },
+    emailText: {
+        fontSize: 18,
+        fontFamily: 'openSans',
+        color: '#fff',
         textAlign: 'center'
     },
     locationContainer: {
@@ -80,7 +95,7 @@ const styleProfile = StyleSheet.create({
     },
     locationText:{
         fontSize: 26,
-        fontFamily: 'Roboto',
+        fontFamily: 'openSans',
         fontStyle: 'italic',
         color: 'rgba(108, 122, 137, 1)'
     },
@@ -88,21 +103,28 @@ const styleProfile = StyleSheet.create({
         paddingBottom: 20,
         borderBottomWidth: 1,
     },
+    editPencil: {
+        position: 'absolute',
+        right: 0,
+        bottom: 0,
+        marginRight: 20 
+    },
     editButton:{
-        marginTop: 10,
-        marginHorizontal: 40,
-        paddingVertical: 15,
-        borderRadius: 30,
-        borderColor: 'grey' ,
-        borderWidth: 1.5
+        backgroundColor: 'transparent',
+        // borderRadius: 30,
+        // elevation: 5
     },
     logoutButton: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        marginRight: 10,
         marginTop: 10,
-        marginHorizontal: 40,
-        paddingVertical: 15,
-        borderRadius: 30,
-        borderColor: '#cc0000' ,
-        borderWidth: 1.5
+        borderRadius: 10,
+        color: '#fff',
+        // backgroundColor: '#cc0000',
+        // borderWidth: 1,
+        elevation: 5
     },
     modalContainer: {
         // flex: 1,
@@ -113,6 +135,7 @@ const styleProfile = StyleSheet.create({
         // width: '95%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
+        padding: 5,
     },
     headerText: {
         fontSize: 20,
@@ -121,27 +144,25 @@ const styleProfile = StyleSheet.create({
     },
     modalMain: {
         justifyContent: 'space-around',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         flex: 4
-        // flex:1,
-        // marginTop: height *0.05,
-        // marginBottom: height * 0.05,
     },
     modalContent: {
         width: 'auto',
         justifyContent: 'center',
-
     },
     largeTextInput: {
         height: height * 0.08,
         width: width * 0.85,
-        borderColor: 'rgb(185,185,185)',
+        borderColor: 'rgba(108, 122, 137, 0.8)',
         borderWidth: 1,
-        borderRadius: 1,
+        borderRadius: 5,
+        backgroundColor: '#fff',
         marginTop: 8,
-        marginBottom: 8,
+        marginBottom: 15,
         fontSize: 18,
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        elevation: 5
     },
     buttonContainer: {
         width: '100%',
@@ -159,6 +180,7 @@ const styleProfile = StyleSheet.create({
         borderRadius: 30,
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 5
     },
     buttonText: {
         color: '#fff',
