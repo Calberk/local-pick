@@ -16,8 +16,8 @@ const styleProfileList = StyleSheet.create({
         padding: 15
     },
     cardImage: {
-        width: '80%',
-        height: 275,
+        width: '85%',
+        height: 225,
         resizeMode: 'cover',
         borderRadius: 5
     },
@@ -100,6 +100,12 @@ const styleProfileList = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold'
     },
+    cardHeader: {
+        // flexDirection: 'row',
+        justifyContent: 'center',
+        padding: 15
+    },
+
 });
 
 export default styleProfileList

@@ -89,7 +89,7 @@ class ProfileList extends Component {
                 ): (
                 <FlatList
                 refreshing = {this.state.refreshing}
-                onRefresh = {this.loadNew}
+                // onRefresh = {this.loadNew}
                 onEndReached = {this.handleLoad}
                 data = {this.state.spots}
                 keyExtractor = {(item, index)=> index.toString()}

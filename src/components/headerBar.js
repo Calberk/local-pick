@@ -22,7 +22,7 @@ const HeaderBar = ({title, rightIcon, hasLeftIcon, hasRightIcon, onPressLeft, on
         <View style={headerBarStyle.navBarContainer}>
             {hasLeftIcon ?
                 <TouchableOpacity onPress={onPressLeft}>
-                    <Icon style={headerBarStyle.leftIcon} type="ionicon" name="ios-arrow-back" size={35} color="#fff"/>
+                    <Icon style={headerBarStyle.leftIcon} type='ionicon' name="ios-arrow-back" size={40} color="#fff" iconStyle={{paddingLeft:10}}/>
                 </TouchableOpacity>    
             :
             <Icon style={headerBarStyle.leftIcon} size={25} />
@@ -30,7 +30,7 @@ const HeaderBar = ({title, rightIcon, hasLeftIcon, hasRightIcon, onPressLeft, on
             <Text style={headerBarStyle.navTitle}> {title} </Text>
             {hasRightIcon ?
                 <TouchableOpacity onPress={onPressRight}>
-                    <Icon style={headerBarStyle.rightIcon} type={type} name={rightIcon} size={size} color="#fff"/>
+                    <Icon style={headerBarStyle.rightIcon} type={type} name={rightIcon} size={size} color="#fff" iconStyle={{paddingRight:5}}/>
                 </TouchableOpacity>    
             :
             <Icon style={headerBarStyle.rightIcon} size={25} />

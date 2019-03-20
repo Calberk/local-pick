@@ -15,20 +15,24 @@ class Login extends Component {
         loggedin: false,
     };
 
+    }
+
+    componentDidMount(){
+        
     const that = this;
-        f.auth().onAuthStateChanged(function(user){
-            if(user){
-                that.setState({
-                    loggedin: true
-                })
-                // console.log('user logged in', user)
-            }else {
-                that.setState({
-                    loggedin: false
-                });
-                // console.log('user logged out')
-            }
-        })
+    f.auth().onAuthStateChanged(function(user){
+        if(user){
+            that.setState({
+                loggedin: true
+            })
+            // console.log('user logged in', user)
+        }else {
+            that.setState({
+                loggedin: false
+            });
+            // console.log('user logged out')
+        }
+    })
     }
         
     
@@ -39,7 +43,6 @@ class Login extends Component {
             try{
                 let user = await auth.signInWithEmailAndPassword(email, password)
                 .then(()=>this.props.navigation.navigate('Home'))
-                console.log(user);
             } catch(error){
                 console.log(error)
             }
@@ -56,12 +59,6 @@ class Login extends Component {
         }).catch((error)=> {
             console.log('error', error);
         });
-    }
-
-
-    leftPress = () =>{
-        const {goBack} = this.props.navigation;
-        goBack();
     }
 
     emailChange = (email) => {
@@ -85,7 +82,7 @@ class Login extends Component {
                 <HeaderBar 
                     title='Login' 
                     hasLeftIcon
-                    onPressLeft={this.leftPress}
+                    onPressLeft={()=> this.props.navigation.goBack()}
                 />
                 <ImageBackground
                     resizeMode={'cover'}
