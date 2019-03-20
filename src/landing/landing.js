@@ -104,10 +104,10 @@ class Landing extends Component {
                             <Text style = {styles.signInText}>Sign in with email</Text>
                     </TouchableOpacity>
                     <View style={styles.signUpContainer}>
-                        <Text style={{color: '#fff'}}>Don't have an account? </Text>
+                        <Text style={{color: '#fff'}}>Don't have an account?   </Text>
                         <TouchableOpacity 
                             style={styles.registerButton}
-                            onPress={()=>this.props.navigation.navigate('Registration', {})}
+                            onPress={()=>this.props.navigation.navigate('Registration')}
                             >
                             <Text style = {styles.registerText}>Sign Up</Text>
                         </TouchableOpacity>

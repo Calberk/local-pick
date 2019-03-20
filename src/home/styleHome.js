@@ -34,15 +34,16 @@ const styleHome = StyleSheet.create({
         width,
         overflow: 'hidden',
         justifyContent: 'space-between',
-        marginBottom: 5,
+        marginBottom: 1,
         borderBottomWidth: 1,
-        borderColor: 'grey'
+        borderColor: 'grey',
+        backgroundColor: 'black'
     },
     cardHeader: {
         width,
-        flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 5
+        alignItems: 'center',
+        padding: 5,
     },
     cardImage: {
         width,
@@ -78,7 +79,7 @@ const styleHome = StyleSheet.create({
         alignItems: 'flex-end'
     },
     descriptionText: {
-        // fontFamily: 'openSansBI',
+        fontFamily: 'openSans',
         fontSize: 16,
         // fontWeight: 'bold',
         textAlign: 'center',
@@ -102,7 +103,6 @@ const styleHome = StyleSheet.create({
     largeTextInput: {
         height: height * 0.08,
         width: width * 0.85,
-        borderWidth: 1,
         marginTop: 10,
         marginBottom: 10,
         fontSize: 18,
@@ -121,39 +121,40 @@ const styleHome = StyleSheet.create({
     },
     buttonContainer: {
         flex:1,
-        width: 'auto',
-        // justifyContent: 'center',
+        width: '95%',
         flexDirection: 'row',
-        alignItems: 'flex-end',
-        // justifyContent: 'flex-end'
-        // marginTop: 20
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
     buttonCancel: {
         height: height * 0.07,
-        width: '50%',
-        // backgroundColor: 'grey',
+        width: '45%',
+        backgroundColor: 'grey',
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#cc0000',
-        borderLeftWidth: 0,
-        borderBottomWidth: 0,
-        borderBottomLeftRadius: 15,
+        borderColor: '#fff',
+        borderRadius: 30,
+        elevation: 5
     },
     button: {
         height: height * 0.07,
-        width: '50%',
-        // backgroundColor: '#cc0000',
+        width: '45%',
+        backgroundColor: '#cc0000',
         alignItems: 'center',
         justifyContent: 'center',
         borderWidth: 1,
-        borderColor: '#cc0000',
-        borderRightWidth: 0,
-        borderBottomWidth: 0,
-        borderBottomRightRadius: 15,
+        borderColor: '#fff',
+        borderRadius: 30,
+        elevation: 5
+    },
+    cancelText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold'
     },
     buttonText: {
-        color: '#cc0000',
+        color: '#fff',
         fontSize: 18,
         fontWeight: 'bold'
     },
@@ -211,6 +212,38 @@ const styleHome = StyleSheet.create({
         borderColor: 'darkgrey',
         elevation: 5
     },
+    titleText: {
+        textAlign: 'center',
+        width,
+        fontFamily: 'antonellie',
+        fontSize: 22,
+        elevation: 10,
+        color: '#cc0000',
+    },
+    nameText: {
+        textAlign: 'center',
+        width,
+        fontFamily: 'openSansI',
+        fontSize: 18,
+        elevation: 10,
+        color: '#fff',
+    },
+    authorContainer: {
+        position: 'absolute',
+        right: 0,
+        top: '40%',
+        marginRight: 10,
+
+    },
+    author: {
+        textAlign: 'center',
+        fontFamily: 'openSansB',
+        fontSize: 15,
+        color: 'rgba(108, 122, 137, 1)',
+        paddingLeft: 5
+        // borderBottomWidth: 1,
+        // borderColor: 'rgba(108, 122, 137, 1)'
+    }
 });
 
 export default styleHome

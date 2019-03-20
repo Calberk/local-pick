@@ -93,17 +93,20 @@ const styles = StyleSheet.create ({
     },
     registerText: {
         color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold' 
+        fontSize: 15,
+        fontWeight: 'bold',
+        borderBottomWidth: 1,
+        borderColor: "#fff"
     },
     form: {
         flex: 1
     },
     signUpContainer: {
         flex: 1,
+        textAlign: 'center',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
     }
 })
 

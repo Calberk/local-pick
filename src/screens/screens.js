@@ -10,7 +10,8 @@ import ProfileScreen from '../profile/profile';
 import authCheckScreen from '../components/authCheck'
 
 import {Ionicons} from '@expo/vector-icons';
-
+import userProfile from '../home/userProfile';
+import comments from '../home/comments';
 
 const Screens = createStackNavigator({
     Landing: {
@@ -36,9 +37,33 @@ const Screens = createStackNavigator({
     mode: 'modal',
 });
 
+const MainStack = createStackNavigator({
+    MainPage: {
+        screen: HomeScreen,
+        navigationOptions: {
+            header: null
+        }
+    },
+    User: {
+        screen: userProfile,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Comments: {
+        screen: comments,
+        navigationOptions: {
+            header: null
+        }
+    },
+}, {
+    initialRouteName: 'MainPage',
+    mode: 'modal',
+});
+
 const TabNavigator = createBottomTabNavigator ({
     Home: {
-        screen: HomeScreen,
+        screen: MainStack,
         navigationOptions: {
             tabBarLabel: "Home",
             tabBarOptions: {
@@ -83,6 +108,7 @@ export default createAppContainer(createSwitchNavigator(
     {
         authCheck: authCheckScreen,
         Auth: Screens,
+        // Main: MainStack,
         App: TabNavigator
     },
     {

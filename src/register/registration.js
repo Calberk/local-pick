@@ -14,46 +14,10 @@ class Registration extends Component {
         password: '',
     }
     
-
-    leftPress = () =>{
-        const {goBack} = this.props.navigation;
-        goBack();
-    }
-
     changeText = (type, value) => {
     
         this.setState({[type]: value})
     }
-
-    // nameChange = (name) => {
-    //     this.setState ({
-    //         name
-    //     })
-    // }
-
-    // userNameChange = (username) => {
-    //     this.setState ({
-    //         username
-    //     })
-    // }
-
-    // locationChange = (location) => {
-    //     this.setState ({
-    //         location
-    //     })
-    // }
-
-    // emailChange = (email) => {
-    //     this.setState ({
-    //         email
-    //     })
-    // }
-
-    // passwordChange = (password) => {
-    //     this.setState ({
-    //         password
-    //     })
-    // }
 
     createUserObj =(userObj, email)=> {
         var name = this.state.name;
@@ -96,7 +60,7 @@ class Registration extends Component {
                 <HeaderBar 
                     title='Registration' 
                     hasLeftIcon
-                    onPressLeft={this.leftPress}
+                    onPressLeft={()=> this.props.navigation.goBack()}
                 />
                 <ImageBackground
                     resizeMode={'cover'}

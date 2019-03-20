@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity, TextInput, ToastAndroid } from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity, TextInput, ToastAndroid, Button, Linking } from 'react-native';
 import styles from './styleHome';
 import HeaderBar from '../components/headerBar';
 import {Overlay} from 'react-native-elements';
 import {f, auth, database, storage} from '../../config/config';
+import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import hotSpot from "../../assets/fireMap.png";  
 import _ from 'lodash';
 import Api from '../../config/search';
@@ -13,35 +14,33 @@ class HomeScreen extends Component {
     constructor(props){
         super(props)
         this.state = {
-            photo_feed: [],
-            spots: [],
-            refreshing: false,
+            category: '',
+            comment: '',
+            commentId: this.uniqueId(),
+            destination: '',
+            error: '',
+            hotSpotId: this.uniqueId(),
+            isVisible: false,
+            latitude: 0,
+            longitude: 0,
             loading: true,
             location: '',
             loggedin:false,
-            isVisible: false,
             name: '',
-            error: '',
-            latitude: 0,
-            longitude: 0,
-            selectedLat: '',
-            selectedLong: '',
+            refreshing: false,
             predictions: [],
             placeid: '',
-            destination: '',
+            selectedLat: '',
+            selectedLong: '',
             selectedPhoto: '',
+            selectedMap:'',
             selectedNumber: '',
             selectedWebsite: '',
+            spots: [],
             userId: '',
             username: '',
-            hotSpotId: this.uniqueId(),
-            category: '',
-            comment: ''
-
-
         };
         this.onChangeLocationDebounced = _.debounce(this.onChangeLocation, 1000)
-        
     }
 
     //     var that = this;
@@ -117,15 +116,15 @@ class HomeScreen extends Component {
     loadFeed =() => {
         this.setState({
             refreshing: true,
-            photo_feed: []
+            spots: []
         });
 
         const that = this
 
-        const loadRef= database.ref('users').child(that.state.userId).child('hotSpots');
-        
+        // const loadRef= database.ref('users').child(that.state.userId).child('hotSpots');
+        const loadRef= database.ref('hotSpots').orderByChild('timeStamp')
 
-        loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
+        loadRef.once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
         if(exists) data = snapshot.val();
         console.log('data',data)
@@ -137,10 +136,10 @@ class HomeScreen extends Component {
         }).catch(error=> console.log(error));
     }
 
-    addToFlatList = (spots, data, photo, userId)=>{
+    addToFlatList = (spots, data, photo)=>{
         const that = this;
         const spotObj = data[photo];
-        database.ref('users').child(that.state.userId).child('username').once('value').then(function(snapshot){
+        database.ref('users').child(spotObj.user).child('username').once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 spots.push({
@@ -148,8 +147,12 @@ class HomeScreen extends Component {
                     url: spotObj.photo,
                     title: spotObj.category,
                     author: spotObj.username,
-                    caption: spotObj.name
-                    // authorId: spotObj.author
+                    caption: spotObj.name,
+                    number: spotObj.phNumber,
+                    map: spotObj.map,
+                    website: spotObj.website,
+                    authorId: spotObj.user
+                    
                 });
                 console.log('spots', spots)
                 that.setState({
@@ -195,6 +198,7 @@ class HomeScreen extends Component {
     addHotSpot = async () => {
         let hotSpotId = this.state.hotSpotId;
         let website = this.state.selectedWebsite;
+        let map = this.state.selectedMap;
         let lat = this.state.selectedLat;
         let long = this.state.selectedLong;
         let phNumber = this.state.selectedNumber;
@@ -205,10 +209,12 @@ class HomeScreen extends Component {
         let comment = this.state.comment;
         let dateTime = Date.now();
         let timeStamp = Math.floor(dateTime/1000);
+        let username = this.state.username;
 
         let hotSpotObj = {
             category,
-            username: this.state.username,
+            username,
+            user,
             name,
             photo,
             phNumber,  
@@ -216,12 +222,16 @@ class HomeScreen extends Component {
             longitude: long,
             website,
             comment,
-            timeStamp
+            timeStamp,
+            map
         }
 
         if(category !== '' && name !== '' && comment !== ''){
-            database.ref('/hotSpots/'+ hotSpotId +'/' + category +'/' + user).set(hotSpotObj);
-            database.ref('/users/' + user + '/hotSpots/' + hotSpotId).set(hotSpotObj)
+            // database.ref('/hotSpots/'+ hotSpotId +'/' + category +'/' + user).set(hotSpotObj);
+            // database.ref('/users/' + user + '/hotSpots/' + hotSpotId).set(hotSpotObj)
+            database.ref('/hotSpots/'+ hotSpotId).set(hotSpotObj);
+            database.ref('/users/' + user + '/hotSpots/'+ hotSpotId ).set(hotSpotObj)
+            // database.ref('/comments/'+ hotSpotId).set(hotSpotObj);
         }
 
         this.setState({
@@ -230,6 +240,7 @@ class HomeScreen extends Component {
             selectedPhoto: '',
             selectedNumber: '',
             category: '',
+            created: true,
             selectedLat: '',
             selectedLong: '',
             selectedWebsite: '',
@@ -274,17 +285,19 @@ class HomeScreen extends Component {
             // this.setState({
             //     photoId: json.
             // })
-            
+            console.log(json)
             const selectedPhoto = json.result.photos[0].photo_reference
             const selectedLat = json.result.geometry.location.lat
             const selectedLong = json.result.geometry.location.lng
             const selectedNumber = json.result.formatted_phone_number
-            const selectedWebsite = json.result.url
+            const selectedMap = json.result.url
+            const selectedWebsite = json.result.website
             this.setState({
                 selectedPhoto,
                 selectedLat,
                 selectedLong,
                 selectedNumber,
+                selectedMap,
                 selectedWebsite,
                 hotSpotId: this.uniqueId()
             })
@@ -298,6 +311,11 @@ class HomeScreen extends Component {
     changeText = (type, value) => {
     
         this.setState({[type]: value})
+    }
+
+    calll=(number)=>{
+        const url = `tel://${number}`
+        Linking.openURL(url)
     }
 
     render() {
@@ -345,22 +363,52 @@ class HomeScreen extends Component {
                     onRefresh = {this.loadNew}
                     data = {this.state.spots}
                     keyExtractor = {(item, index)=> index.toString()}
-                    style={{flex:1, backgroundColor: '#eee'}}
+                    style={{flex:1, backgroundColor: '#eee', marginBottom: 45}}
+                    automaticallyAdjustContentInsets={false}
                     renderItem={({item, index}) => (
                         <View key={index} style={styles.cardContainer}>
                             <View style={styles.cardHeader}>
-                                <Text>{item.posted}</Text>
-                                <Text>{item.title}</Text>
+                                <Text style={styles.titleText}>{item.title}</Text>
+                                <Text style={styles.nameText}>{item.caption}</Text>
+                                <View style={styles.authorContainer}>
+                                    <TouchableOpacity
+                                        onPress={()=>this.props.navigation.navigate('User', {userId: item.authorId})}
+                                        style={{flexDirection:'row', alignItems: 'center'}}
+                                    >
+                                    <FontAwesome name='user-circle' size={18} color='rgba(108, 122, 137, 1)'/>
+                                    <Text style={styles.author}>{item.author}</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
+
                             <View>
                                 <Image
                                     source={{uri: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${item.url}&key=AIzaSyCXZxoa0P09f1o6y3RnGWwZ6m7vSPYEQ-k`}}
                                     style={styles.cardImage}
                                 />
                             </View>
-                            <View>
-                                <Text >{item.caption}</Text>
-                                <Text>View Comments</Text>
+                            <View  style={{flexDirection:'row', padding: 10}}>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=>this.calll(item.number)} style={{alignItems:'center'}}>
+                                        <FontAwesome name='phone' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.map)} style={{alignItems:'center'}}>
+                                        <MaterialCommunityIcons name='map-marker-radius' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%' }}>
+                                    <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.website)} style={{alignItems:'center'}}>
+                                        <MaterialCommunityIcons name='web' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=>this.props.navigation.navigate('Comments', {hotSpotId: item.id})} style={{alignItems:'center'}}>
+                                        <FontAwesome name='commenting-o' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                
+                                </View>
                             </View>      
                         </View>
                     )}
@@ -375,7 +423,7 @@ class HomeScreen extends Component {
                     width='90%'  
                     height={600}  
                     animationType= 'slide'
-                    overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
+                    overlayStyle={{borderRadius:15, padding: 0, borderWidth: 3, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
                     onBackdropPress={()=> this.setState({isVisible: false})}
                 >
                     <View style={styles.modalMain}>
@@ -388,7 +436,7 @@ class HomeScreen extends Component {
                         </View>
                         <View style={styles.description}>
 
-                            <Text style={styles.descriptionText}>Create your very own <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>.{"\n"}Select your category of choice, find the location and share your thoughts!</Text>
+                            <Text style={styles.descriptionText}>Start your very own <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>.{"\n"}Create a category, find the location and share why you love it!</Text>
                         </View>
                         <View style={styles.modalContent}>
                             <TextInput 
@@ -420,7 +468,7 @@ class HomeScreen extends Component {
                                 style={styles.buttonCancel}
                                 onPress={()=> this.setState({isVisible: false})}
                             >
-                            <Text style={styles.buttonText}>Cancel</Text>
+                            <Text style={styles.cancelText}>Cancel</Text>
                         </TouchableOpacity>  
                             <TouchableOpacity 
                                 style={styles.button}

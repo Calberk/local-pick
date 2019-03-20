@@ -22,32 +22,30 @@ const styleProfile = StyleSheet.create({
         fontSize: 35,
         backgroundColor: 'orange'
     },
-    profileInfo: {
+    userCommentInfo: {
+        height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 10,
         borderBottomWidth: 3,
-        borderColor: '#fff'
+        borderColor: '#fff',
+        elevation: 15
     },
-    avatarContainer: {
-        width: 180,
-        height: 180,
-        borderRadius: 90,
-        borderColor: 'grey',
-        paddingTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        elevation: 5,
+    commentHeader:{
+        width,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
     avatar: {
         // marginLeft: 10,
-        width: 170, 
-        height: 170,
-        borderRadius: 90,
-        // borderColor: 'rgba(204,0,0, 0.8)',
+        width: 80, 
+        height: 80,
+        borderRadius: 45,
+        borderColor: 'rgba(204,0,0, 0.8)',
         borderColor: '#fff',
-        borderWidth: 3,
+        borderWidth: 1,
     },
     avatarUpdateBtn: {
         justifyContent: 'center',
@@ -63,11 +61,16 @@ const styleProfile = StyleSheet.create({
         bottom: 0,
         right: 0
     },
-    profileSection: {
+    comments: {
         width,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        textAlign:'center',
+    },
+    commentSection:{
+        flexDirection: 'row',
+        marginLeft: 15
     },
     userInfo: {
         // marginRight: 10,
@@ -79,13 +82,24 @@ const styleProfile = StyleSheet.create({
         fontSize: 28,
         fontFamily: 'openSans',
         color: '#fff',
-        textAlign: 'center'
+        textAlign: 'center',
+
     },
-    emailText: {
-        fontSize: 18,
-        fontFamily: 'openSansBI',
+    userText:{
+        fontSize: 20,
+        fontFamily: 'openSansB',
         color: '#fff',
-        textAlign: 'center'
+        textAlign: 'center',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    commentText:{
+        fontSize: 16,
+        fontFamily: 'openSansI',
+        color: '#fff',
+        textAlign: 'center',
+        alignSelf:'center',
+        justifyContent:'center',
     },
     locationContainer: {
         flexDirection: 'row',

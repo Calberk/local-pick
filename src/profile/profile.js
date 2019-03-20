@@ -237,7 +237,16 @@ class ProfileScreen extends Component {
     
         return (
             <View style={{flex: 1}}>
-                <HeaderBar title={this.state.username}/>
+                <HeaderBar 
+                    raised
+                    title={this.state.username}
+                    hasRightIcon
+                    type='material-community'
+                    rightIcon='logout'
+                    size={30}
+                    onPressRight={()=>this.signUserOut()}
+                />
+                
                 {this.state.loggedin === true ? (
                     <View style={{flex: 2}}>
                         <ImageBackground
@@ -246,6 +255,16 @@ class ProfileScreen extends Component {
                             source={{uri:this.state.avatar}}
                         >
                             <View style={styles.profileInfo}>
+                                <View style={styles.editPencil}>
+                                    <TouchableOpacity 
+                                        style={styles.editButton}
+                                        onPress={()=>this.setState({isVisible: true})}
+                                    >
+                                        <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>
+                                        {/* <Text style={{fontStyle: 'italic', color: '#fff'}}>Edit</Text> */}
+                                    
+                                    </TouchableOpacity>
+                                </View>
                                 <View style={styles.avatarContainer}>
                                     <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
                                     <TouchableOpacity
@@ -254,13 +273,14 @@ class ProfileScreen extends Component {
                                     >
                                         <Ionicons name='ios-camera' size={30} color='#cc0000'/>
                                     </TouchableOpacity>
+                                    
                                 </View>  
-                                <TouchableOpacity 
+                                {/* <TouchableOpacity 
                                     style={styles.logoutButton}
                                     onPress={()=>this.signUserOut()}
                                 >
                                     <Text style={{textAlign:'center', color: '#fff'}}>Logout</Text>
-                                </TouchableOpacity>                          
+                                </TouchableOpacity>                           */}
                                 <View style={styles.profileSection}>
                                     <View style={styles.userInfo}>
                                         <Text style={styles.nameText}>{this.state.name}</Text>
@@ -270,16 +290,7 @@ class ProfileScreen extends Component {
                                         </View>
                                         <Text style={styles.emailText}>{this.state.email}</Text>
                                     </View>
-                                    <View style={styles.editPencil}>
-                                        <TouchableOpacity 
-                                            style={styles.editButton}
-                                            onPress={()=>this.setState({isVisible: true})}
-                                        >
-                                            <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>
-                                            <Text style={{fontStyle: 'italic', color: '#fff'}}>Edit</Text>
-                                            {/* <Text style={{textAlign:'center', color: 'grey'}}>Edit Profile</Text> */}
-                                        </TouchableOpacity>
-                                    </View>
+                                    
                                 </View>
                             </View>
                         </ImageBackground>
