@@ -216,7 +216,9 @@ class ProfileScreen extends Component {
         if(location !== ''){
             database.ref('users').child(this.state.userId).child('location').set(location);
         }
-        this.setState({isVisible: false})
+        this.setState({
+            isVisible: false,
+        })
         ToastAndroid.showWithGravity(
             'Profile Updated',
             ToastAndroid.SHORT,
@@ -230,6 +232,48 @@ class ProfileScreen extends Component {
         .catch((error)=> {
             console.log('error', error);
         });
+    }
+
+    testComponent = () =>{ 
+        return(
+            <ImageBackground
+                resizeMode={'cover'}
+                style={height= '100%'}
+                source={{uri:this.state.avatar}}
+            >
+                <View style={styles.profileInfo}>
+                    <View style={styles.editPencil}>
+                        <TouchableOpacity 
+                            style={styles.editButton}
+                            onPress={()=>this.setState({isVisible: true})}
+                        >
+                            <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>                                    
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.avatarContainer}>
+                        <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
+                        <TouchableOpacity
+                        style={styles.avatarUpdateBtn}
+                        onPress={()=>this._pickImage()}
+                        >
+                            <Ionicons name='ios-camera' size={30} color='#cc0000'/>
+                        </TouchableOpacity>
+                        
+                    </View>  
+                    <View style={styles.profileSection}>
+                        <View style={styles.userInfo}>
+                            <Text style={styles.nameText}>{this.state.name}</Text>
+                            <View style={styles.locationContainer}>
+                                <Entypo name='location-pin' size={36} color='#cc0000' />
+                                <Text style={styles.locationText}>{this.state.location}</Text>
+                            </View>
+                        </View>
+                        
+                    </View>
+                </View>
+            </ImageBackground>
+        )
+        
     }
 
     render() {
@@ -249,7 +293,7 @@ class ProfileScreen extends Component {
                 
                 {this.state.loggedin === true ? (
                     <View style={{flex: 2}}>
-                        <ImageBackground
+                        {/* <ImageBackground
                             resizeMode={'cover'}
                             style={height= '100%'}
                             source={{uri:this.state.avatar}}
@@ -260,9 +304,7 @@ class ProfileScreen extends Component {
                                         style={styles.editButton}
                                         onPress={()=>this.setState({isVisible: true})}
                                     >
-                                        <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>
-                                        {/* <Text style={{fontStyle: 'italic', color: '#fff'}}>Edit</Text> */}
-                                    
+                                        <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>                                    
                                     </TouchableOpacity>
                                 </View>
                                 <View style={styles.avatarContainer}>
@@ -275,12 +317,6 @@ class ProfileScreen extends Component {
                                     </TouchableOpacity>
                                     
                                 </View>  
-                                {/* <TouchableOpacity 
-                                    style={styles.logoutButton}
-                                    onPress={()=>this.signUserOut()}
-                                >
-                                    <Text style={{textAlign:'center', color: '#fff'}}>Logout</Text>
-                                </TouchableOpacity>                           */}
                                 <View style={styles.profileSection}>
                                     <View style={styles.userInfo}>
                                         <Text style={styles.nameText}>{this.state.name}</Text>
@@ -288,13 +324,12 @@ class ProfileScreen extends Component {
                                             <Entypo name='location-pin' size={36} color='#cc0000' />
                                             <Text style={styles.locationText}>{this.state.location}</Text>
                                         </View>
-                                        <Text style={styles.emailText}>{this.state.email}</Text>
                                     </View>
                                     
                                 </View>
                             </View>
-                        </ImageBackground>
-                        <ProfileList isUser={true} userId={this.state.userId} navigation={this.props.navigation}/>
+                        </ImageBackground> */}
+                        <ProfileList isUser={true} userId={this.state.userId} testComponent={this.testComponent} navigation={this.props.navigation}/>
 
                         <Overlay
                             isVisible={this.state.isVisible}
