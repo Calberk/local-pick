@@ -210,6 +210,7 @@ class HomeScreen extends Component {
         let dateTime = Date.now();
         let timeStamp = Math.floor(dateTime/1000);
         let username = this.state.username;
+        let commentId = this.state.commentId
 
         let hotSpotObj = {
             category,
@@ -226,11 +227,18 @@ class HomeScreen extends Component {
             map
         }
 
+        let commentObj = {
+            user,
+            comment,
+            timeStamp,
+        }
+
         if(category !== '' && name !== '' && comment !== ''){
             // database.ref('/hotSpots/'+ hotSpotId +'/' + category +'/' + user).set(hotSpotObj);
             // database.ref('/users/' + user + '/hotSpots/' + hotSpotId).set(hotSpotObj)
             database.ref('/hotSpots/'+ hotSpotId).set(hotSpotObj);
             database.ref('/users/' + user + '/hotSpots/'+ hotSpotId ).set(hotSpotObj)
+            database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
             // database.ref('/comments/'+ hotSpotId).set(hotSpotObj);
         }
 

@@ -175,7 +175,6 @@ const styleProfile = StyleSheet.create({
         marginBottom: 15,
         fontSize: 18,
         paddingHorizontal: 15,
-        elevation: 5
     },
     buttonContainer: {
         width: '100%',
@@ -202,6 +201,11 @@ const styleProfile = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold'
     },
+    commentSubmit: {
+        width, 
+        // position: 'absolute',
+        bottom: 0
+    }
 
 
 

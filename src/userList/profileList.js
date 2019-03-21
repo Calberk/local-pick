@@ -78,6 +78,14 @@ class ProfileList extends Component {
     handleLoad =() => {
         console.log('end')
     }
+
+    testComponent =() => {
+        return(
+            <View style={{height: 50, backgroundColor: 'blue'}}>
+                <Text style={{fontSize: 20, color: 'orange'}}>This is a test component</Text>
+            </View>
+        )
+    }
     
     render(){
         return(
@@ -88,6 +96,9 @@ class ProfileList extends Component {
                 </View>
                 ): (
                 <FlatList
+                ListHeaderComponent={this.props.testComponent}
+                data = {this.state.data}
+                extraData = {this.state}
                 refreshing = {this.state.refreshing}
                 // onRefresh = {this.loadNew}
                 onEndReached = {this.handleLoad}

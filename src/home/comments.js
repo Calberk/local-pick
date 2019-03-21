@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import { Permissions, ImagePicker } from 'expo';
-import {View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ToastAndroid, Linking} from 'react-native';
+import {View, Text, ImageBackground, Image, TouchableOpacity, TextInput, ToastAndroid, Linking, KeyboardAvoidingView} from 'react-native';
 import styles from './commentStyle';
 import HeaderBar from '../components/headerBar';
 import {FontAwesome, MaterialCommunityIcons, Entypo, Ionicons} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
-import ProfileList from '../userList/profileList';
-import background from '../../assets/backdrop.jpg';
+import CommentList from '../userList/commentList';
+
 
 import {f, database, auth, storage} from '../../config/config';
 
@@ -27,7 +27,21 @@ class Comments extends Component {
             map: '',
             hotSpotId: '',
             spotName: '',
+            newComment:'',
+            comments: [],
+            commentId: this.uniqueId(),
         };
+    }
+
+    s4 = () => {
+        return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+
+    uniqueId = () => {
+        return this.s4() + this.s4() + '-' + this.s4() + '-' + this.s4() + '-' +
+        this.s4() + '-' + this.s4() + '-' + this.s4() + '-' + this.s4();
     }
     
     // on load check for user auth and fetch user data
@@ -42,6 +56,7 @@ class Comments extends Component {
                 this.setState({
                     hotSpotId: params.hotSpotId
                 });
+                (console.log('state', params.hotSpotId))
                 this.getUserData(params.hotSpotId)
             }
         }
@@ -70,7 +85,7 @@ class Comments extends Component {
        
     }
 
-    getAvatar(){
+    getAvatar = () => {
         var that = this
         database.ref('users').child(that.state.userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
@@ -82,6 +97,36 @@ class Comments extends Component {
             
         }).catch(error=>console.log(error));
     }
+
+    addComment = () => {
+        let user = this.state.userId;
+        let comment = this.state.newComment;
+        let dateTime = Date.now();
+        let timeStamp = Math.floor(dateTime/1000);
+        let commentId = this.state.commentId
+        let hotSpotId = this.state.hotSpotId
+
+        let commentObj ={
+            user,
+            comment,
+            timeStamp
+        }
+
+        if(comment !== ''){
+            database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
+        }
+
+        this.setState({
+            newComment: '',
+        });
+        ToastAndroid.showWithGravity(
+            'Comment added!',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    }
+
+
 
     render() {
         let { image } = this.state;
@@ -100,6 +145,9 @@ class Comments extends Component {
                         <Text>Loading...</Text>
                     </View>
                 ):(
+                <View style={{flex:2}}>
+
+                    
                     <View style={{height: 200, backgroundColor: 'rgba(243, 241, 239, 1)'}}>
                         <ImageBackground
                             resizeMode={'cover'}
@@ -126,11 +174,38 @@ class Comments extends Component {
                             </View>
                         </ImageBackground>
 
-
+                        
                     </View>
+                    <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={this.state.userId} navigation={this.props.navigation}/>
+                    <KeyboardAvoidingView
+                        behavior='padding' enabled style={{borderTopWidth: 3, borderTopColor: 'black', position: 'absolute', bottom: 0}}
+                    > 
+                        <View style={styles.commentSubmit}>
+                            <Text style={{fontWeight:'bold'}}>Post Comment</Text>
+                            <View style={{flexDirection: 'row'}}>
+                                <TextInput
+                                    placeholder={'Enter your comments here'}
+                                    value={this.state.newComment}
+                                    underlineColorAndroid='transparent'
+                                    onChangeText={(text)=>this.setState({newComment: text })}
+                                    style={styles.largeTextInput}
+                                />
+
+                                <TouchableOpacity
+                                    style={{marginVertical: 10, height: 50, backgroundColor: 'blue', right: 0, position:'absolute'}}
+                                    onPress={()=>this.addComment()}
+                                >
+                                    <Text>Post</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </KeyboardAvoidingView>
+                        
+                </View>
+                    
                 )}
                     
-                
+                    
             </View>   
         );
     }
