@@ -41,13 +41,14 @@ const MainStack = createStackNavigator({
     MainPage: {
         screen: HomeScreen,
         navigationOptions: {
-            header: null
+            header: null,
         }
     },
     User: {
         screen: userProfile,
         navigationOptions: {
-            header: null
+            header: null,
+            tabBarVisible: false
         }
     },
     Comments: {

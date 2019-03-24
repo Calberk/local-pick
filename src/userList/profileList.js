@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground, Alert} from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import styles from './profileListStyle';
 import background from '../../assets/backdrop.jpg';
+import {Ionicons} from '@expo/vector-icons';
+import {Overlay} from 'react-native-elements';
 
 
 class ProfileList extends Component {
@@ -11,16 +13,15 @@ class ProfileList extends Component {
         this.state = {
             spots: [],
             refreshing: false,
-            loading: true
+            loading: true,
+            isVisible: false
         }
     }
 
     componentDidMount =()=>{
         const {isUser, userId} = this.props;
-
         if(isUser === true){
             this.loadFeed(userId)
-            console.log('userId', userId)
         }else{
             this.loadFeed('');
         }
@@ -71,6 +72,59 @@ class ProfileList extends Component {
         }).catch(error=> console.log(error));
     }
 
+    createDeleteModal = (user, id) => {
+        this.setState({
+            isVisible: true
+        })
+        return (
+            <Overlay
+                isVisible={this.state.isVisible}
+                width='90%'
+                height='30%'
+                animationType= 'slide'
+                overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
+                onBackdropPress={()=> this.setState({isVisible: false})}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalMain}>
+                        
+                        <View style={styles.modalContent}>
+                            <Text style={styles.contentText}>Delete this <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}> Hot Spot?</Text>
+                            </Text>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity 
+                                style={styles.buttonCancel}
+                                onPress={()=>this.deleteEntry(user, id)}
+                            >
+                            <Text style={styles.cancelText}>Cancel</Text>
+                            </TouchableOpacity>  
+                            <TouchableOpacity 
+                                style={styles.button}
+                                onPress={()=>this.addHotSpot()}
+                            >
+                            <Text style={styles.buttonText}>Confirm</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Overlay>
+        )
+    }
+
+    deleteEntry =(user, id)=> {
+            database.ref('users').child(user).child('hotSpots').remove(id)
+            database.ref('hotSpots').child(id).remove()
+        this.setState({
+            isVisible: false,
+        })
+        ToastAndroid.showWithGravity(
+            'Hot Spot Deleted',
+            ToastAndroid.SHORT,
+            ToastAndroid.CENTER
+        );
+    }
+
     loadNew = () => {
         this.loadFeed();
     }
@@ -79,24 +133,18 @@ class ProfileList extends Component {
         console.log('end')
     }
 
-    testComponent =() => {
-        return(
-            <View style={{height: 50, backgroundColor: 'blue'}}>
-                <Text style={{fontSize: 20, color: 'orange'}}>This is a test component</Text>
-            </View>
-        )
-    }
     
     render(){
+
         return(
             <View style={{flex: 3}} >
                 {this.state.loading === true ? (
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Text>Loading...</Text>
+                <View style={styles.loadScreen}>
+                    <Text style={styles.loadText}>Loading...</Text>
                 </View>
                 ): (
                 <FlatList
-                ListHeaderComponent={this.props.testComponent}
+                ListHeaderComponent={()=>this.props.testComponent()}
                 data = {this.state.data}
                 extraData = {this.state}
                 refreshing = {this.state.refreshing}
@@ -106,15 +154,25 @@ class ProfileList extends Component {
                 keyExtractor = {(item, index)=> index.toString()}
                 renderItem={({item, index}) => (
                     <ImageBackground
-                    resizeMode={'cover'}
-                    style={{flex:1, alignItems: 'center',}}
-                    source={background}
-                >
+                        resizeMode={'cover'}
+                        style={{flex:1, alignItems: 'center',}}
+                        source={background}
+                    >
                     {/* <View style={{justifyContent: 'center', alignItems: 'center'}}> */}
                         <View key={index} style={styles.cardContainer}>
                             <View style={styles.cardHeader}>
                                 <Text style={styles.titleText}>{item.title}</Text>
                                 <Text style={styles.nameText}>{item.name}</Text>
+                                {this.props.userId === f.auth().currentUser.uid ? (
+                                    <View style={styles.deleteBtn}>
+                                        <TouchableOpacity
+                                            onPress={()=>this.createDeleteModal(this.props.userId, item.id)}
+                                        >
+                                            <Ionicons name='md-trash' size={26} color='#fff'/>
+                                        </TouchableOpacity>
+                                    </View>
+                                ) : null}
+                                
                             </View>
                             <View style={{alignItems: 'center'}}>
                                 <Image
@@ -136,6 +194,7 @@ class ProfileList extends Component {
                 )}
                 />  
             )}
+                
             </View>
         )
     }

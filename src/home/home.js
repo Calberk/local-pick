@@ -40,7 +40,6 @@ class HomeScreen extends Component {
             userId: '',
             username: '',
         };
-        this.onChangeLocationDebounced = _.debounce(this.onChangeLocation, 1000)
     }
 
     //     var that = this;
@@ -60,6 +59,7 @@ class HomeScreen extends Component {
 
     componentDidMount = () => {
         var that = this;
+        console.log('current user', f.auth().currentUser, f.auth().currentUser.uid)
         f.auth().onAuthStateChanged(function(user){
             if(user){
                 that.getUserData(user.uid);
@@ -98,7 +98,7 @@ class HomeScreen extends Component {
                 currentImg: data.currentImg
             })
             that.loadFeed();
-        })
+        }).catch((error)=>console.log(error))
     }
 
     s4 = () => {
@@ -139,14 +139,14 @@ class HomeScreen extends Component {
     addToFlatList = (spots, data, photo)=>{
         const that = this;
         const spotObj = data[photo];
-        database.ref('users').child(spotObj.user).child('username').once('value').then(function(snapshot){
+        database.ref('users').child(spotObj.user).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 spots.push({
                     id: photo,
                     url: spotObj.photo,
                     title: spotObj.category,
-                    author: spotObj.username,
+                    author: data.username,
                     caption: spotObj.name,
                     number: spotObj.phNumber,
                     map: spotObj.map,
@@ -209,12 +209,10 @@ class HomeScreen extends Component {
         let comment = this.state.comment;
         let dateTime = Date.now();
         let timeStamp = Math.floor(dateTime/1000);
-        let username = this.state.username;
         let commentId = this.state.commentId
 
         let hotSpotObj = {
             category,
-            username,
             user,
             name,
             photo,
@@ -312,12 +310,10 @@ class HomeScreen extends Component {
         } catch (err) {
             console.log(err);
         }
-
     }
 
     
     changeText = (type, value) => {
-    
         this.setState({[type]: value})
     }
 

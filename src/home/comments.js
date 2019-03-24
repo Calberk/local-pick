@@ -114,16 +114,17 @@ class Comments extends Component {
 
         if(comment !== ''){
             database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
+            ToastAndroid.showWithGravity(
+                'Comment added!',
+                ToastAndroid.SHORT,
+                ToastAndroid.CENTER
+            );
         }
 
         this.setState({
             newComment: '',
         });
-        ToastAndroid.showWithGravity(
-            'Comment added!',
-            ToastAndroid.SHORT,
-            ToastAndroid.CENTER
-        );
+        
     }
 
 
@@ -155,28 +156,19 @@ class Comments extends Component {
                             source={{uri:`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyCXZxoa0P09f1o6y3RnGWwZ6m7vSPYEQ-k`}}
                         >
                             <View style={styles.userCommentInfo}>
-                                 
                                 <View style={styles.comments}>
                                     <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
                                     <View style={styles.commentSection}>
                                         <Text style={styles.userText}>{this.state.username}:  <Text style={styles.commentText}>{this.state.comment}</Text></Text>
-                                        
                                     </View>
                                     
                                 </View>
-                                {/* <View style={styles.commentHeader}>
-                                    <TouchableOpacity title='call' onPress={()=> Linking.openURL(this.state.map)} style={{alignItems:'center'}}>
-                                        <MaterialCommunityIcons name='map-marker-radius' size={30} color='rgba(255,255,255, 0.8)'/>
-                                    </TouchableOpacity>
-                                    <Text style={styles.nameText}>{this.state.name}</Text>
-                                    <Text style={styles.locationText}>{this.state.location}</Text>
-                                </View>  */}
                             </View>
                         </ImageBackground>
-
-                        
                     </View>
+
                     <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={this.state.userId} navigation={this.props.navigation}/>
+
                     <KeyboardAvoidingView
                         behavior='padding' enabled style={{borderTopWidth: 3, borderTopColor: 'black', position: 'absolute', bottom: 0}}
                     > 

@@ -208,14 +208,18 @@ class ProfileScreen extends Component {
         var location = this.state.location;
 
         if(name !== ''){
-            database.ref('users').child(this.state.userId).child('name').set(name);
+            database.ref('users').child(this.state.userId).update({name, username, location});
         }
-        if(username !== ''){
-            database.ref('users').child(this.state.userId).child('username').set(username);
-        }
-        if(location !== ''){
-            database.ref('users').child(this.state.userId).child('location').set(location);
-        }
+
+        // if(name !== ''){
+        //     database.ref('users').child(this.state.userId).child('name').update(name);
+        // }
+        // if(username !== ''){
+        //     database.ref('users').child(this.state.userId).child('username').update(username);
+        // }
+        // if(location !== ''){
+        //     database.ref('users').child(this.state.userId).child('location').update(location);
+        // }
         this.setState({
             isVisible: false,
         })
@@ -234,7 +238,7 @@ class ProfileScreen extends Component {
         });
     }
 
-    testComponent = () =>{ 
+    headerComponent = () =>{ 
         return(
             <ImageBackground
                 resizeMode={'cover'}
@@ -329,7 +333,7 @@ class ProfileScreen extends Component {
                                 </View>
                             </View>
                         </ImageBackground> */}
-                        <ProfileList isUser={true} userId={this.state.userId} testComponent={this.testComponent} navigation={this.props.navigation}/>
+                        <ProfileList isUser={true} userId={this.state.userId} testComponent={this.headerComponent} navigation={this.props.navigation}/>
 
                         <Overlay
                             isVisible={this.state.isVisible}
@@ -378,7 +382,7 @@ class ProfileScreen extends Component {
                                     <View style={styles.buttonContainer}>
                                         <TouchableOpacity 
                                             style={styles.button}
-                                            onPress={this.updateProfile}
+                                            onPress={()=>this.updateProfile()}
                                         >
                                         <Text style={styles.buttonText}>Update</Text>
                                         </TouchableOpacity>

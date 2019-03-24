@@ -50,15 +50,17 @@ class CommentList extends Component {
     addToFlatList = (comments, data, comment, hotSpotId, userId)=>{
         var that = this;
         var commentObj = data[comment];
+        console.log('commentObj',commentObj)
         database.ref('users').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 comments.push({
                     id: comment,
                     comment: commentObj.comment,
-                    username: commentObj.username,
+                    username: data.username,
                     avatar: data.avatar
                 });
+                console.log('comments', comments)
                 that.setState({
                     refreshing: false,
                     loading: false
@@ -78,29 +80,30 @@ class CommentList extends Component {
         return(
             <View style={{flex: 3}} >
                 {this.state.loading === true ? (
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Text>Loading...</Text>
-                </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <Text>Loading...</Text>
+                    </View>
                 ): (
-                <FlatList
-                refreshing = {this.state.refreshing}
-                // onRefresh = {this.loadNew}
-                onEndReached = {this.handleLoad}
-                data = {this.state.spots}
-                keyExtractor = {(item, index)=> index.toString()}
-                renderItem={({item, index}) => (
-                    <View key={index} style={styles.userCommentInfo}>
-                        <View style={styles.comments}>
-                            <Image style={styles.avatar} source={{uri: item.avatar }}/>
-                            <View style={styles.commentSection}>
-                                <Text style={styles.userText}>{item.username}:  <Text style={styles.commentText}>{item.comment}</Text></Text>
+                    <FlatList
+                    refreshing = {this.state.refreshing}
+                    onRefresh = {this.loadNew}
+                    onEndReached = {this.handleLoad}
+                    data = {this.state.comments}
+                    keyExtractor = {(item, index)=> index.toString()}
+                    style={{flex:1, marginBottom: 45,backgroundColor: 'pink'}}
+                    renderItem={({item, index}) => (
+                        <View key={index} style={{marginTop: 15}}>
+                            <View style={styles.comments}>
+                                <Image style={styles.subAvatar} source={{uri: item.avatar }}/>
+                                <View style={styles.subCommentSection}>
+                                    <Text style={styles.subUserText}>{item.username}:  <Text style={styles.subCommentText}>{item.comment}</Text></Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                    
+                        
+                    )}
+                    />  
                 )}
-                />  
-            )}
             </View>
         )
     }
