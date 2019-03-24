@@ -42,7 +42,16 @@ const styleProfile = StyleSheet.create({
         // marginLeft: 10,
         width: 80, 
         height: 80,
-        borderRadius: 45,
+        borderRadius: 40,
+        borderColor: 'rgba(204,0,0, 0.8)',
+        borderColor: '#fff',
+        borderWidth: 1,
+    },
+    subAvatar: {
+        // marginLeft: 10,
+        width: 50, 
+        height: 50,
+        borderRadius: 25,
         borderColor: 'rgba(204,0,0, 0.8)',
         borderColor: '#fff',
         borderWidth: 1,
@@ -69,8 +78,16 @@ const styleProfile = StyleSheet.create({
         textAlign:'center',
     },
     commentSection:{
+        width: '65%',
         flexDirection: 'row',
-        marginLeft: 15
+        marginLeft: 7,
+        backgroundColor: 'blue'
+    },
+    subCommentSection:{
+        width: '80%',
+        flexDirection: 'row',
+        marginLeft: 7,
+        backgroundColor: 'blue'
     },
     userInfo: {
         // marginRight: 10,
@@ -97,6 +114,22 @@ const styleProfile = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'openSansI',
         color: '#fff',
+        textAlign: 'center',
+        alignSelf:'center',
+        justifyContent:'center',
+    },
+    subUserText:{
+        fontSize: 20,
+        fontFamily: 'openSansB',
+        color: 'rgba(46, 49, 49, 1)',
+        textAlign: 'center',
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    subCommentText:{
+        fontSize: 16,
+        fontFamily: 'openSansI',
+        color: 'rgba(46, 49, 49, 0.8)',
         textAlign: 'center',
         alignSelf:'center',
         justifyContent:'center',
@@ -204,8 +237,17 @@ const styleProfile = StyleSheet.create({
     commentSubmit: {
         width, 
         // position: 'absolute',
-        bottom: 0
-    }
+        bottom: 0,
+        backgroundColor:'orange'
+    },
+    // userComments: {
+    //     width,
+    //     height: 100,
+    //     backgroundColor: 'blue'
+    // },
+    // commentMain: {
+
+    // }
 
 
 
