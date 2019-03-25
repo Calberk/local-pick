@@ -7,7 +7,6 @@ const InputComponent = (props) => {
         case "textinput":
             template =
             <TextInput
-                underlineColorAndroid="transparent"
                 {...props}
                 style={[styles.input, props.overrideStyle]}
             />

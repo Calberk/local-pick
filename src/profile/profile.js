@@ -294,45 +294,7 @@ class ProfileScreen extends Component {
                     size={30}
                     onPressRight={()=>this.signUserOut()}
                 />
-                
-                {this.state.loggedin === true ? (
                     <View style={{flex: 2}}>
-                        {/* <ImageBackground
-                            resizeMode={'cover'}
-                            style={height= '100%'}
-                            source={{uri:this.state.avatar}}
-                        >
-                            <View style={styles.profileInfo}>
-                                <View style={styles.editPencil}>
-                                    <TouchableOpacity 
-                                        style={styles.editButton}
-                                        onPress={()=>this.setState({isVisible: true})}
-                                    >
-                                        <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>                                    
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.avatarContainer}>
-                                    <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
-                                    <TouchableOpacity
-                                    style={styles.avatarUpdateBtn}
-                                    onPress={()=>this._pickImage()}
-                                    >
-                                        <Ionicons name='ios-camera' size={30} color='#cc0000'/>
-                                    </TouchableOpacity>
-                                    
-                                </View>  
-                                <View style={styles.profileSection}>
-                                    <View style={styles.userInfo}>
-                                        <Text style={styles.nameText}>{this.state.name}</Text>
-                                        <View style={styles.locationContainer}>
-                                            <Entypo name='location-pin' size={36} color='#cc0000' />
-                                            <Text style={styles.locationText}>{this.state.location}</Text>
-                                        </View>
-                                    </View>
-                                    
-                                </View>
-                            </View>
-                        </ImageBackground> */}
                         <ProfileList isUser={true} userId={this.state.userId} testComponent={this.headerComponent} navigation={this.props.navigation}/>
 
                         <Overlay
@@ -358,23 +320,23 @@ class ProfileScreen extends Component {
                                         
                                         
                                         <TextInput 
+                                            underlineColorAndroid="transparent"
                                             style={styles.largeTextInput}
                                             placeholder='Name'
-                                            underlineColorAndroid='transparent'
                                             value={this.props.name}
                                             onChangeText = {value => this.changeText('name', value)}    
                                         />
                                         <TextInput 
+                                            underlineColorAndroid="transparent"
                                             style={styles.largeTextInput}
                                             placeholder='Username'
-                                            underlineColorAndroid='transparent'
                                             value={this.props.username}
                                             onChangeText = {value => this.changeText('username', value)}    
                                         />
                                         <TextInput 
+                                            underlineColorAndroid="transparent"
                                             style={styles.largeTextInput}
-                                            placeholder='Location'
-                                            underlineColorAndroid='transparent'  
+                                            placeholder='Location' 
                                             value={this.props.location}
                                             onChangeText = {value => this.changeText('location', value)}      
                                         />
@@ -393,15 +355,7 @@ class ProfileScreen extends Component {
                             </View>
                                 
                         </Overlay>
-                    </View>
-                    
-                ):(
-                    <View>
-                        <Text>You are not logged in</Text>
-                        <Text>Please login to view your profile</Text>
-                    </View>
-                    
-                )}     
+                    </View>  
             </View>   
         );
     }

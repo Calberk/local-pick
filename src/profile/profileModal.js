@@ -12,23 +12,23 @@ class ProfileModal extends Component{
             <Modal>
                 <View style={registerStyle.topContainer}>
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Name'
-                        underlineColorAndroid='transparent'
                         value={this.props.name}
                         onChangeText = {this.nameChange}    
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Username'
-                        underlineColorAndroid='transparent'
                         value={this.props.username}
                         onChangeText = {this.userNameChange}    
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Location'
-                        underlineColorAndroid='transparent'  
                         value={this.props.location}
                         onChangeText = {this.locationChange}      
                     />

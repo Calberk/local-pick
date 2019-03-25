@@ -99,7 +99,7 @@ class Comments extends Component {
     }
 
     addComment = () => {
-        let user = this.state.userId;
+        let user = f.auth().currentUser.uid;
         let comment = this.state.newComment;
         let dateTime = Date.now();
         let timeStamp = Math.floor(dateTime/1000);
@@ -167,7 +167,7 @@ class Comments extends Component {
                         </ImageBackground>
                     </View>
 
-                    <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={this.state.userId} navigation={this.props.navigation}/>
+                    <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={f.auth().currentUser.uid} navigation={this.props.navigation}/>
 
                     <KeyboardAvoidingView
                         behavior='padding' enabled style={{borderTopWidth: 3, borderTopColor: 'black', position: 'absolute', bottom: 0}}
@@ -178,9 +178,9 @@ class Comments extends Component {
                                 <TextInput
                                     placeholder={'Enter your comments here'}
                                     value={this.state.newComment}
-                                    underlineColorAndroid='transparent'
                                     onChangeText={(text)=>this.setState({newComment: text })}
                                     style={styles.largeTextInput}
+                                    underlineColorAndroid="transparent"
                                 />
 
                                 <TouchableOpacity

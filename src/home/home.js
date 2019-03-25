@@ -40,6 +40,7 @@ class HomeScreen extends Component {
             userId: '',
             username: '',
         };
+        this.onChangeLocationDebounced = _.debounce(this.onChangeLocation, 1000)
     }
 
     //     var that = this;
@@ -59,7 +60,6 @@ class HomeScreen extends Component {
 
     componentDidMount = () => {
         var that = this;
-        console.log('current user', f.auth().currentUser, f.auth().currentUser.uid)
         f.auth().onAuthStateChanged(function(user){
             if(user){
                 that.getUserData(user.uid);
@@ -126,13 +126,20 @@ class HomeScreen extends Component {
 
         loadRef.once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
-        if(exists) data = snapshot.val();
-        console.log('data',data)
+        if(exists){
+            data = snapshot.val();
             var spots= that.state.spots;  
 
             for(var photo in data){
                 that.addToFlatList(spots, data, photo);
             }
+        } else{
+            that.setState({
+                spots: [],
+                refreshing: false,
+                loading: false
+            })
+        }
         }).catch(error=> console.log(error));
     }
 
@@ -154,7 +161,6 @@ class HomeScreen extends Component {
                     authorId: spotObj.user
                     
                 });
-                console.log('spots', spots)
                 that.setState({
                     refreshing: false,
                     loading: false
@@ -236,7 +242,7 @@ class HomeScreen extends Component {
             // database.ref('/users/' + user + '/hotSpots/' + hotSpotId).set(hotSpotObj)
             database.ref('/hotSpots/'+ hotSpotId).set(hotSpotObj);
             database.ref('/users/' + user + '/hotSpots/'+ hotSpotId ).set(hotSpotObj)
-            database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
+            // database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
             // database.ref('/comments/'+ hotSpotId).set(hotSpotObj);
         }
 
@@ -257,7 +263,7 @@ class HomeScreen extends Component {
             ToastAndroid.SHORT,
             ToastAndroid.CENTER
         );
-        
+        this.loadFeed();
     }
 
     onChangeLocation = async (location) => {
@@ -346,7 +352,7 @@ class HomeScreen extends Component {
                     onPressRight={()=>this.setState({isVisible: true})}
                 />
 
-                {!this.state.spots.length ? (
+                {this.state.spots.length===0 ? (
                     <View title="WELCOME" style={styles.content}>
                         <Text style={styles.header}>
                             Welcome to <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>
@@ -356,7 +362,6 @@ class HomeScreen extends Component {
                         </Text>
                     </View>
                 ) : (
-
                 this.state.loading === true ? (
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
                         <Text>Loading...</Text>
@@ -444,25 +449,25 @@ class HomeScreen extends Component {
                         </View>
                         <View style={styles.modalContent}>
                             <TextInput 
+                                underlineColorAndroid="transparent"
                                 style={styles.largeTextInput}
                                 placeholder='Favorite Category'
-                                underlineColorAndroid='transparent'
                                 value={this.props.category}
                                 onChangeText = {value => this.changeText('category', value)}    
                             />
                             <TextInput 
+                                underlineColorAndroid="transparent"
                                 // style={styles.largeTextInput}
                                 placeholder='Search...'
-                                underlineColorAndroid='transparent'
                                 value={this.state.destination}
                                 onChangeText={destination => {this.setState({destination}); this.onChangeLocationDebounced(destination)}}
                                 style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
                             />
                                 { predictions }
                             <TextInput 
+                                underlineColorAndroid="transparent"
                                 style={styles.largeTextInput}
                                 placeholder='Comments'
-                                underlineColorAndroid='transparent'  
                                 value={this.props.comment}
                                 onChangeText = {value=> this.changeText('comment', value)}      
                             />

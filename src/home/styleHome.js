@@ -21,7 +21,7 @@ const styleHome = StyleSheet.create({
         marginHorizontal: 20,               
         color: 'rgba(255, 255, 255, 0.75)', 
         textAlign: 'center',                
-        // fontFamily: 'Avenir',
+        fontFamily: 'openSansI',
         fontSize: 18,
         marginBottom: 150
     },

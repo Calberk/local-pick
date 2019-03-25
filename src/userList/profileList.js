@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground, Alert} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground, ToastAndroid} from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import styles from './profileListStyle';
 import background from '../../assets/backdrop.jpg';
@@ -14,7 +14,8 @@ class ProfileList extends Component {
             spots: [],
             refreshing: false,
             loading: true,
-            isVisible: false
+            isVisible: false,
+            isNew: true
         }
     }
 
@@ -42,12 +43,20 @@ class ProfileList extends Component {
 
         loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
-        if(exists) data = snapshot.val();
+        console.log('exists',exists)
+        if(exists){ data = snapshot.val();
             var spots= that.state.spots;  
 
             for(var photo in data){
                 that.addToFlatList(spots, data, photo, userId);
             }
+        }else{
+            that.setState({
+                spots: [],
+                loading: false,
+                refreshing: false
+            })
+        }
         }).catch(error=> console.log(error));
     }
 
@@ -67,53 +76,15 @@ class ProfileList extends Component {
                 });
                 that.setState({
                     refreshing: false,
-                    loading: false
+                    loading: false,
+                    isNew: false
                 });
         }).catch(error=> console.log(error));
     }
 
-    createDeleteModal = (user, id) => {
-        this.setState({
-            isVisible: true
-        })
-        return (
-            <Overlay
-                isVisible={this.state.isVisible}
-                width='90%'
-                height='30%'
-                animationType= 'slide'
-                overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
-                onBackdropPress={()=> this.setState({isVisible: false})}
-            >
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalMain}>
-                        
-                        <View style={styles.modalContent}>
-                            <Text style={styles.contentText}>Delete this <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}> Hot Spot?</Text>
-                            </Text>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity 
-                                style={styles.buttonCancel}
-                                onPress={()=>this.deleteEntry(user, id)}
-                            >
-                            <Text style={styles.cancelText}>Cancel</Text>
-                            </TouchableOpacity>  
-                            <TouchableOpacity 
-                                style={styles.button}
-                                onPress={()=>this.addHotSpot()}
-                            >
-                            <Text style={styles.buttonText}>Confirm</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </Overlay>
-        )
-    }
-
     deleteEntry =(user, id)=> {
-            database.ref('users').child(user).child('hotSpots').remove(id)
+        console.log('delete has been pressed', user, id)
+            database.ref('users').child(user).child('hotSpots').child(id).remove()
             database.ref('hotSpots').child(id).remove()
         this.setState({
             isVisible: false,
@@ -123,6 +94,7 @@ class ProfileList extends Component {
             ToastAndroid.SHORT,
             ToastAndroid.CENTER
         );
+        this.loadFeed();
     }
 
     loadNew = () => {
@@ -137,18 +109,31 @@ class ProfileList extends Component {
     render(){
 
         return(
-            <View style={{flex: 3}} >
+            <ImageBackground
+            resizeMode={'cover'}
+            style={{flex:1, alignItems: 'center',}}
+            source={background}
+        >
                 {this.state.loading === true ? (
                 <View style={styles.loadScreen}>
                     <Text style={styles.loadText}>Loading...</Text>
                 </View>
+                ): this.state.isNew ? (
+                    <View style={styles.content}>
+                        {this.props.testComponent()}
+                        <View style={styles.content}>
+                            <Text style={styles.header}>No <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spots</Text></Text>
+                            <Text style={{color: 'rgba(255, 255, 255, 0.75)', fontFamily: 'openSansI'}}>Please create your first Hot Spot</Text>
+                        </View>
+                    </View>
+                    
                 ): (
                 <FlatList
                 ListHeaderComponent={()=>this.props.testComponent()}
                 data = {this.state.data}
                 extraData = {this.state}
                 refreshing = {this.state.refreshing}
-                // onRefresh = {this.loadNew}
+                onRefresh = {this.loadNew}
                 onEndReached = {this.handleLoad}
                 data = {this.state.spots}
                 keyExtractor = {(item, index)=> index.toString()}
@@ -158,7 +143,6 @@ class ProfileList extends Component {
                         style={{flex:1, alignItems: 'center',}}
                         source={background}
                     >
-                    {/* <View style={{justifyContent: 'center', alignItems: 'center'}}> */}
                         <View key={index} style={styles.cardContainer}>
                             <View style={styles.cardHeader}>
                                 <Text style={styles.titleText}>{item.title}</Text>
@@ -166,7 +150,7 @@ class ProfileList extends Component {
                                 {this.props.userId === f.auth().currentUser.uid ? (
                                     <View style={styles.deleteBtn}>
                                         <TouchableOpacity
-                                            onPress={()=>this.createDeleteModal(this.props.userId, item.id)}
+                                            onPress={()=>this.setState({isVisible: true})}
                                         >
                                             <Ionicons name='md-trash' size={26} color='#fff'/>
                                         </TouchableOpacity>
@@ -181,21 +165,47 @@ class ProfileList extends Component {
                                 />
                             </View>
                             <View>
-                                
-                                {/* <TouchableOpacity
-                                    onPress={()=> this.props.navigation.navigate('Comments')}
-                                >
-                                    <Text style={styles.commentText}>[View Comments]</Text>
-                                </TouchableOpacity> */}
                             </View>      
                         </View>
+                        <Overlay
+                            isVisible={this.state.isVisible}
+                            width='90%'
+                            height='30%'
+                            animationType= 'slide'
+                            overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
+                            onBackdropPress={()=> this.setState({isVisible: false})}
+                        >
+                            <View style={styles.modalContainer}>
+                                <View style={styles.modalMain}>
+                                    
+                                    <View style={styles.modalContent}>
+                                        <Text style={styles.contentText}>Delete this <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}> Hot Spot?</Text>
+                                        </Text>
+                                    </View>
+                                    <View style={styles.buttonContainer}>
+                                        <TouchableOpacity 
+                                            style={styles.buttonCancel}
+                                            onPress={()=>this.setState({isVisible: false})}
+                                        >
+                                        <Text style={styles.cancelText}>Cancel</Text>
+                                        </TouchableOpacity>  
+                                        <TouchableOpacity 
+                                            style={styles.button}
+                                            onPress={()=>this.deleteEntry(this.props.userId, item.id)}
+                                        >
+                                        <Text style={styles.buttonText}>Confirm</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </View>
+                        </Overlay>
                     </ImageBackground>
                     
                 )}
                 />  
             )}
                 
-            </View>
+                </ImageBackground>
         )
     }
 }

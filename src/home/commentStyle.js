@@ -3,6 +3,20 @@ import {StyleSheet, Dimensions} from 'react-native';
 const {height, width} = Dimensions.get('window');
 
 const styleProfile = StyleSheet.create({
+    content: {
+        flex: 1,                       
+        justifyContent: 'flex-start',           
+        alignItems: 'center',  
+        backgroundColor: '#000'             
+    },
+    header: {
+        width,
+        marginTop: '30%',                         
+        color: '#FFFFFF',                   
+        // fontFamily: 'Avenir',               
+        fontSize: 26,        
+        textAlign: 'center',               
+    },
     mainContainer: {
         width,
         height,
@@ -81,13 +95,11 @@ const styleProfile = StyleSheet.create({
         width: '65%',
         flexDirection: 'row',
         marginLeft: 7,
-        backgroundColor: 'blue'
     },
     subCommentSection:{
         width: '80%',
         flexDirection: 'row',
         marginLeft: 7,
-        backgroundColor: 'blue'
     },
     userInfo: {
         // marginRight: 10,
@@ -238,7 +250,6 @@ const styleProfile = StyleSheet.create({
         width, 
         // position: 'absolute',
         bottom: 0,
-        backgroundColor:'orange'
     },
     // userComments: {
     //     width,
