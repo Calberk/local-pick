@@ -105,7 +105,7 @@ class CommentList extends Component {
                     onEndReached = {this.handleLoad}
                     data = {this.state.comments}
                     keyExtractor = {(item, index)=> index.toString()}
-                    style={{flex:1, marginBottom: 45,backgroundColor: 'pink'}}
+                    style={{flex:1}}
                     renderItem={({item, index}) => (
                         <View key={index} style={{marginTop: 15}}>
                             <View style={styles.comments}>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, FlatList, Image, TouchableOpacity, TextInput, ToastAndroid, Button, Linking } from 'react-native';
+import {View, Text, FlatList, Image, TouchableOpacity, TextInput, ToastAndroid, KeyboardAvoidingView, Linking } from 'react-native';
 import styles from './styleHome';
 import HeaderBar from '../components/headerBar';
 import {Overlay} from 'react-native-elements';
@@ -358,7 +358,7 @@ class HomeScreen extends Component {
                             Welcome to <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>
                         </Text>
                         <Text style={styles.text}>
-                            Start by adding your first spot
+                            Loading spots . . .
                         </Text>
                     </View>
                 ) : (
@@ -445,47 +445,47 @@ class HomeScreen extends Component {
                         </View>
                         <View style={styles.description}>
 
-                            <Text style={styles.descriptionText}>Start your very own <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>.{"\n"}Create a category, find the location and share why you love it!</Text>
+                            <Text style={styles.descriptionText}>Loading <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spot</Text>.{"\n"}Create a category, find the location and share why you love it!</Text>
                         </View>
-                        <View style={styles.modalContent}>
-                            <TextInput 
-                                underlineColorAndroid="transparent"
-                                style={styles.largeTextInput}
-                                placeholder='Favorite Category'
-                                value={this.props.category}
-                                onChangeText = {value => this.changeText('category', value)}    
-                            />
-                            <TextInput 
-                                underlineColorAndroid="transparent"
-                                // style={styles.largeTextInput}
-                                placeholder='Search...'
-                                value={this.state.destination}
-                                onChangeText={destination => {this.setState({destination}); this.onChangeLocationDebounced(destination)}}
-                                style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
-                            />
-                                { predictions }
-                            <TextInput 
-                                underlineColorAndroid="transparent"
-                                style={styles.largeTextInput}
-                                placeholder='Comments'
-                                value={this.props.comment}
-                                onChangeText = {value=> this.changeText('comment', value)}      
-                            />
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity 
-                                style={styles.buttonCancel}
-                                onPress={()=> this.setState({isVisible: false})}
-                            >
-                            <Text style={styles.cancelText}>Cancel</Text>
-                        </TouchableOpacity>  
-                            <TouchableOpacity 
-                                style={styles.button}
-                                onPress={()=>this.addHotSpot()}
-                            >
-                            <Text style={styles.buttonText}>Confirm</Text>
-                            </TouchableOpacity>
-                        </View>
+                            <View style={styles.modalContent}>
+                                <TextInput 
+                                    underlineColorAndroid="transparent"
+                                    style={styles.largeTextInput}
+                                    placeholder='Favorite Category'
+                                    value={this.props.category}
+                                    onChangeText = {value => this.changeText('category', value)}    
+                                />
+                                <TextInput 
+                                    underlineColorAndroid="transparent"
+                                    // style={styles.largeTextInput}
+                                    placeholder='Search...'
+                                    value={this.state.destination}
+                                    onChangeText={destination => {this.setState({destination}); this.onChangeLocationDebounced(destination)}}
+                                    style={this.state.predictions.length == 0 ? styles.locationInput : styles.locationInputWithPredictions}
+                                />
+                                    { predictions }
+                                <TextInput 
+                                    underlineColorAndroid="transparent"
+                                    style={styles.largeTextInput}
+                                    placeholder='Comments'
+                                    value={this.props.comment}
+                                    onChangeText = {value=> this.changeText('comment', value)}      
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                                <TouchableOpacity 
+                                    style={styles.buttonCancel}
+                                    onPress={()=> this.setState({isVisible: false})}
+                                >
+                                <Text style={styles.cancelText}>Cancel</Text>
+                            </TouchableOpacity>  
+                                <TouchableOpacity 
+                                    style={styles.button}
+                                    onPress={()=>this.addHotSpot()}
+                                >
+                                <Text style={styles.buttonText}>Confirm</Text>
+                                </TouchableOpacity>
+                            </View>
                     </View>
                 </Overlay>
             </View>
