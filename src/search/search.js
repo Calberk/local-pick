@@ -92,6 +92,7 @@ class hotSpotSearch extends Component {
                 />
 
                 <TextInput 
+                    underlineColorAndroid="transparent"
                     placeholder="Search.." 
                     value={this.state.destination} 
                     onChangeText={location => this.onChangeLocationDebounced(location)}

@@ -38,21 +38,31 @@ class CommentList extends Component {
 
         loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
-        if(exists) data = snapshot.val();
+        console.log('1st exists', exists)
+        if(exists){
+            data = snapshot.val();
             var comments= that.state.comments;  
 
             for(var comment in data){
                 that.addToFlatList(comments, data, comment, hotSpotId, userId);
             }
+        }else {
+
+            that.setState({
+                comments: [],
+                loading: false,
+                refreshing: false
+            })
+        } 
         }).catch(error=> console.log(error));
     }
 
     addToFlatList = (comments, data, comment, hotSpotId, userId)=>{
         var that = this;
         var commentObj = data[comment];
-        console.log('commentObj',commentObj)
         database.ref('users').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
+            // console.log('2nd exists', exists)
             if(exists) data = snapshot.val();
                 comments.push({
                     id: comment,
@@ -60,7 +70,7 @@ class CommentList extends Component {
                     username: data.username,
                     avatar: data.avatar
                 });
-                console.log('comments', comments)
+                // console.log('comments', comments)
                 that.setState({
                     refreshing: false,
                     loading: false
@@ -83,7 +93,12 @@ class CommentList extends Component {
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Text>Loading...</Text>
                     </View>
-                ): (
+                ): this.state.comments.length === 0 ? (
+                    <View style={styles.content}>
+                        <Text style={styles.header}>No comments</Text>
+                        <Text style={{color: 'rgba(255, 255, 255, 0.75)', fontFamily: 'openSansI'}}>Be the first to comment below</Text>
+                    </View>
+                ) : (
                     <FlatList
                     refreshing = {this.state.refreshing}
                     onRefresh = {this.loadNew}

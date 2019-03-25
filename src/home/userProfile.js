@@ -68,23 +68,8 @@ class ProfileScreen extends Component {
                 source={{uri:this.state.avatar}}
             >
                 <View style={styles.profileInfo}>
-                    {/* <View style={styles.editPencil}>
-                        <TouchableOpacity 
-                            style={styles.editButton}
-                            onPress={()=>this.setState({isVisible: true})}
-                        >
-                            <MaterialCommunityIcons name='pencil' size={26} color='#fff'/>                                    
-                        </TouchableOpacity>
-                    </View> */}
                     <View style={styles.avatarContainer}>
                         <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
-                        <TouchableOpacity
-                        style={styles.avatarUpdateBtn}
-                        onPress={()=>this._pickImage()}
-                        >
-                            <Ionicons name='ios-camera' size={30} color='#cc0000'/>
-                        </TouchableOpacity>
-                        
                     </View>  
                     <View style={styles.profileSection}>
                         <View style={styles.userInfo}>
@@ -120,28 +105,6 @@ class ProfileScreen extends Component {
                     </View>
                 ):(
                     <View style={{flex: 2}}>
-                        {/* <ImageBackground
-                            resizeMode={'cover'}
-                            style={height= '100%'}
-                            source={{uri:this.state.avatar}}
-                        >
-                            <View style={styles.profileInfo}>
-                                <View style={styles.avatarContainer}>
-                                    <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
-                                </View>  
-                                <View style={styles.profileSection}>
-                                    <View style={styles.userInfo}>
-                                        <Text style={styles.nameText}>{this.state.name}</Text>
-                                        <View style={styles.locationContainer}>
-                                            <Entypo name='location-pin' size={36} color='#cc0000' />
-                                            <Text style={styles.locationText}>{this.state.location}</Text>
-                                        </View>
-                                        <Text style={styles.emailText}>{this.state.email}</Text>
-                                    </View>
-                                    
-                                </View>
-                            </View>
-                        </ImageBackground> */}
                         <ProfileList isUser={true} userId={this.state.userId} testComponent={this.headerComponent} navigation={this.props.navigation}/>
                     </View>
                 )}

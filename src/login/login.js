@@ -104,17 +104,17 @@ class Login extends Component {
                         <View style={registerStyle.loginContainer}>
                             <View style={registerStyle.topContainer}>
                                 <TextInput 
+                                    underlineColorAndroid="transparent"
                                     style={registerStyle.loginInput}
                                     placeholder='Email Address'
-                                    underlineColorAndroid='transparent'
                                     value={email}
                                     onChangeText = {this.emailChange}    
                                 />
                                 <TextInput 
+                                    underlineColorAndroid="transparent"
                                     style={registerStyle.loginInput}
                                     placeholder='Password'
                                     secureTextEntry
-                                    underlineColorAndroid='transparent'
                                     value={password}  
                                     onChangeText = {this.passwordChange} 
                                 />

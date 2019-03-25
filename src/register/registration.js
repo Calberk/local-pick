@@ -73,38 +73,38 @@ class Registration extends Component {
                 >
                 <View style={registerStyle.topRegisterContainer}>
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Name'
-                        underlineColorAndroid='transparent'
                         value={this.props.name}
                         onChangeText = {value => this.changeText('name', value)}    
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Username'
-                        underlineColorAndroid='transparent'
                         value={this.props.username}
                         onChangeText = {value => this.changeText('username', value)}    
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Location'
-                        underlineColorAndroid='transparent'  
                         value={this.props.location}
                         onChangeText = {value => this.changeText('location', value)}     
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Email Address'
-                        underlineColorAndroid='transparent'  
                         value={this.props.email}
                         onChangeText = {value => this.changeText('email', value)}       
                     />
                     <TextInput 
+                        underlineColorAndroid="transparent"
                         style={registerStyle.largeTextInput}
                         placeholder='Password'
                         secureTextEntry
-                        underlineColorAndroid='transparent'  
                         value={this.props.password}
                         onChangeText = {value => this.changeText('password', value)}       
                     />

@@ -48,19 +48,29 @@ const MainStack = createStackNavigator({
         screen: userProfile,
         navigationOptions: {
             header: null,
-            tabBarVisible: false
         }
     },
     Comments: {
         screen: comments,
         navigationOptions: {
-            header: null
+            header: null,
         }
     },
 }, {
     initialRouteName: 'MainPage',
     mode: 'modal',
 });
+
+MainStack.navigationOptions = ({ navigation }) => {
+    let { routeName } = navigation.state.routes[navigation.state.index];
+    let navigationOptions = {};
+
+    if (routeName === 'Comments') {
+        navigationOptions.tabBarVisible = false;
+    }
+
+    return navigationOptions;
+};
 
 const TabNavigator = createBottomTabNavigator ({
     Home: {
