@@ -3,24 +3,38 @@ import {StyleSheet, Dimensions} from 'react-native';
 const {height, width} = Dimensions.get('window');
 
 const styleSearch = StyleSheet.create({
-    mainContainer: {
-        width,
-        height,
-        backgroundColor: 'black'
+    container: {
+        flex: 1,
+        backgroundColor: 'blue'
     },
-    textContainer: {
-        width,
-        height,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#000'
+    mainSection: {
+        flex: 1
     },
-    textBox: {
+    searchBar: {
+        height: 60,
+        width,
+        borderColor: 'rgba(108, 122, 137, 0.8)',
+        borderWidth: 1,
+        flexWrap: 'wrap',
+        backgroundColor: '#fff',
+        fontSize: 14,
+        paddingHorizontal: 15,
+    },
+    searchBtn: {
+        height: 60, 
+        width: 80,
+        right: 5, 
+        position:'absolute',
         alignItems: 'center',
+        color: 'rgba(108, 122, 137, 1)',
         justifyContent: 'center',
-        color: 'white',
-        fontSize: 35,
-        backgroundColor: 'orange'
+        fontSize: 16,
+        fontFamily: 'openSansB',
+        zIndex: 5,
+
+    },
+    map: {
+        flex: 4
     },
 });
 

@@ -6,6 +6,7 @@ import HeaderBar from '../components/headerBar';
 import {FontAwesome, MaterialCommunityIcons, Entypo, Ionicons} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
 import CommentList from '../userList/commentList';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 
 import {f, database, auth, storage} from '../../config/config';
@@ -82,7 +83,7 @@ class Comments extends Component {
             })
             that.getAvatar();
         }).catch(error=>console.log(error));
-       
+    
     }
 
     getAvatar = () => {
@@ -136,7 +137,7 @@ class Comments extends Component {
             <View style={{flex: 1}}>
                 <HeaderBar 
                     raised
-                    title={this.state.spotName}
+                    title='Comments'
                     hasLeftIcon
                     onPressLeft={()=> this.props.navigation.goBack()}
                 />
@@ -156,10 +157,15 @@ class Comments extends Component {
                             source={{uri:`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${this.state.photo}&key=AIzaSyCXZxoa0P09f1o6y3RnGWwZ6m7vSPYEQ-k`}}
                         >
                             <View style={styles.userCommentInfo}>
+                                <View style={styles.commentHeader}>
+                                    <Text style={{color: '#cc0000', fontSize: 26, fontFamily: 'openSansBI'}}>{this.state.spotName}</Text>
+                                </View>
                                 <View style={styles.comments}>
                                     <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
                                     <View style={styles.commentSection}>
-                                        <Text style={styles.userText}>{this.state.username}:  <Text style={styles.commentText}>{this.state.comment}</Text></Text>
+                                        <Text style={styles.userText}>{this.state.username}: </Text> 
+                                        <Text style={styles.commentText}>{this.state.comment}</Text>  
+                                        
                                     </View>
                                     
                                 </View>
@@ -170,11 +176,11 @@ class Comments extends Component {
                     <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={f.auth().currentUser.uid} navigation={this.props.navigation}/>
 
                     <KeyboardAvoidingView
-                        behavior='padding' enabled style={{borderTopWidth: 3, borderTopColor: 'black', position: 'absolute', bottom: 0}}
+                        behavior='padding' keyboardVerticalOffset={100} enabled style={{borderTopWidth: 3, borderTopColor: 'black', bottom: 0}}
                     > 
                         <View style={styles.commentSubmit}>
-                            <Text style={{fontWeight:'bold'}}>Post Comment</Text>
-                            <View style={{flexDirection: 'row'}}>
+                            {/* <Text style={{fontWeight:'bold'}}>Post Comment</Text> */}
+                            <View style={styles.submitSection}>
                                 <TextInput
                                     placeholder={'Enter your comments here'}
                                     value={this.state.newComment}
@@ -184,7 +190,7 @@ class Comments extends Component {
                                 />
 
                                 <TouchableOpacity
-                                    style={{marginVertical: 10, height: 50, backgroundColor: 'blue', right: 0, position:'absolute'}}
+                                    style={styles.postCommentBtn}
                                     onPress={()=>this.addComment()}
                                 >
                                     <Text>Post</Text>

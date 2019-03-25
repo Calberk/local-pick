@@ -295,7 +295,7 @@ class ProfileScreen extends Component {
                     onPressRight={()=>this.signUserOut()}
                 />
                     <View style={{flex: 2}}>
-                        <ProfileList isUser={true} userId={this.state.userId} testComponent={this.headerComponent} navigation={this.props.navigation}/>
+                        <ProfileList isUser={true} userId={f.auth().currentUser.uid} testComponent={this.headerComponent} navigation={this.props.navigation}/>
 
                         <Overlay
                             isVisible={this.state.isVisible}

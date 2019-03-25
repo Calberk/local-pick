@@ -32,7 +32,7 @@ const headerBarStyle = StyleSheet.create({
         backgroundColor: '#cc0000',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight,
         borderBottomWidth: 1,
         borderBottomColor: "#E8E8E8"
@@ -42,14 +42,17 @@ const headerBarStyle = StyleSheet.create({
         color: '#fff',
         fontFamily: 'antonellie',
     },
-    leftIcon: {
-        paddingLeft: 16,
-        marginBottom: 8,
-        backgroundColor: 'blue',
+    leftBtn: {
+        position: 'absolute', 
+        left: 15, 
+        bottom: 0,
+        marginBottom: 15
     },
-    rightIcon: {
-        marginRight: 16,
-        marginBottom: 8
+    rightBtn: {
+        position: 'absolute', 
+        right: 15, 
+        bottom: 0,
+        marginBottom: 15
     }
 });
 

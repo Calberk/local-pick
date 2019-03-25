@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground, ToastAndroid} from 'react-native';
+import {View, Text, Image, FlatList, TouchableOpacity, ImageBackground, ToastAndroid, Linking} from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import styles from './profileListStyle';
 import background from '../../assets/backdrop.jpg';
-import {Ionicons} from '@expo/vector-icons';
+import {FontAwesome, MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {Overlay} from 'react-native-elements';
 
 
@@ -31,7 +31,7 @@ class ProfileList extends Component {
     loadFeed =(userId='') => {
         this.setState({
             refreshing: true,
-            spots: []
+            // spots: []
         });
 
         var that = this
@@ -71,8 +71,10 @@ class ProfileList extends Component {
                     url: spotObj.photo,
                     title: spotObj.category,
                     author: spotObj.username,
-                    name: spotObj.name
-                    // authorId: spotObj.author
+                    name: spotObj.name,
+                    number: spotObj.phNumber,
+                    map: spotObj.map,
+                    website: spotObj.website,
                 });
                 that.setState({
                     refreshing: false,
@@ -103,6 +105,11 @@ class ProfileList extends Component {
 
     handleLoad =() => {
         console.log('end')
+    }
+
+    calll=(number)=>{
+        const url = `tel://${number}`
+        Linking.openURL(url)
     }
 
     
@@ -164,8 +171,29 @@ class ProfileList extends Component {
                                     style={styles.cardImage}
                                 />
                             </View>
-                            <View>
-                            </View>      
+                            <View  style={{flexDirection:'row', padding: 10}}>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=>this.calll(item.number)} style={{alignItems:'center'}}>
+                                        <FontAwesome name='phone' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.map)} style={{alignItems:'center'}}>
+                                        <MaterialCommunityIcons name='map-marker-radius' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%' }}>
+                                    <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.website)} style={{alignItems:'center'}}>
+                                        <MaterialCommunityIcons name='web' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{width: '25%'}}>
+                                    <TouchableOpacity title='call' onPress={()=>this.props.navigation.navigate('Comments', {hotSpotId: item.id})} style={{alignItems:'center'}}>
+                                        <FontAwesome name='commenting-o' size={30} color='rgba(255,255,255, 0.8)'/>
+                                    </TouchableOpacity>
+                                
+                                </View>
+                            </View>          
                         </View>
                         <Overlay
                             isVisible={this.state.isVisible}

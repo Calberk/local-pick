@@ -39,7 +39,7 @@ const styleProfile = StyleSheet.create({
     userCommentInfo: {
         height: '100%',
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         paddingVertical: 10,
         borderBottomWidth: 3,
@@ -47,10 +47,13 @@ const styleProfile = StyleSheet.create({
         elevation: 15
     },
     commentHeader:{
-        width,
+        // width,
+        top: 0,
+        marginTop: 5,
+        marginBottom: 15,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     avatar: {
         // marginLeft: 10,
@@ -86,15 +89,17 @@ const styleProfile = StyleSheet.create({
     },
     comments: {
         width,
+        paddingLeft: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         textAlign:'center',
     },
     commentSection:{
-        width: '65%',
+        width: '75%',
         flexDirection: 'row',
         marginLeft: 7,
+        flexWrap: 'wrap'
     },
     subCommentSection:{
         width: '80%',
@@ -123,15 +128,16 @@ const styleProfile = StyleSheet.create({
         alignItems:'center',
     },
     commentText:{
+        width: '60%',
         fontSize: 16,
         fontFamily: 'openSansI',
         color: '#fff',
-        textAlign: 'center',
+        flexWrap: 'wrap',
         alignSelf:'center',
         justifyContent:'center',
     },
     subUserText:{
-        fontSize: 20,
+        fontSize: 18,
         fontFamily: 'openSansB',
         color: 'rgba(46, 49, 49, 1)',
         textAlign: 'center',
@@ -139,7 +145,7 @@ const styleProfile = StyleSheet.create({
         alignItems:'center',
     },
     subCommentText:{
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'openSansI',
         color: 'rgba(46, 49, 49, 0.8)',
         textAlign: 'center',
@@ -210,15 +216,15 @@ const styleProfile = StyleSheet.create({
         justifyContent: 'center',
     },
     largeTextInput: {
-        height: height * 0.08,
-        width: width * 0.85,
+        height: 60,
+        width,
         borderColor: 'rgba(108, 122, 137, 0.8)',
         borderWidth: 1,
-        borderRadius: 5,
+        flexWrap: 'wrap',
         backgroundColor: '#fff',
-        marginTop: 8,
-        marginBottom: 15,
-        fontSize: 18,
+        // marginTop: 8,
+        // marginBottom: 15,
+        fontSize: 14,
         paddingHorizontal: 15,
     },
     buttonContainer: {
@@ -250,15 +256,23 @@ const styleProfile = StyleSheet.create({
         width, 
         // position: 'absolute',
         bottom: 0,
+        justifyContent: 'flex-end'
     },
-    // userComments: {
-    //     width,
-    //     height: 100,
-    //     backgroundColor: 'blue'
-    // },
-    // commentMain: {
-
-    // }
+    submitSection: {
+        // flexDirection: 'row', 
+        alignItems: 'flex-end', 
+    },
+    postCommentBtn: {
+        height: 60, 
+        right: 10, 
+        position:'absolute',
+        textAlign: 'center',
+        color: 'rgba(108, 122, 137, 1)',
+        justifyContent: 'center',
+        fontSize: 16,
+        fontFamily: 'openSansB',
+        zIndex: 5,
+    }
 
 
 
