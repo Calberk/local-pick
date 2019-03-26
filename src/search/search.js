@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {Text, TextInput, TouchableOpacity, View } from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import MapView from 'react-native-maps';
+import {Marker} from 'react-native-maps'
 import Api from '../../config/search';
 import HeaderBar from '../components/headerBar';
 import styles from './styleSearch';
 
 class hotSpotSearch extends Component {
-   
     constructor(props){
         super(props);
 
@@ -19,11 +19,26 @@ class hotSpotSearch extends Component {
             spots: [],
             placeid: '',
             search: '',
+            userId: '',
         };
     }
 
     componentDidMount = () => {
+
         var that = this;
+
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                that.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            },
+            error => that.setState({ error: error.message }),
+            { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
+        );
+
+
         f.auth().onAuthStateChanged(function(user){
             if(user){
                 that.getUserData(user.uid);
@@ -34,19 +49,28 @@ class hotSpotSearch extends Component {
                 });
             }
         });
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            error => this.setState({ error: error.message }),
-            { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 }
-        );
+    }
+
+    getUserData = (userId) => {
+        var that = this;
+        database.ref('users').child(userId).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+            that.setState({
+                // username: data.username,
+                // name: data.name,
+                // avatar: data.avatar,
+                // currentImg: data.currentImg
+                loggedin: true,
+                userId: userId,
+                location: data.location,
+
+            })
+        }).catch((error)=>console.log(error))
     }
 
     getHotSpots = () => {
+        console.log('latitude', this.state.latitude)
         this.setState({
             refreshing: true,
             spots: []
@@ -59,6 +83,7 @@ class hotSpotSearch extends Component {
         const exists = (snapshot.val() !== null);
         if(exists){
             data = snapshot.val();
+            console.log('data', data)
             var spots= that.state.spots;  
 
             for(var spot in data){
@@ -84,12 +109,14 @@ class hotSpotSearch extends Component {
                     id: spot,
                     url: spotObj.photo,
                     title: spotObj.category,
+                    coords: spotObj.coords,
                     author: data.username,
                     caption: spotObj.name,
                     number: spotObj.phNumber,
                     map: spotObj.map,
                     website: spotObj.website,
-                    authorId: spotObj.user
+                    authorId: spotObj.user,
+                    
                     
                 });
                 that.setState({
@@ -136,7 +163,15 @@ class hotSpotSearch extends Component {
                             longitudeDelta: 0.0121,
                         }}
                         showsUserLocation={true}
-                    />
+                    >
+                    {this.state.spots.map((marker, index)=>(
+                        <MapView.Marker
+                            coordinate={{latitude: marker.coords.lat, longitude: marker.coords.long}}
+                            key = {index}
+                        />
+                    ))}
+                    
+                    </MapView>
                 </View>
                     
 

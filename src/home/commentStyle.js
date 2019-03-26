@@ -87,6 +87,14 @@ const styleProfile = StyleSheet.create({
         bottom: 0,
         right: 0
     },
+    mainComments: {
+        width,
+        paddingLeft: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        textAlign:'center',
+    },
     comments: {
         width,
         paddingLeft: 10,
@@ -94,6 +102,12 @@ const styleProfile = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         textAlign:'center',
+        width: '95%', 
+        padding: 10, 
+        elevation: 5, 
+        borderRadius: 5,
+        borderWidth: 0.5,
+        backgroundColor: '#fff'
     },
     commentSection:{
         width: '75%',

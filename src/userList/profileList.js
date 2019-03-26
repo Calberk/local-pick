@@ -41,7 +41,7 @@ class ProfileList extends Component {
             loadRef = database.ref('users').child(userId).child('hotSpots');
         }
 
-        loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
+        loadRef.orderByChild('timeStamp').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
         console.log('exists',exists)
         if(exists){ data = snapshot.val();
