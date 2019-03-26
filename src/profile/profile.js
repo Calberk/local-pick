@@ -234,7 +234,7 @@ class ProfileScreen extends Component {
         auth.signOut()
         .then(()=>this.props.navigation.navigate('Auth'))
         .catch((error)=> {
-            console.log('error', error);
+            0('error', error);
         });
     }
 

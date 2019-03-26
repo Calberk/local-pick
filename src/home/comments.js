@@ -57,7 +57,6 @@ class Comments extends Component {
                 this.setState({
                     hotSpotId: params.hotSpotId
                 });
-                (console.log('state', params.hotSpotId))
                 this.getUserData(params.hotSpotId)
             }
         }
@@ -91,7 +90,6 @@ class Comments extends Component {
         database.ref('users').child(that.state.userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
-            console.log(data)
             that.setState({
                 avatar: data.avatar
             })

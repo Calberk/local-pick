@@ -25,12 +25,10 @@ class Login extends Component {
             that.setState({
                 loggedin: true
             })
-            // console.log('user logged in', user)
         }else {
             that.setState({
                 loggedin: false
             });
-            // console.log('user logged out')
         }
     })
     }

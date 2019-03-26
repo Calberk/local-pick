@@ -23,7 +23,6 @@ class Registration extends Component {
         var name = this.state.name;
         var username = this.state.username
         var location = this.state.location
-        console.log('userobj'+userObj, email, userObj.uid)
     
         var uObj ={
             name: name,

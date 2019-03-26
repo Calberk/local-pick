@@ -19,7 +19,6 @@ class CommentList extends Component {
 
         if(isUser === true){
             this.loadFeed(hotSpotId, userId)
-            console.log('comment section load', hotSpotId, userId)
         }else{
             this.loadFeed('');
         }
@@ -62,7 +61,6 @@ class CommentList extends Component {
         var commentObj = data[comment];
         database.ref('users').child(userId).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
-            // console.log('2nd exists', exists)
             if(exists) data = snapshot.val();
                 comments.push({
                     id: comment,
@@ -70,7 +68,6 @@ class CommentList extends Component {
                     username: data.username,
                     avatar: data.avatar
                 });
-                // console.log('comments', comments)
                 that.setState({
                     refreshing: false,
                     loading: false
