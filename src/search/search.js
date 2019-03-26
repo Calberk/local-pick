@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {f, auth, database, storage} from '../../config/config';
 import MapView from 'react-native-maps';
 import Api from '../../config/search';
 import HeaderBar from '../components/headerBar';
@@ -15,14 +16,24 @@ class hotSpotSearch extends Component {
             latitude: 0,
             longitude: 0,
             location: '',
-            predictions: [],
+            spots: [],
             placeid: '',
-            details: null,
             search: '',
         };
     }
 
     componentDidMount = () => {
+        var that = this;
+        f.auth().onAuthStateChanged(function(user){
+            if(user){
+                that.getUserData(user.uid);
+                that.getHotSpots()
+            }else {
+                that.setState({
+                    loggedin: false
+                });
+            }
+        });
         navigator.geolocation.getCurrentPosition(
             position => {
                 this.setState({
@@ -35,44 +46,62 @@ class hotSpotSearch extends Component {
         );
     }
 
-    // onChangeLocation = async (location) => {
-    //     const gpi = Api.gApi
-    //     this.setState({
-    //         location
-    //     });
-    //     const apiUrl = `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${gpi}&input=${location}&location=${this.state.latitude},${this.state.longitude}&radius=2000`;
-    //     try {
-    //         const result = await fetch(apiUrl);
-    //         const json = await result.json();
-    //         this.setState({
-    //             predictions: json.predictions,
-    //         })
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
+    getHotSpots = () => {
+        this.setState({
+            refreshing: true,
+            spots: []
+        });
 
-    // selectLocation = async (placeid) => {
-    //     const gpi = Api.gApi
-    //     this.setState({
-    //         placeid
-    //     });
-    //     const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${gpi}&placeid=${placeid}&fields=name,formatted_address,photo,website,id,formatted_phone_number`;
-    //     try {
-    //         const result = await fetch(apiUrl);
-    //         const json = await result.json();
-    //         console.log(json);
-    //         // this.setState({
-    //         //     details: json.result,
-    //         // })
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
+        const that = this
+        const loadRef= database.ref('hotSpots').orderByChild('timeStamp')
+
+        loadRef.once('value').then(function(snapshot){
+        const exists = (snapshot.val() !== null);
+        if(exists){
+            data = snapshot.val();
+            var spots= that.state.spots;  
+
+            for(var spot in data){
+                that.hotSpotsList(spots, data, spot);
+            }
+        } else{
+            that.setState({
+                spots: [],
+                refreshing: false,
+                loading: false
+            })
+        }
+        }).catch(error=> console.log(error));
+    }
+
+    hotSpotsList = (spots, data, spot)=>{
+        const that = this;
+        const spotObj = data[spot];
+        database.ref('users').child(spotObj.user).once('value').then(function(snapshot){
+            const exists = (snapshot.val() !== null);
+            if(exists) data = snapshot.val();
+                spots.push({
+                    id: spot,
+                    url: spotObj.photo,
+                    title: spotObj.category,
+                    author: data.username,
+                    caption: spotObj.name,
+                    number: spotObj.phNumber,
+                    map: spotObj.map,
+                    website: spotObj.website,
+                    authorId: spotObj.user
+                    
+                });
+                that.setState({
+                    refreshing: false,
+                    loading: false
+                });
+        }).catch(error=> console.log(error));
+    }
 
     searchSpots = () => {
-        
     }
+    
 
     render(){
 

@@ -30,7 +30,6 @@ class ProfileScreen extends Component {
 
     checkParams =()=> {
         const params = this.props.navigation.state.params;
-        console.log('params', params)
         if(params){
             if(params.userId){
                 this.setState({

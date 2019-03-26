@@ -21,8 +21,6 @@ class HomeScreen extends Component {
             error: '',
             hotSpotId: this.uniqueId(),
             isVisible: false,
-            latitude: 0,
-            longitude: 0,
             loading: true,
             location: '',
             loggedin:false,
@@ -294,10 +292,7 @@ class HomeScreen extends Component {
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
-            // this.setState({
-            //     photoId: json.
-            // })
-            console.log(json)
+
             const selectedPhoto = json.result.photos[0].photo_reference
             const selectedLat = json.result.geometry.location.lat
             const selectedLong = json.result.geometry.location.lng

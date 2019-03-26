@@ -85,7 +85,6 @@ class ProfileList extends Component {
     }
 
     deleteEntry =(user, id)=> {
-        console.log('delete has been pressed', user, id)
             database.ref('users').child(user).child('hotSpots').child(id).remove()
             database.ref('hotSpots').child(id).remove()
         this.setState({
@@ -103,9 +102,9 @@ class ProfileList extends Component {
         this.loadFeed();
     }
 
-    handleLoad =() => {
-        console.log('end')
-    }
+    // handleLoad =() => {
+    //     console.log('end')
+    // }
 
     calll=(number)=>{
         const url = `tel://${number}`
@@ -141,7 +140,7 @@ class ProfileList extends Component {
                 extraData = {this.state}
                 refreshing = {this.state.refreshing}
                 onRefresh = {this.loadNew}
-                onEndReached = {this.handleLoad}
+                // onEndReached = {this.handleLoad}
                 data = {this.state.spots}
                 keyExtractor = {(item, index)=> index.toString()}
                 renderItem={({item, index}) => (
