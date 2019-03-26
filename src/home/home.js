@@ -30,6 +30,7 @@ class HomeScreen extends Component {
             placeid: '',
             selectedLat: '',
             selectedLong: '',
+            selectedCoords: [],
             selectedPhoto: '',
             selectedMap:'',
             selectedNumber: '',
@@ -166,34 +167,6 @@ class HomeScreen extends Component {
         }).catch(error=> console.log(error));
     }
 
-
-    // var that = this
-    // database.ref('photos').orderByChild('posted').once('value').then(function(snapshot){
-    //     const exists = (snapshot.val() !== null);
-    //     if(exists) data = snapshot.val();
-    //         var photo_feed= that.state.photo_feed;  
-
-    //         for(var photo in data){
-    //             var photoObj = data[photo];
-    //             database.ref('users').child(photoObj.author).child('username').once('value').then(function(snapshot){
-    //                 const exists = (snapshot.val() !==null);
-    //                 if(exists) data = snapshot.val();    
-    //                 photo_feed.push({
-    //                         id: photo,
-    //                         url: photoObj.url, 
-    //                         caption: photoObj.caption,
-    //                         posted: photoObj.posted,
-    //                         author: data
-    //                     });
-    //                     that.setState({
-    //                         refreshing: false,
-    //                         loading: false
-    //                     });
-    //             }).catch(error=> console.log('error', error));
-    //         }    
-    // }).catch(error=> console.log('error', error));
-    // }
-
     loadNew =() => {
         //Load all new hotspots
         this.loadFeed()
@@ -205,6 +178,7 @@ class HomeScreen extends Component {
         let map = this.state.selectedMap;
         let lat = this.state.selectedLat;
         let long = this.state.selectedLong;
+        let coords = this.state.selectedCoords;
         let phNumber = this.state.selectedNumber;
         let photo = this.state.selectedPhoto;
         let name = this.state.destination;
@@ -220,6 +194,7 @@ class HomeScreen extends Component {
             user,
             name,
             photo,
+            coords,
             phNumber,  
             latitude: lat,
             longitude: long,
@@ -236,12 +211,8 @@ class HomeScreen extends Component {
         }
 
         if(category !== '' && name !== '' && comment !== ''){
-            // database.ref('/hotSpots/'+ hotSpotId +'/' + category +'/' + user).set(hotSpotObj);
-            // database.ref('/users/' + user + '/hotSpots/' + hotSpotId).set(hotSpotObj)
             database.ref('/hotSpots/'+ hotSpotId).set(hotSpotObj);
             database.ref('/users/' + user + '/hotSpots/'+ hotSpotId ).set(hotSpotObj)
-            // database.ref('/comments/' + hotSpotId +'/'+ commentId).set(commentObj)
-            // database.ref('/comments/'+ hotSpotId).set(hotSpotObj);
         }
 
         this.setState({
@@ -299,10 +270,13 @@ class HomeScreen extends Component {
             const selectedNumber = json.result.formatted_phone_number
             const selectedMap = json.result.url
             const selectedWebsite = json.result.website
+            let coords = {lat: selectedLat, long: selectedLong}
+
             this.setState({
                 selectedPhoto,
                 selectedLat,
                 selectedLong,
+                selectedCoords: coords,
                 selectedNumber,
                 selectedMap,
                 selectedWebsite,

@@ -35,11 +35,12 @@ class CommentList extends Component {
         var loadRef = database.ref('comments').child(hotSpotId)
         
 
-        loadRef.orderByChild('timestamp').once('value').then(function(snapshot){
+        loadRef.orderByChild('timeStamp').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
         console.log('1st exists', exists)
         if(exists){
             data = snapshot.val();
+            console.log('comments data', data)
             var comments= that.state.comments;  
 
             for(var comment in data){
