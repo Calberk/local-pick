@@ -7,7 +7,8 @@ import Api from '../../config/search';
 import {Ionicons} from '@expo/vector-icons'
 import HeaderBar from '../components/headerBar';
 import styles from './styleSearch';
-import icon from '../../assets/fireMap3.png'
+import icon from '../../assets/fireMap3.png';
+import {withNavigationFocus} from 'react-navigation'
 
 class hotSpotSearch extends Component {
     constructor(props){
@@ -51,6 +52,12 @@ class hotSpotSearch extends Component {
                 });
             }
         });
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.isFocused !== this.props.isFocused){
+            this.getHotSpots();
+        }
     }
 
     getUserData = (userId) => {
@@ -199,4 +206,4 @@ class hotSpotSearch extends Component {
     }
 }
 
-export default hotSpotSearch;
+export default withNavigationFocus(hotSpotSearch);

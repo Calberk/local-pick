@@ -8,6 +8,7 @@ import {FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import hotSpot from "../../assets/fireMap.png";  
 import _ from 'lodash';
 import Api from '../../config/search';
+import {withNavigationFocus} from 'react-navigation'
 
 
 class HomeScreen extends Component {
@@ -81,6 +82,12 @@ class HomeScreen extends Component {
         );
     }
 
+    componentDidUpdate (prevProps) {
+        if(prevProps.isFocused !== this.props.isFocused){
+            this.loadNew();
+        }
+    }
+
     // get all user details that are stored in firebase
     getUserData = (userId) => {
         var that = this;
@@ -116,7 +123,6 @@ class HomeScreen extends Component {
     loadFeed =() => {
         this.setState({
             refreshing: true,
-            spots: []
         });
 
         const that = this
@@ -169,6 +175,9 @@ class HomeScreen extends Component {
     }
 
     loadNew =() => {
+        this.setState({
+            spots: [],
+        })
         //Load all new hotspots
         this.loadFeed()
     }
@@ -229,6 +238,7 @@ class HomeScreen extends Component {
             selectedLong: '',
             // selectedWebsite: '',
             comment: '',
+            spots: []
         });
         ToastAndroid.showWithGravity(
             'Hot Spot Created!',
@@ -343,6 +353,7 @@ class HomeScreen extends Component {
                 ): (
                     <FlatList
                     refreshing = {this.state.refreshing}
+                    extraData = {this.state.loading}
                     onRefresh = {this.loadNew}
                     data = {this.state.spots}
                     keyExtractor = {(item, index)=> index.toString()}
@@ -358,7 +369,7 @@ class HomeScreen extends Component {
                                         onPress={()=>this.props.navigation.navigate('User', {userId: item.authorId})}
                                         style={{flexDirection:'row', alignItems: 'center'}}
                                     >
-                                    <FontAwesome name='user-circle' size={18} color='rgba(108, 122, 137, 1)'/>
+                                    <FontAwesome name='user-circle' size={18} color='rgba(255,255,255, 0.8)'/>
                                     <Text style={styles.author}>{item.author}</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -467,4 +478,4 @@ class HomeScreen extends Component {
     }
 }
 
-export default HomeScreen
+export default withNavigationFocus(HomeScreen)

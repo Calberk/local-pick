@@ -147,7 +147,7 @@ class ProfileList extends Component {
                         {this.props.testComponent()}
                         <View style={styles.content}>
                             <Text style={styles.header}>No <Text style={{color: '#cc0000', fontFamily: 'antonellie'}}>Hot Spots</Text></Text>
-                            <Text style={{color: 'rgba(255, 255, 255, 0.75)', fontFamily: 'openSansI'}}>Please create your first Hot Spot</Text>
+                            <Text style={{color: 'rgba(255, 255, 255, 0.75)', fontFamily: 'openSansI'}}>Please create your first Hot Spot on the home page!</Text>
                         </View>
                     </View>
                     

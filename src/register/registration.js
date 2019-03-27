@@ -15,7 +15,6 @@ class Registration extends Component {
     }
     
     changeText = (type, value) => {
-    
         this.setState({[type]: value})
     }
 
@@ -41,7 +40,7 @@ class Registration extends Component {
             try{
                 let user = await auth.createUserWithEmailAndPassword(email, password)
                 .then((userObj) => this.createUserObj(userObj.user, email))
-                .then(()=>this.props.navigation.navigate('Home'))
+                .then(()=>this.props.navigation.navigate('Profile'))
                 .catch((error)=> alert(error))
         }catch(error){
             console.log(error)
@@ -53,7 +52,6 @@ class Registration extends Component {
 
     render(){
 
-        const {name, username, email, password, location} = this.state;
         return (
             <View style={registerStyle.mainContainer}>
                 <HeaderBar 
