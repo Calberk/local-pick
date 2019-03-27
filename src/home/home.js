@@ -370,7 +370,7 @@ class HomeScreen extends Component {
                                     style={styles.cardImage}
                                 />
                             </View>
-                            <View  style={{flexDirection:'row', padding: 10}}>
+                            <View  style={{flexDirection:'row', paddingVertical: 10,}}>
                                 <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=>this.calll(item.number)} style={{alignItems:'center'}}>
                                         <FontAwesome name='phone' size={30} color='rgba(255,255,255, 0.8)'/>

@@ -160,8 +160,14 @@ class hotSpotSearch extends Component {
                             coordinate={{latitude: marker.coords.lat, longitude: marker.coords.long}}
                             key = {marker.id}
                             // title = {marker.caption}
-                            image = {icon}
+                            
+                            // image = {icon}
                         >
+                        <Image 
+                            source={icon}
+                            resizeMode='contain'
+                            style={{height: 50}}
+                        />
                         <MapView.Callout
                         tooltip={true}
                         >
@@ -174,13 +180,9 @@ class hotSpotSearch extends Component {
                                     <Text>"{marker.comment}"</Text>
                                 </View>
                                 <View style={styles.footer}>
-                                    <View style={styles.footerLeft}>
-                                        <Ionicons name={`ios-call`} size={18} color='darkgrey' />
-                                        <Text style={{fontSize: 10}}>{marker.number}</Text>
-                                    </View>
-                                    <View style={styles.footerRight}>
-                                        <Ionicons name={`ios-pin`} size={18} color='grey' />
-                                        <Text style={{fontSize: 6}}>{marker.address}</Text>
+                                    <View style={styles.footerInfo}>
+                                        <Text style={{fontSize: 10, textAlign: 'center', color: '#fff'}}>{marker.address} <Text style={{fontSize: 8, color: '#fff'}}>{marker.number}</Text></Text>
+                                        
                                     </View>
                                 </View>
                             </View>

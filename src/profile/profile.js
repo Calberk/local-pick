@@ -14,12 +14,12 @@ class ProfileScreen extends Component {
         super(props);
         this.state = {
             image: null,
-            loggedin: false,
             isVisible: false,
             username: '',
             name: '',
             avatar: '',
             userId: '',
+            loaded: false,
             location: '',
             email: '',
             imageId: this.uniqueId(),
@@ -46,8 +46,8 @@ class ProfileScreen extends Component {
                 username: data.username,
                 name: data.name,
                 avatar: data.avatar,
-                loggedin: true,
                 userId: userId,
+                loaded: true,
                 location: data.location,
                 email: data.email,
                 currentImg: data.currentImg
@@ -203,15 +203,6 @@ class ProfileScreen extends Component {
             database.ref('users').child(this.state.userId).update({name, username, location});
         }
 
-        // if(name !== ''){
-        //     database.ref('users').child(this.state.userId).child('name').update(name);
-        // }
-        // if(username !== ''){
-        //     database.ref('users').child(this.state.userId).child('username').update(username);
-        // }
-        // if(location !== ''){
-        //     database.ref('users').child(this.state.userId).child('location').update(location);
-        // }
         this.setState({
             isVisible: false,
         })
@@ -286,9 +277,15 @@ class ProfileScreen extends Component {
                     size={30}
                     onPressRight={()=>this.signUserOut()}
                 />
-                    <View style={{flex: 2}}>
-                        <ProfileList isUser={true} userId={f.auth().currentUser.uid} testComponent={this.headerComponent} navigation={this.props.navigation}/>
-
+                    {this.state.loaded === false ? (
+                                <View>
+                                    <Text>Loading...</Text>
+                                </View>
+                            ):(
+                                <View style={{flex: 2}}>
+                                    <ProfileList isUser={true} userId={f.auth().currentUser.uid} testComponent={this.headerComponent} navigation={this.props.navigation}/>
+                                {/* </View> */}
+                    
                         <Overlay
                             isVisible={this.state.isVisible}
                             width='auto'
@@ -347,7 +344,9 @@ class ProfileScreen extends Component {
                             </View>
                                 
                         </Overlay>
-                    </View>  
+                        </View>  
+                        )}
+                    
             </View>   
         );
     }

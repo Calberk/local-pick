@@ -15,7 +15,8 @@ class ProfileList extends Component {
             refreshing: false,
             loading: true,
             isVisible: false,
-            isNew: true
+            isNew: true,
+            selectedItem: '',
         }
     }
 
@@ -28,18 +29,14 @@ class ProfileList extends Component {
         }
     }
 
-    loadFeed =(userId='') => {
+    loadFeed =(userId) => {
         this.setState({
             refreshing: true,
-            // spots: []
         });
 
         var that = this
 
-        var loadRef= database.ref('photos');
-        if(userId !== ''){
             loadRef = database.ref('users').child(userId).child('hotSpots');
-        }
 
         loadRef.orderByChild('timeStamp').once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
@@ -54,7 +51,7 @@ class ProfileList extends Component {
             that.setState({
                 spots: [],
                 loading: false,
-                refreshing: false
+                refreshing: false,
             })
         }
         }).catch(error=> console.log(error));
@@ -70,12 +67,11 @@ class ProfileList extends Component {
                     id: photo,
                     url: spotObj.photo,
                     title: spotObj.category,
-                    author: spotObj.username,
                     name: spotObj.name,
                     number: spotObj.phNumber,
                     map: spotObj.map,
-                    // website: spotObj.website,
                 });
+                console.log('profle page', that.state.spots)
                 that.setState({
                     refreshing: false,
                     loading: false,
@@ -84,18 +80,31 @@ class ProfileList extends Component {
         }).catch(error=> console.log(error));
     }
 
+    reloadFeed = () => {
+        this.setState({
+            spots: []
+        });
+
+        this.loadFeed(f.auth().currentUser.uid);
+    }
+
     deleteEntry =(user, id)=> {
             database.ref('users').child(user).child('hotSpots').child(id).remove()
             database.ref('hotSpots').child(id).remove()
-        this.setState({
-            isVisible: false,
-        })
+
         ToastAndroid.showWithGravity(
             'Hot Spot Deleted',
             ToastAndroid.SHORT,
             ToastAndroid.CENTER
         );
-        this.loadFeed();
+        this.setState({
+            spots: [],
+            isVisible: false,
+            loading: false,
+            selectedItem: ''
+        })
+        
+        this.loadFeed(f.auth().currentUser.uid);
     }
 
     // loadNew = () => {
@@ -111,16 +120,25 @@ class ProfileList extends Component {
         Linking.openURL(url)
     }
 
+    showModal = (selectedItem) => {
+        this.setState({
+            isVisible: true,
+            selectedItem
+            
+        })
+    }
+
     
     render(){
 
         return(
+            <View style={{flex: 1}}>
             <ImageBackground
             resizeMode={'cover'}
             style={{flex:1, alignItems: 'center',}}
             source={background}
         >
-                {this.state.loading === true ? (
+                {this.state.loading ? (
                 <View style={styles.loadScreen}>
                     <Text style={styles.loadText}>Loading...</Text>
                 </View>
@@ -137,9 +155,9 @@ class ProfileList extends Component {
                 <FlatList
                 ListHeaderComponent={()=>this.props.testComponent()}
                 data = {this.state.data}
-                extraData = {this.state}
+                extraData = {this.state.loading}
                 refreshing = {this.state.refreshing}
-                onRefresh = {this.loadFeed}
+                onRefresh = {()=>this.reloadFeed(f.auth().currentUser.uid)}
                 // onEndReached = {this.handleLoad}
                 data = {this.state.spots}
                 keyExtractor = {(item, index)=> index.toString()}
@@ -156,7 +174,7 @@ class ProfileList extends Component {
                                 {this.props.userId === f.auth().currentUser.uid ? (
                                     <View style={styles.deleteBtn}>
                                         <TouchableOpacity
-                                            onPress={()=>this.setState({isVisible: true})}
+                                            onPress={() => this.showModal(item.id)}
                                         >
                                             <Ionicons name='md-trash' size={26} color='#fff'/>
                                         </TouchableOpacity>
@@ -194,11 +212,20 @@ class ProfileList extends Component {
                                 </View>
                             </View>          
                         </View>
-                        <Overlay
+                        
+                    </ImageBackground>
+                    
+                )}
+                />  
+            )}
+                
+                </ImageBackground>
+                <Overlay
                             isVisible={this.state.isVisible}
                             width='90%'
                             height='30%'
                             animationType= 'slide'
+                            selectedItem={this.state.selectedItem}
                             overlayStyle={{borderRadius:15, padding: 0, borderWidth: 4, borderColor: '#cc0000', backgroundColor: 'rgba(243, 241, 239, 1)'}}
                             onBackdropPress={()=> this.setState({isVisible: false})}
                         >
@@ -218,7 +245,7 @@ class ProfileList extends Component {
                                         </TouchableOpacity>  
                                         <TouchableOpacity 
                                             style={styles.button}
-                                            onPress={()=>this.deleteEntry(this.props.userId, item.id)}
+                                            onPress={()=>this.deleteEntry(f.auth().currentUser.uid, this.state.selectedItem)}
                                         >
                                         <Text style={styles.buttonText}>Confirm</Text>
                                         </TouchableOpacity>
@@ -226,13 +253,7 @@ class ProfileList extends Component {
                                 </View>
                             </View>
                         </Overlay>
-                    </ImageBackground>
-                    
-                )}
-                />  
-            )}
-                
-                </ImageBackground>
+                </View>
         )
     }
 }
