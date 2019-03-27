@@ -88,7 +88,6 @@ class ProfileScreen extends Component {
     }
 
     render() {
-        let { image } = this.state;
     
         return (
             <View style={{flex: 1}}>

@@ -36,7 +36,7 @@ const styleSearch = StyleSheet.create({
         flex: 4
     },
     infoContainer: {
-        width: 250, 
+        width: 200, 
         height: 150, 
         borderWidth: 0.5, 
         borderColor: '#dddddd', 
@@ -48,10 +48,11 @@ const styleSearch = StyleSheet.create({
     infoHeader: {
         flex: 1,  
         width: '100%',
-        backgroundColor: '#fff', 
-        borderTopLeftRadius: 5, 
-        borderTopRightRadius: 5,
+        backgroundColor: '#cc0000', 
+        borderTopLeftRadius: 10, 
+        borderTopRightRadius: 10,
         alignItems: 'center',
+        justifyContent: 'center',
         borderBottomWidth: 0.5,
         borderColor: '#cc0000'
     },
@@ -59,7 +60,7 @@ const styleSearch = StyleSheet.create({
         fontFamily: 'antonellie', 
         width: '100%',
         fontSize: 18, 
-        color: '#b63838', 
+        color: '#fff', 
         textAlign: 'center', 
         justifyContent: 'center',
     },
@@ -79,35 +80,21 @@ const styleSearch = StyleSheet.create({
         textAlign: 'center'
     },
     footer: { 
-        flex: 2, 
-        height: 30, 
-        flexDirection: 'row', 
-        borderBottomLeftRadius: 5, 
-        borderBottomRightRadius: 5, 
-        backgroundColor: 'grey'
-    },
-    footerLeft: { 
-        flex: 1,
-        flexDirection: 'row',
-        width: '50%', 
-        height: '100%', 
-        backgroundColor: '#fff', 
-        borderBottomLeftRadius: 5, 
-        justifyContent: 'center', 
+        height: '30%',
+        backgroundColor: '#000',
+        justifyContent: 'center',
         alignItems: 'center',
-        textAlign: 'center'
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        padding: 6
     },
-    footerRight: { 
-        flex: 1,
+    footerInfo: { 
         flexDirection: 'row',
-        width: '50%', 
-        height: '100%', 
-        backgroundColor: '#fff', 
-        borderBottomRightRadius: 5, 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        textAlign: 'center'
-    }
+        width: '80%', 
+        borderBottomLeftRadius: 5, 
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+    },
 });
 
 export default styleSearch
