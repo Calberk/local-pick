@@ -74,7 +74,7 @@ class ProfileList extends Component {
                     name: spotObj.name,
                     number: spotObj.phNumber,
                     map: spotObj.map,
-                    website: spotObj.website,
+                    // website: spotObj.website,
                 });
                 that.setState({
                     refreshing: false,
@@ -98,9 +98,9 @@ class ProfileList extends Component {
         this.loadFeed();
     }
 
-    loadNew = () => {
-        this.loadFeed();
-    }
+    // loadNew = () => {
+    //     this.loadFeed();
+    // }
 
     // handleLoad =() => {
     //     console.log('end')
@@ -139,7 +139,7 @@ class ProfileList extends Component {
                 data = {this.state.data}
                 extraData = {this.state}
                 refreshing = {this.state.refreshing}
-                onRefresh = {this.loadNew}
+                onRefresh = {this.loadFeed}
                 // onEndReached = {this.handleLoad}
                 data = {this.state.spots}
                 keyExtractor = {(item, index)=> index.toString()}
@@ -171,22 +171,22 @@ class ProfileList extends Component {
                                 />
                             </View>
                             <View  style={{flexDirection:'row', padding: 10}}>
-                                <View style={{width: '25%'}}>
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=>this.calll(item.number)} style={{alignItems:'center'}}>
                                         <FontAwesome name='phone' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{width: '25%'}}>
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.map)} style={{alignItems:'center'}}>
                                         <MaterialCommunityIcons name='map-marker-radius' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{width: '25%' }}>
+                                {/* <View style={{width: '25%' }}>
                                     <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.website)} style={{alignItems:'center'}}>
                                         <MaterialCommunityIcons name='web' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
-                                </View>
-                                <View style={{width: '25%'}}>
+                                </View> */}
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=>this.props.navigation.navigate('Comments', {hotSpotId: item.id})} style={{alignItems:'center'}}>
                                         <FontAwesome name='commenting-o' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>

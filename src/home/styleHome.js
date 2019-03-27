@@ -6,7 +6,8 @@ const styleHome = StyleSheet.create({
     content: {
         flex: 1,                       
         justifyContent: 'center',           
-        alignItems: 'center',               
+        alignItems: 'center',     
+        backgroundColor: 'black'          
     },
     header: {
         width,
@@ -49,7 +50,7 @@ const styleHome = StyleSheet.create({
         width,
         height: 275,
         resizeMode: 'cover',
-        backgroundColor: 'orange'
+        backgroundColor: 'black'
     },
     caption: {
         padding: 5,
