@@ -5,18 +5,17 @@ const {height, width} = Dimensions.get('window');
 const styleSearch = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'blue'
     },
     mainSection: {
         flex: 1
     },
     searchBar: {
         height: 60,
-        width,
+        width: '90%',
         borderColor: 'rgba(108, 122, 137, 0.8)',
         borderWidth: 1,
         flexWrap: 'wrap',
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         fontSize: 14,
         paddingHorizontal: 15,
     },

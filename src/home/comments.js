@@ -177,7 +177,7 @@ class Comments extends Component {
     addToFlatList = (comments, data, comment, hotSpotId)=>{
         var that = this;
         var commentObj = data[comment];
-        database.ref('users').child(f.auth().currentUser.uid).once('value').then(function(snapshot){
+        database.ref('users').child(commentObj.user).once('value').then(function(snapshot){
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
                 comments.push({
