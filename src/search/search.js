@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import MapView from 'react-native-maps';
-import {Marker} from 'react-native-maps'
+import {Marker, Callout} from 'react-native-maps'
 import Api from '../../config/search';
+import {Ionicons} from '@expo/vector-icons'
 import HeaderBar from '../components/headerBar';
 import styles from './styleSearch';
 import icon from '../../assets/fireMap3.png'
@@ -90,12 +91,14 @@ class hotSpotSearch extends Component {
                     spots.push({
                         id: spot,
                         url: spotObj.photo,
-                        title: spotObj.category,
+                        category: spotObj.category,
                         coords: spotObj.coords,
-                        caption: spotObj.name,
+                        name: spotObj.name,
                         number: spotObj.phNumber,
                         map: spotObj.map,
-                        website: spotObj.website,
+                        comment: spotObj.comment,
+                        address: spotObj.address,
+                        // website: spotObj.website,
                         authorId: spotObj.user,
                         
                 });
@@ -126,7 +129,7 @@ class hotSpotSearch extends Component {
                         title='Hot Spots'
                     />
                 <View style={styles.mainSection}>
-                    <View style={{flex:1,position: 'absolute', alignItems: 'center', top: '30%', zIndex: 5}}>
+                    <View>
                         <TextInput 
                                 underlineColorAndroid="transparent"
                                 placeholder="Filter Hot Spots..." 
@@ -147,7 +150,7 @@ class hotSpotSearch extends Component {
                         region={{
                             latitude: this.state.latitude,
                             longitude: this.state.longitude,
-                            latitudeDelta: 0.09,
+                            latitudeDelta: 0.098,
                             longitudeDelta: 0.092,
                         }}
                         showsUserLocation={true}
@@ -156,12 +159,32 @@ class hotSpotSearch extends Component {
                         <MapView.Marker
                             coordinate={{latitude: marker.coords.lat, longitude: marker.coords.long}}
                             key = {marker.id}
-                            title = {marker.caption}
+                            // title = {marker.caption}
                             image = {icon}
                         >
-                        {/* <View>
-                            <Image source={icon} />
-                        </View> */}
+                        <MapView.Callout
+                        tooltip={true}
+                        >
+                            <View style={styles.infoContainer}>
+                                <View style={styles.infoHeader}>
+                                    <Text style={styles.category}>{marker.category}</Text>
+                                </View>
+                                <View style={styles.content}>
+                                    <Text style={styles.name}>{marker.name}</Text>
+                                    <Text>"{marker.comment}"</Text>
+                                </View>
+                                <View style={styles.footer}>
+                                    <View style={styles.footerLeft}>
+                                        <Ionicons name={`ios-call`} size={18} color='darkgrey' />
+                                        <Text style={{fontSize: 10}}>{marker.number}</Text>
+                                    </View>
+                                    <View style={styles.footerRight}>
+                                        <Ionicons name={`ios-pin`} size={18} color='grey' />
+                                        <Text style={{fontSize: 6}}>{marker.address}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </MapView.Callout>
                         </MapView.Marker>
                     ))}
                     

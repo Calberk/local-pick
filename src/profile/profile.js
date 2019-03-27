@@ -33,15 +33,7 @@ class ProfileScreen extends Component {
     // on load check for user auth and fetch user data
     componentDidMount = () => {
         var that = this;
-        f.auth().onAuthStateChanged(function(user){
-            if(user){
-                that.getUserData(user.uid)
-            }else {
-                that.setState({
-                    loggedin: false
-                });
-            }
-        });
+                that.getUserData(f.auth().currentUser.uid)
     }
 
     // get all user details that are stored in firebase

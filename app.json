@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Top Spot",
-    "slug": "local-pick",
+    "name": "Hot Spots",
+    "slug": "hotspots",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": [
@@ -24,6 +24,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }

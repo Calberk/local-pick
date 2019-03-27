@@ -28,13 +28,14 @@ class HomeScreen extends Component {
             refreshing: false,
             predictions: [],
             placeid: '',
+            selectedAddress: '',
             selectedLat: '',
             selectedLong: '',
             selectedCoords: [],
             selectedPhoto: '',
             selectedMap:'',
             selectedNumber: '',
-            selectedWebsite: '',
+            // selectedWebsite: '',
             spots: [],
             userId: '',
             username: '',
@@ -156,7 +157,7 @@ class HomeScreen extends Component {
                     caption: spotObj.name,
                     number: spotObj.phNumber,
                     map: spotObj.map,
-                    website: spotObj.website,
+                    // website: spotObj.website,
                     authorId: spotObj.user
                     
                 });
@@ -174,7 +175,7 @@ class HomeScreen extends Component {
 
     addHotSpot = async () => {
         let hotSpotId = this.state.hotSpotId;
-        let website = this.state.selectedWebsite;
+        // let website = this.state.selectedWebsite;
         let map = this.state.selectedMap;
         let lat = this.state.selectedLat;
         let long = this.state.selectedLong;
@@ -188,6 +189,7 @@ class HomeScreen extends Component {
         let dateTime = Date.now();
         let timeStamp = Math.floor(dateTime/1000);
         let commentId = this.state.commentId
+        let address = this.state.selectedAddress
 
         let hotSpotObj = {
             category,
@@ -195,10 +197,10 @@ class HomeScreen extends Component {
             name,
             photo,
             coords,
+            address,
             phNumber,  
             latitude: lat,
             longitude: long,
-            website,
             comment,
             timeStamp,
             map
@@ -221,10 +223,11 @@ class HomeScreen extends Component {
             selectedPhoto: '',
             selectedNumber: '',
             category: '',
+            selectedAddress: '',
             created: true,
             selectedLat: '',
             selectedLong: '',
-            selectedWebsite: '',
+            // selectedWebsite: '',
             comment: '',
         });
         ToastAndroid.showWithGravity(
@@ -259,27 +262,29 @@ class HomeScreen extends Component {
             predictions: [],
             destination: destinationName
         });
-        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${gpi}&placeid=${placeid}&fields=url,formatted_address,photo,website,id,formatted_phone_number,geometry`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/place/details/json?key=${gpi}&placeid=${placeid}&fields=url,formatted_address,photo,type,id,formatted_phone_number,geometry`;
         try {
             const result = await fetch(apiUrl);
             const json = await result.json();
-
+            console.log('selected place', json)
             const selectedPhoto = json.result.photos[0].photo_reference
             const selectedLat = json.result.geometry.location.lat
             const selectedLong = json.result.geometry.location.lng
             const selectedNumber = json.result.formatted_phone_number
             const selectedMap = json.result.url
-            const selectedWebsite = json.result.website
+            // const selectedWebsite = json.result.website
+            const selectedAddress = json.result.formatted_address
             let coords = {lat: selectedLat, long: selectedLong}
 
             this.setState({
                 selectedPhoto,
                 selectedLat,
                 selectedLong,
+                selectedAddress,
                 selectedCoords: coords,
                 selectedNumber,
                 selectedMap,
-                selectedWebsite,
+                // selectedWebsite,
                 hotSpotId: this.uniqueId()
             })
         } catch (err) {
@@ -366,22 +371,22 @@ class HomeScreen extends Component {
                                 />
                             </View>
                             <View  style={{flexDirection:'row', padding: 10}}>
-                                <View style={{width: '25%'}}>
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=>this.calll(item.number)} style={{alignItems:'center'}}>
                                         <FontAwesome name='phone' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{width: '25%'}}>
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.map)} style={{alignItems:'center'}}>
                                         <MaterialCommunityIcons name='map-marker-radius' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={{width: '25%' }}>
+                                {/* <View style={{width: '25%' }}>
                                     <TouchableOpacity title='call' onPress={()=> Linking.openURL(item.website)} style={{alignItems:'center'}}>
                                         <MaterialCommunityIcons name='web' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
-                                </View>
-                                <View style={{width: '25%'}}>
+                                </View> */}
+                                <View style={{width: '33%'}}>
                                     <TouchableOpacity title='call' onPress={()=>this.props.navigation.navigate('Comments', {hotSpotId: item.id})} style={{alignItems:'center'}}>
                                         <FontAwesome name='commenting-o' size={30} color='rgba(255,255,255, 0.8)'/>
                                     </TouchableOpacity>
