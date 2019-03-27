@@ -231,7 +231,7 @@ const styleHome = StyleSheet.create({
     authorContainer: {
         position: 'absolute',
         right: 0,
-        top: '40%',
+        top: '30%',
         marginRight: 10,
 
     },

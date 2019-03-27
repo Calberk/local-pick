@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {Text, TextInput, TouchableOpacity, View, Image } from 'react-native';
 import {f, auth, database, storage} from '../../config/config';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps'
 import Api from '../../config/search';
 import HeaderBar from '../components/headerBar';
 import styles from './styleSearch';
+import icon from '../../assets/fireMap3.png'
 
 class hotSpotSearch extends Component {
     constructor(props){
@@ -70,7 +71,6 @@ class hotSpotSearch extends Component {
     }
 
     getHotSpots = () => {
-        console.log('latitude', this.state.latitude)
         this.setState({
             refreshing: true,
             spots: []
@@ -81,48 +81,36 @@ class hotSpotSearch extends Component {
 
         loadRef.once('value').then(function(snapshot){
         const exists = (snapshot.val() !== null);
-        if(exists){
-            data = snapshot.val();
-            console.log('data', data)
-            var spots= that.state.spots;  
+            if(exists){
+                data = snapshot.val();
+                var spots= that.state.spots;  
 
-            for(var spot in data){
-                that.hotSpotsList(spots, data, spot);
-            }
-        } else{
-            that.setState({
-                spots: [],
-                refreshing: false,
-                loading: false
-            })
-        }
-        }).catch(error=> console.log(error));
-    }
-
-    hotSpotsList = (spots, data, spot)=>{
-        const that = this;
-        const spotObj = data[spot];
-        database.ref('users').child(spotObj.user).once('value').then(function(snapshot){
-            const exists = (snapshot.val() !== null);
-            if(exists) data = snapshot.val();
-                spots.push({
-                    id: spot,
-                    url: spotObj.photo,
-                    title: spotObj.category,
-                    coords: spotObj.coords,
-                    author: data.username,
-                    caption: spotObj.name,
-                    number: spotObj.phNumber,
-                    map: spotObj.map,
-                    website: spotObj.website,
-                    authorId: spotObj.user,
-                    
-                    
+                for(var spot in data){
+                    const spotObj = data[spot]
+                    spots.push({
+                        id: spot,
+                        url: spotObj.photo,
+                        title: spotObj.category,
+                        coords: spotObj.coords,
+                        caption: spotObj.name,
+                        number: spotObj.phNumber,
+                        map: spotObj.map,
+                        website: spotObj.website,
+                        authorId: spotObj.user,
+                        
                 });
+                    that.setState({
+                        refreshing: false,
+                        loading: false
+                    });
+                } 
+            }else{
                 that.setState({
+                    spots: [],
                     refreshing: false,
                     loading: false
-                });
+                })
+            }
         }).catch(error=> console.log(error));
     }
 
@@ -138,20 +126,20 @@ class hotSpotSearch extends Component {
                         title='Hot Spots'
                     />
                 <View style={styles.mainSection}>
-                    <View>
-                    <TextInput 
-                            underlineColorAndroid="transparent"
-                            placeholder="Filter Hot Spots..." 
-                            value={this.state.search} 
-                            onChangeText={(text)=>this.setState({search: text })}
-                            style={styles.searchBar}
-                        />
-                    <TouchableOpacity
-                                    style={styles.searchBtn}
-                                    onPress={()=>this.searchSpots()}
-                                >
-                                    <Text>Search</Text>
-                                </TouchableOpacity>
+                    <View style={{flex:1,position: 'absolute', alignItems: 'center', top: '30%', zIndex: 5}}>
+                        <TextInput 
+                                underlineColorAndroid="transparent"
+                                placeholder="Filter Hot Spots..." 
+                                value={this.state.search} 
+                                onChangeText={(text)=>this.setState({search: text })}
+                                style={styles.searchBar}
+                            />
+                        <TouchableOpacity
+                            style={styles.searchBtn}
+                            onPress={()=>this.searchSpots()}
+                        >
+                            <Text>Search</Text>
+                        </TouchableOpacity>
                     </View>
 
                     <MapView
@@ -159,16 +147,22 @@ class hotSpotSearch extends Component {
                         region={{
                             latitude: this.state.latitude,
                             longitude: this.state.longitude,
-                            latitudeDelta: 0.015,
-                            longitudeDelta: 0.0121,
+                            latitudeDelta: 0.09,
+                            longitudeDelta: 0.092,
                         }}
                         showsUserLocation={true}
                     >
                     {this.state.spots.map((marker, index)=>(
                         <MapView.Marker
                             coordinate={{latitude: marker.coords.lat, longitude: marker.coords.long}}
-                            key = {index}
-                        />
+                            key = {marker.id}
+                            title = {marker.caption}
+                            image = {icon}
+                        >
+                        {/* <View>
+                            <Image source={icon} />
+                        </View> */}
+                        </MapView.Marker>
                     ))}
                     
                     </MapView>
