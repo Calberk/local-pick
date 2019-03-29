@@ -27,6 +27,7 @@ class Comments extends Component {
             email: '',
             photo: '',
             map: '',
+            mainUser: '',
             hotSpotId: '',
             spotName: '',
             newComment:'',
@@ -80,7 +81,7 @@ class Comments extends Component {
                 comment: data.comment,
                 spotName: data.name,
                 photo: data.photo,
-                userId: data.user
+                userId: data.user,
             })
             that.getAvatar();
         }).catch(error=>console.log(error));
@@ -93,7 +94,8 @@ class Comments extends Component {
             const exists = (snapshot.val() !== null);
             if(exists) data = snapshot.val();
             that.setState({
-                avatar: data.avatar
+                avatar: data.avatar,
+                mainUser: data.username
             })
             
         }).catch(error=>console.log(error));
@@ -204,9 +206,9 @@ class Comments extends Component {
                     onPressLeft={()=> this.props.navigation.goBack()}
                 />
                 
-                {this.state.loaded === false ? (
-                    <View>
-                        <Text>Loading...</Text>
+                {!this.state.avatar ? (
+                    <View style={styles.loadScreen}>
+                        <Text style={styles.loadText}>Loading...</Text>
                     </View>
                 ):(
                 <View style={{flex:2}}>
@@ -220,13 +222,13 @@ class Comments extends Component {
                         >
                             <View style={styles.userCommentInfo}>
                                 <View style={styles.commentHeader}>
-                                    <Text style={{color: '#cc0000', fontSize: 26, fontFamily: 'openSansBI'}}>{this.state.spotName}</Text>
+                                    <Text style={{color: '#cc0000', fontSize: 26, fontFamily: 'openSansBI', textAlign: 'center'}}>{this.state.spotName}</Text>
                                 </View>
                                 <View style={styles.mainComments}>
                                     <Image style={styles.avatar} source={{uri: this.state.avatar }}/>
                                     <View style={styles.commentSection}>
-                                        <Text style={styles.userText}>{this.state.username}: </Text> 
-                                        <Text style={styles.commentText}>{this.state.comment}</Text>  
+                                        <Text style={styles.userText}>{this.state.mainUser}:   </Text> 
+                                        <Text style={styles.commentText}>"{this.state.comment}"</Text>  
                                         
                                     </View>
                                     
@@ -238,11 +240,7 @@ class Comments extends Component {
                     {/* <CommentList isUser={true} hotSpotId={this.state.hotSpotId} userId={f.auth().currentUser.uid} navigation={this.props.navigation}/> */}
 
                     <View style={{flex: 3}} >
-                        {this.state.loading === true ? (
-                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                                <Text>Loading...</Text>
-                            </View>
-                        ): this.state.comments.length === 0 ? (
+                        {this.state.comments.length === 0 ? (
                             <View style={styles.content}>
                                 <Text style={styles.header}>No comments</Text>
                                 <Text style={{color: 'rgba(255, 255, 255, 0.75)', fontFamily: 'openSansI'}}>Be the first to comment below</Text>

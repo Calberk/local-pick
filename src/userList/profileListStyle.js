@@ -26,7 +26,7 @@ const styleProfileList = StyleSheet.create({
     },
     loadText: {
         width,
-        fontSize: 40, 
+        fontSize: 30, 
         color: '#cc0000', 
         fontFamily: 'openSansI', 
         paddingBottom: 100,
