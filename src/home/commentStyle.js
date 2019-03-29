@@ -22,6 +22,24 @@ const styleProfile = StyleSheet.create({
         height,
         backgroundColor: 'black'
     },
+    loadScreen: {
+        flex: 1, 
+        width,
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: '#000'
+    },
+    loadText: {
+        width,
+        fontSize: 30, 
+        color: '#cc0000', 
+        fontFamily: 'openSansI', 
+        paddingBottom: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        backgroundColor: '#000'
+    },
     textContainer: {
         width,
         height,
@@ -134,6 +152,7 @@ const styleProfile = StyleSheet.create({
 
     },
     userText:{
+        // width: '90%',
         fontSize: 20,
         fontFamily: 'openSansB',
         color: '#fff',
@@ -142,13 +161,15 @@ const styleProfile = StyleSheet.create({
         alignItems:'center',
     },
     commentText:{
-        width: '60%',
+        // width: '90%',
         fontSize: 16,
         fontFamily: 'openSansI',
         color: '#fff',
         flexWrap: 'wrap',
+        textAlign: 'center',
         alignSelf:'center',
         justifyContent:'center',
+
     },
     subUserText:{
         fontSize: 18,

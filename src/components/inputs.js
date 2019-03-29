@@ -1,32 +1,36 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, View, Text} from 'react-native';
 
-const InputComponent = (props) => {
-    let template = null; 
-    switch(props.type){
-        case "textinput":
-            template =
+const InputField = ({placeholder, keyboardType, meta: {error, touched}, name, value, secureTextEntry, input: {onChange, ...restInput}, autoCapitalize, customStyles}) => {
+    return(
+        <View>
+            <View style={styles.inputContainer}>
             <TextInput
-                {...props}
-                style={[styles.input, props.overrideStyle]}
-            />
-        break;
-        default: 
-            return template
-    }
-    return template
+                style={customStyles}
+                keyboardType={keyboardType}
+                placeholder={placeholder}
+                name={name}
+                secureTextEntry={secureTextEntry}
+                placeholderTextColor='#555555'
+                onChangeText={onChange}
+                autoCapitalize={autoCapitalize}
+                value={value}
+                {...restInput}
+                />
+            </View>
+            {touched && (error && <Text style={{color: '#cc0000'}}>{error}</Text>)}
+        </View>
+        
+
+    )
 }
 
 const styles = StyleSheet.create({
-    input: {
-        width: '80%',
-        borderWidth: 3,
-        borderRadius: 25,
-        borderColor: 'grey',
-        fontSize: 18,
-        padding: 5,
-        marginTop: 10
-    }
+    topRegisterContainer: {
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+    },
 })
 
-export default InputComponent
+export default InputField

@@ -125,6 +125,11 @@ class hotSpotSearch extends Component {
     }
 
     searchSpots = () => {
+        if(search !== ''){
+            database.ref('hotSpots')
+        }else{
+            return
+        }
     }
     
 

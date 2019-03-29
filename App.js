@@ -1,4 +1,8 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import promiseMiddleware from 'redux-promise';
+import reducers from './src/store/reducers'
 import Screens from './src/screens/screens';
 import {Font} from 'expo';
 import { YellowBox } from 'react-native';
@@ -12,8 +16,9 @@ console.warn = message => {
   }
 };
 
+const createStoreWithMiddleware = applyMiddleware(promiseMiddleware)(createStore)
 
-export default class App extends React.Component {
+class App extends Component {
 
   async componentDidMount(){
     await Font.loadAsync({
@@ -27,15 +32,13 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <View style={styles.container}>
-      //   <Text style={styles.title}>Lets test</Text>
-      //   <Text style={styles.title}>This is the 2nd line of React Native code</Text>
-      // </View>
-      // <Landing/>
-      // <Registration/>
-      // <Login/>
-      <Screens/>
+      <Provider store={createStoreWithMiddleware(reducers)}>
+        <Screens />
+      </Provider>
+      
     );
   }
 }
+
+export default App;
 
